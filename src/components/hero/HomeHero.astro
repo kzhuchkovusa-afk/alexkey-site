@@ -3,30 +3,28 @@ import Button from '../ui/Button.astro';
 import Eyebrow from '../ui/Eyebrow.astro';
 import Highlight from '../ui/Highlight.astro';
 import Photo from '../ui/Photo.astro';
-import IntroByline from './IntroByline.astro';
-import ProofNote from '../proof/ProofNote.astro';
 import { home } from '../../copy/home';
-import { demoNote, person } from '../../copy/shared';
+import { decisions } from '../../site.config';
 import { callUrl, demoUrl } from '../../lib/links';
 import { portrait } from '../../lib/photos';
 import { showPending } from '../../lib/env';
 
 /**
- * Home hero (boards 08, 09; texts — TZ v1.0).
- * Phone: intro byline → H1 → subtitle → 2 buttons → microcopy → portrait + author intro.
- * Desktop: eyebrow → H1 → … ; portrait 4:5 on the right with the name plate, author intro below it.
- * "Alex Key" stands out only here (TZ «Имя», DESIGN §6.6).
+ * Home hero (boards 08, 09; texts — TZ v1.0 + review 24.10).
+ * Eyebrow → H1 → subtitle → 2 buttons → caption → first-10 line; portrait 4:5 with the role plate (no name).
+ * The name appears only in the author intro "I'm Alex Key…" under the portrait.
  */
 const hasPortrait = Boolean(portrait.src) || showPending;
+const { taken, total } = decisions.firstTen;
+const spotsOpen = taken < total;
 ---
 
 <section data-hero aria-labelledby="hero-title" class="bg-paper">
   <div
-    class="mx-auto grid max-w-[calc(var(--container-site)+2*var(--page-pad))] gap-11 px-(--page-pad) pt-5.5 pb-11 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-center lg:gap-20 lg:pt-20 lg:pb-24"
+    class="mx-auto grid max-w-[calc(var(--container-site)+2*var(--page-pad))] gap-11 px-(--page-pad) pt-6 pb-11 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-center lg:gap-20 lg:pt-20 lg:pb-24"
   >
     <div class="flex flex-col gap-5 lg:gap-7">
-      <IntroByline class="lg:hidden" />
-      <Eyebrow class="hidden lg:flex">{home.eyebrow}</Eyebrow>
+      <Eyebrow>{home.eyebrow}</Eyebrow>
       <h1 id="hero-title" class="text-h1">
         {home.h1.before}<Highlight>{home.h1.key}</Highlight>{home.h1.after}
       </h1>
@@ -39,7 +37,14 @@ const hasPortrait = Boolean(portrait.src) || showPending;
           Book a 15-min call
         </Button>
       </div>
-      <p class="text-center text-small text-slate lg:-mt-2 lg:text-left">{demoNote}</p>
+      <div class="flex flex-col gap-1.5 text-center lg:-mt-2 lg:text-left">
+        <p class="text-small text-slate">{home.heroNote}</p>
+        {
+          spotsOpen && (
+            <p class="text-small font-semibold text-ink">{home.firstTen.heroLine(taken, total)}</p>
+          )
+        }
+      </div>
     </div>
 
     <div class="flex flex-col gap-4">
@@ -54,17 +59,12 @@ const hasPortrait = Boolean(portrait.src) || showPending;
             widths={[400, 600, 800]}
           >
             <div class="absolute inset-x-4 bottom-4 hidden rounded-tip bg-paper px-4 py-3 lg:block">
-              <p class="text-[17px] font-bold text-ink">{person.name}</p>
-              <p class="text-[14px] leading-snug text-slate">
-                {person.role} · {person.org}, {person.city}
-              </p>
+              <p class="text-[14px] leading-snug font-semibold text-ink">{home.portraitPlate}</p>
             </div>
           </Photo>
         )
       }
-      <p class="text-[16px] leading-normal text-body">
-        {home.intro} <ProofNote />
-      </p>
+      <p class="text-[16px] leading-normal text-body">{home.intro}</p>
       {portrait.caption && <p class="text-[14px] text-slate">{portrait.caption}</p>}
     </div>
   </div>

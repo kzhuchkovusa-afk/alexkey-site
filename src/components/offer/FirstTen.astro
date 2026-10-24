@@ -1,0 +1,57 @@
+---
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { home } from '../../copy/home';
+import { decisions } from '../../site.config';
+import { demoUrl } from '../../lib/links';
+
+/**
+ * Block 12 · First 10 partners (review 24.10) — instead of the urgency line.
+ * Numbers from decisions.firstTen; hidden when all spots are taken.
+ */
+const { taken, total, included } = decisions.firstTen;
+const open = taken < total;
+const spots = home.firstTen.spots(taken, total);
+---
+
+{
+  open && (
+    <section id="first-ten" aria-labelledby="first-ten-title" class="scroll-mt-20 px-(--page-pad) pt-12 lg:pt-16">
+      <div class="mx-auto grid max-w-site gap-8 rounded-card p-6 shadow-[inset_0_0_0_2px_var(--color-ink)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14 lg:p-10">
+        <div class="flex flex-col gap-5">
+          <h2 id="first-ten-title" class="text-h3 lg:text-[32px] lg:leading-tight">
+            {home.firstTen.title(total)}
+          </h2>
+          <div class="flex flex-col gap-2.5">
+            <div role="img" aria-label={spots} class="flex gap-1.5">
+              {Array.from({ length: total }, (_, i) => (
+                <span
+                  aria-hidden="true"
+                  class:list={['size-5 lg:size-6', i < taken ? 'bg-ink' : 'shadow-[inset_0_0_0_1.5px_var(--color-field-line)]']}
+                />
+              ))}
+            </div>
+            <p class="tabular text-[17px] font-bold text-ink">{spots}</p>
+          </div>
+          <div class="hidden lg:block">
+            <Button href={demoUrl('home', 'first-ten')} icon="arrow" cta="home-first-ten">Get a free demo lesson</Button>
+          </div>
+        </div>
+        <div class="flex flex-col gap-4">
+          <p class="text-[17px] font-bold text-ink">{home.firstTen.includedLabel}</p>
+          <ul class="flex flex-col gap-3.5">
+            {included.map((line) => (
+              <li class="flex gap-3 text-[17px] leading-normal text-ink lg:text-[18px]">
+                <Icon name="check" size={22} class="mt-0.5" />
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="lg:hidden">
+          <Button href={demoUrl('home', 'first-ten')} size="lg" icon="arrow" full cta="home-first-ten">Get a free demo lesson</Button>
+        </div>
+      </div>
+    </section>
+  )
+}

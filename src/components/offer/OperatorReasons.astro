@@ -5,8 +5,10 @@ import Txt from '../ui/Txt.astro';
 /** Block 5 · three reasons, ink rule on top (board 06). */
 interface Props {
   items: { title: string; text: string; proof?: boolean }[];
+  /** false — no "as Konstantin Z." notes (home page, review 24.10). */
+  notes?: boolean;
 }
-const { items } = Astro.props;
+const { items, notes = true } = Astro.props;
 ---
 
 <ul class="grid gap-8 md:grid-cols-3 lg:gap-10">
@@ -15,7 +17,7 @@ const { items } = Astro.props;
       <li class="flex flex-col gap-2.5 border-t-2 border-ink pt-4.5">
         <h3 class="text-[20px] leading-snug font-extrabold tracking-[-0.01em]">{r.title}</h3>
         <p class="text-[17px] leading-[1.55] text-body"><Txt text={r.text} /></p>
-        {r.proof && <ProofNote class="self-start" />}
+        {notes && r.proof && <ProofNote class="self-start" />}
       </li>
     ))
   }

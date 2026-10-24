@@ -1,0 +1,38 @@
+---
+import Icon from '../ui/Icon.astro';
+import { services } from '../../copy/shared';
+import type { ServiceId } from '../../lib/links';
+
+/**
+ * Block 3 · Problem, by direction (review 24.10): four columns — service name, two owner quotes,
+ * "How we fix it →" to the service page. Stacked on phones, 2 × 2 on tablets.
+ */
+interface Props {
+  items: { service: ServiceId; quotes: string[] }[];
+  linkLabel: string;
+}
+const { items, linkLabel } = Astro.props;
+---
+
+<ul class="grid gap-3 md:grid-cols-2 lg:grid-cols-4 lg:gap-4">
+  {
+    items.map((it) => {
+      const s = services[it.service];
+      return (
+        <li class="flex flex-col gap-4 rounded-card bg-paper p-5.5 lg:p-6">
+          <h3 class="text-[20px] leading-tight font-extrabold tracking-[-0.015em] text-ink">{s.name}</h3>
+          <ul class="flex grow flex-col gap-3">
+            {it.quotes.map((q) => (
+              <li class="border-l-2 border-line pl-3.5 text-[17px] leading-[1.4] font-semibold text-ink">{q}</li>
+            ))}
+          </ul>
+          <a href={s.href} class="group inline-flex min-h-11 w-fit items-center gap-1.5 font-bold text-ink">
+            <span class="underline decoration-[1.5px] underline-offset-4 group-hover:decoration-2">{linkLabel}</span>
+            <Icon name="arrow" size={18} />
+            <span class="sr-only">: {s.name}</span>
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>

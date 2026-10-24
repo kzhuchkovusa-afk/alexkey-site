@@ -58,7 +58,7 @@ const credentials = about.credentials.filter((c) => !c.flag || isOn(c.flag));
         <SectionHeading id="timeline-title">{about.timelineTitle}</SectionHeading>
         <Timeline items={about.timeline} />
       </div>
-      <div>
+      <div id="credentials" class="scroll-mt-20">
         <SectionHeading id="credentials-title">{about.credentialsTitle}</SectionHeading>
         <ul class="flex flex-col">
           {

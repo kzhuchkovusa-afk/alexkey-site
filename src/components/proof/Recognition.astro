@@ -1,0 +1,57 @@
+---
+import Icon from '../ui/Icon.astro';
+import Pending from '../ui/Pending.astro';
+import { decisions, type LiveFlag } from '../../site.config';
+import { isOn } from '../../lib/env';
+
+/**
+ * Home → Where this comes from → Recognition (review 24.10): four cards, each links to its /about section.
+ * No external links and no native name on the home page.
+ */
+const r = decisions.recognition;
+type Card = { title: string; href: string; lines: { text: string; flag: LiveFlag }[] };
+const all: Card[] = [
+  { title: r.press.title, href: r.press.href, lines: [{ text: r.press.text, flag: 'pressHome' }] },
+  { title: r.research.title, href: r.research.href, lines: [{ text: r.research.text, flag: 'research' }] },
+  {
+    title: r.awards.title,
+    href: r.awards.href,
+    lines: [
+      { text: r.awards.growth, flag: 'awardGrowth' },
+      { text: r.awards.openWorld, flag: 'awardOpenWorld' },
+    ],
+  },
+  { title: r.education.title, href: r.education.href, lines: [{ text: r.education.text, flag: 'education' }] },
+];
+const cards: Card[] = all
+  .map((c) => ({ ...c, lines: c.lines.filter((l) => isOn(l.flag)) }))
+  .filter((c) => c.lines.length > 0);
+---
+
+{
+  cards.length > 0 && (
+    <ul class:list={['grid gap-3 md:grid-cols-2 lg:gap-4', cards.length === 4 && 'lg:grid-cols-4', cards.length === 3 && 'lg:grid-cols-3']}>
+      {cards.map((c) => (
+        <li>
+          <article class="relative flex h-full flex-col gap-3 rounded-card p-6 shadow-[inset_0_0_0_1px_var(--color-line)] transition-shadow duration-(--dur-fast) hover:shadow-[inset_0_0_0_1.5px_var(--color-ink)]">
+            <h4 class="text-[20px] leading-tight font-extrabold tracking-[-0.015em] text-ink">
+              <a href={c.href} class="no-underline after:absolute after:inset-0 after:rounded-card">
+                {c.title}
+              </a>
+            </h4>
+            <ul class="flex grow flex-col gap-2.5">
+              {c.lines.map((l) => (
+                <li class="text-[16px] leading-snug text-body">
+                  <Pending flag={l.flag} inline>
+                    {l.text}
+                  </Pending>
+                </li>
+              ))}
+            </ul>
+            <Icon name="arrow" size={22} class="self-end text-ink" />
+          </article>
+        </li>
+      ))}
+    </ul>
+  )
+}

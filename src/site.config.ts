@@ -24,12 +24,15 @@ export const decisions = {
   siteUrl: TODO('домен сайта, напр. https://alexkey.com'),
 
   /** Email в подвале и в Privacy. Формы в MVP нет — только ссылка mailto. */
-  email: TODO('email для связи'),
+  email: 'info@gocoding.tech',
 
-  /** Профили для подвала и schema.org sameAs. */
+  /**
+   * Профили. Facebook — подвал и schema.org sameAs.
+   * LinkedIn — под родным именем: в подвал не ставим; schema.org sameAs и /about (рядом с объяснением имени).
+   */
   social: {
-    facebook: TODO('URL профиля Alex Key в Facebook'),
-    linkedin: TODO('URL профиля в LinkedIn'),
+    facebook: 'https://www.facebook.com/alexkey0923/',
+    linkedin: 'https://www.linkedin.com/in/kzhuchkov/',
   },
 
   /** GA4 Measurement ID, вида G-XXXXXXXXXX. */
@@ -69,19 +72,20 @@ export const decisions = {
 
   /** Фото. Файлы кладём в src/assets/photos/. Дети — только со спины или с письменным согласием. */
   photos: {
-    /** Портрет 4:5, лицо. Имя файла в src/assets/photos/, напр. 'portrait.jpg'. */
-    portrait: TODO('портрет 4:5 — имя файла в src/assets/photos/'),
-    /** Подпись под портретом: где и когда снято. */
-    portraitCaption: TODO('подпись к портрету: где и когда снято'),
+    /** Портрет 4:5. Имя файла в src/assets/photos/. */
+    portrait: 'portrait-brooklyn-4x5.jpg',
+    /** Подпись под портретом: где и когда снято. Пустая строка — без подписи. */
+    portraitCaption: '',
     /** Alt-текст портрета. */
-    portraitAlt: TODO('alt портрета, напр. «Alex Key at GoCoding, Brooklyn»'),
+    portraitAlt: 'Alex Key in Brooklyn, by the East River',
   },
 
   /** Ссылки-подтверждения у фактов с пометкой «as Konstantin Z.». */
   proofLinks: {
     coddy: TODO('подтверждение CODDY 2018–2022 (напр. LinkedIn)'),
     ieee: TODO('профиль или сертификат IEEE Senior Member'),
-    ama: TODO('страница совета AMA South Florida'),
+    /** Страница под родным именем — ссылка только с /about и страниц услуг, не с главной. */
+    ama: 'https://amasfl.org/konstantin-zhuchkov-director-of-ai-learning-systems/',
   },
 
   /** Цены. Программы — как на сайте компании [предложение]; услуги — [решаешь ты]. */
@@ -96,8 +100,8 @@ export const decisions = {
 
   /** Обоснование цены услуг (блок 10). Варианты из ТЗ — «только если это правда при твоей цене». */
   priceRationale: {
-    /** Главная, строка про услуги. */
-    homeServices: TODO('цены услуг на главной — «from $…» или «after a 15-min call»'),
+    /** Главная, строка про услуги — выводится целиком. */
+    homeServices: 'Sales, automation and marketing: priced after a 15-min call.',
     /** Вариант: "Losing one family a month costs more than this system." */
     salesSystem: TODO('обоснование цены Sales & Retention'),
     /** Вариант: "Costs less than a part-time admin — and works nights and weekends." */
@@ -106,10 +110,8 @@ export const decisions = {
     marketing: TODO('обоснование цены Marketing'),
   },
 
-  /** Гарантии услуг (блок 9). Программы — условия компании, уже в текстах. */
+  /** Гарантии услуг (блок 9) на страницах услуг. Программы — условия компании, уже в текстах. На главной гарантии услуг нет. */
   guarantees: {
-    /** Главная. Вариант: "Pilot first: if it doesn't work in your center in 30 days, we fix it at no extra cost." */
-    homeServices: TODO('гарантия для услуг на главной'),
     /** Вариант: "If it doesn't fit your center after the first session, you don't pay." */
     salesSystem: TODO('гарантия Sales & Retention'),
     /** Вариант: "If it doesn't save your team time in the first 30 days, we keep adjusting it at no cost." */
@@ -117,10 +119,8 @@ export const decisions = {
     marketing: TODO('гарантия Marketing'),
   },
 
-  /** Срочность (блок 12) — только правдивые даты сезона набора. */
+  /** Срочность (блок 12) страниц услуг — только правдивые даты сезона набора. На главной вместо неё — firstTen. */
   urgency: {
-    /** Главная: "Plan your spring term now: run the demo lesson by [date] to open a group in [month]." */
-    home: { date: TODO('главная: дата демо-урока'), month: TODO('главная: месяц старта группы') },
     /** "Want a group running this term? Run the demo lesson by [date] — launch takes about 2 weeks." */
     programs: { date: TODO('Programs: дата демо-урока') },
     /** "Fix the trial before your next enrollment season — spring trials start in [month]." */
@@ -133,9 +133,44 @@ export const decisions = {
 
   /** Ячейки таблицы сравнения (блок 5), помеченные на макете [confirm]. */
   compare: {
-    coachCost: TODO('таблица: цена входа у коуча'),
-    softwareCost: TODO('таблица: подписка софта'),
-    franchiseWho: TODO('таблица: кто делает работу во франшизе'),
+    coachCost: 'A monthly retainer',
+    softwareCost: 'A monthly subscription, plus setup',
+    franchiseWho: "You, by the franchisor's rules",
+  },
+
+  /**
+   * Первые 10 партнёров (главная: строка под кнопками, блок 12, подпись финального призыва).
+   * Обновляйте taken по мере набора. При taken >= total блок и все строки про места скрываются.
+   */
+  firstTen: {
+    taken: 7,
+    total: 10,
+    included: [
+      "Turnkey: we work with you until there's a result — not for a set number of calls.",
+      'We launch your STEM program together — or improve the programs you already run.',
+      'Help with your business model and automation, included.',
+    ],
+  },
+
+  /** Главная → Where this comes from → Recognition. Каждая карточка ведёт на раздел /about. Флаги — в live. */
+  recognition: {
+    press: { title: 'In the press', text: 'CEO Today · TechBullion', href: '/about#press' },
+    research: {
+      title: 'Research',
+      text: 'AI-Target Insight — a peer-reviewed paper on AI-assisted audience research (2025)',
+      href: '/about#research',
+    },
+    awards: {
+      title: 'Awards',
+      growth: 'Growth Priorities national award — 2nd-degree laureate (2020), for interactive coding courses for kids',
+      openWorld: 'Open World Leadership Program — delegate among education leaders (a U.S. Congress program)',
+      href: '/about#awards',
+    },
+    education: {
+      title: 'Education',
+      text: 'Five degrees — IT, translation, information security management, IT product development and an MBA.',
+      href: '/about#education',
+    },
   },
 };
 
@@ -150,10 +185,22 @@ export const live = {
   coddyConversion: false,
   /** 2–3 отзыва владельцев школ CODDY — [ждёт: согласие авторов]. Данные пустые. */
   testimonialsCoddy: false,
-  /** Отзывы первых американских центров и программа «первые 5 центров» — [решаешь ты] + [ждёт] */
-  firstFiveCenters: false,
-  /** «As seen in»: CEO Today, TechBullion — [ждёт: решение по CEO Today] */
+  /** /about: «Featured in CEO Today and TechBullion» — [ждёт]. На главной вместо него — pressHome. */
   asSeenIn: false,
+  /** Главная → Recognition → In the press (решено 24.10) */
+  pressHome: true,
+  /** Главная → Recognition → Research: AI-Target Insight paper (решено 24.10) */
+  research: true,
+  /** Главная → Recognition → Awards: Growth Priorities 2020 (решено 24.10) */
+  awardGrowth: true,
+  /** Главная → Recognition → Awards: Open World, без года (решено 24.10) */
+  awardOpenWorld: true,
+  /** Главная → Recognition → Education: five degrees (решено 24.10) */
+  education: true,
+  /** Полоса доказательств: «Author · No-Marketer Marketing» — ждёт страницу /book, потом ведёт на неё */
+  bookPage: false,
+  /** Главная: блок бонусов — PDF и таблиц пока нет */
+  bonuses: false,
   /** Invited judge, AMA South Florida Marketing Awards 2026 — [ждёт: состоялось ли] */
   amaJudge: false,
   /** Jury, Glonary Awards 2025 (Business) — в инвентаре «Фаза 2» */
@@ -162,10 +209,6 @@ export const live = {
   openWorld: false,
   /** Книга No-Marketer Marketing бонусом для партнёров — [ждёт: юрист] */
   bookBonus: false,
-  /** FAQ «Who owns student data?» — [ответ — от GoCoding] */
-  faqStudentData: false,
-  /** FAQ «Does it fit our ratios and licensing?» — [ответ — от GoCoding] */
-  faqRatios: false,
   /** Automation: чат-боты освободили 15–20 часов в неделю — [ждёт: разрешение и контекст] */
   caseChatbots: false,
   /** Automation: письма с AI — до 56% открытий на холодных лидах — [ждёт] */

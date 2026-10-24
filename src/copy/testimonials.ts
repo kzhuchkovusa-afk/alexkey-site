@@ -8,6 +8,6 @@ import type { TestimonialData } from '../components/content/Testimonial.astro';
 export const testimonials: { coddy: TestimonialData[]; partners: TestimonialData[] } = {
   /** 2–3 CODDY school owners — [ждёт: согласие авторов]. Flag: live.testimonialsCoddy */
   coddy: [],
-  /** First U.S. partner centers — flag: live.firstFiveCenters */
+  /** First U.S. partner centers — no flag: shown when at least two real ones are here. */
   partners: [],
 };

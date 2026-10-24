@@ -8,9 +8,9 @@ import { showPending, val } from '../../lib/env';
 /** Footer (board 05): ink; no big name; © year · operator line [ждёт: юрист]. */
 const year = new Date().getFullYear();
 const email = val(decisions.email);
+// LinkedIn is under the native name: not in the footer, only on /about and in schema.org sameAs.
 const social = [
   { label: 'Facebook', href: val(decisions.social.facebook) },
-  { label: 'LinkedIn', href: val(decisions.social.linkedin) },
   { label: 'Email', href: email ? `mailto:${email}` : null },
 ];
 const linkClass = 'inline-flex min-h-11 items-center underline decoration-1 underline-offset-4 hover:text-paper';

@@ -18,8 +18,6 @@ export const person = {
 /** TZ, «Имя: Alex Key и Konstantin Z.» — texts (EN, draft). */
 export const nameBridge = {
   tooltip: 'Alex Key is my business name in the U.S. My native name is Konstantin Z.',
-  /** Footnote under the proof band — design board 05. */
-  bandNote: '— these records are under my native name.',
   aboutTitle: 'Why "Alex Key"?',
   aboutText:
     "Alex Key is my business name in the U.S. My native name is Konstantin Z. — you'll see it on my CODDY years (2018–2022), my IEEE membership and my earlier press. Same person — in kids' education since 2018.",
@@ -94,15 +92,16 @@ export const proofBand = {
     { value: '20+', label: 'countries' },
     { value: 'IEEE', label: 'Senior Member' },
     { value: 'AMA', label: 'South Florida Board of Directors' },
-    { value: 'Author', label: 'No-Marketer Marketing' },
-  ],
+    // Behind live.bookPage until /book exists; then the item links to it.
+    { value: 'Author', label: 'No-Marketer Marketing', flag: 'bookPage', href: '/book' },
+  ] as { value: string; label: string; flag?: 'bookPage'; href?: string }[],
 };
 
 /** "Built by an operator…" — three reasons, TZ «Почему выбирают нас» (EN from design board 06). [review] */
 export const operatorReasons = [
   {
     title: 'An operator, not a theorist',
-    text: 'Senior Instructor (2018) → Program Director → Head of Franchise Development. The network grew from 48 to 158 locations in 20+ countries.',
+    text: 'Senior Instructor → Program Director → Head of Franchise Development. I taught the classes, ran the programs and led franchise development.',
     proof: true,
   },
   {

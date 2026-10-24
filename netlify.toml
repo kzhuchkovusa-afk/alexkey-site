@@ -3,7 +3,8 @@
 # Every Netlify deploy is "public": [ждёт] items and placeholders are hidden, previews are noindex.
 # A password-protected review stand shows them: AK_PROTECTED_STAND = "1" in the project's environment
 # (Netlify UI → Environment variables). On the stand the production context is not treated as production:
-# no TODO check, noindex. Before the real launch: remove AK_PROTECTED_STAND and the password, add the domain.
+# no TODO check, noindex. An open preview without a password: AK_PUBLIC_PREVIEW = "1" instead — [ждёт] items and
+# placeholders hidden, noindex, no TODO check. Before the real launch: remove both variables, add the domain.
 
 [build]
   command = "npm run build"

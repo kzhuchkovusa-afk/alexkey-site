@@ -15,8 +15,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const { decisions, live } = await import(path.join(root, 'src/site.config.ts'));
 
 // A password-protected review stand (AK_PROTECTED_STAND=1) is not production, even in Netlify's production context.
+// An open pre-launch preview (AK_PUBLIC_PREVIEW=1) is not production either: noindex, TODO places are simply hidden.
 const isStand = process.env.AK_PROTECTED_STAND === '1';
-const isProd = (process.env.CONTEXT === 'production' && !isStand) || process.env.AK_FORCE_PROD_CHECK === '1';
+const isPreview = process.env.AK_PUBLIC_PREVIEW === '1';
+const isProd = (process.env.CONTEXT === 'production' && !isStand && !isPreview) || process.env.AK_FORCE_PROD_CHECK === '1';
 const reportOnly = process.argv.includes('--report');
 
 /* 1. TODO values in decisions */
@@ -77,13 +79,17 @@ for (const [flag, on] of Object.entries(live)) {
 
 /* Report */
 const pending = Object.entries(live).filter(([, v]) => v !== true).map(([k]) => k);
+const published = Object.entries(live).filter(([, v]) => v === true).map(([k]) => k);
 const lines = [];
-lines.push(`Alex Key — config check (${isProd ? 'PRODUCTION' : isStand ? 'protected stand' : 'preview/local'})`);
+lines.push(
+  `Alex Key — config check (${isProd ? 'PRODUCTION' : isStand ? 'protected stand' : isPreview ? 'public preview' : 'preview/local'})`,
+);
 lines.push('');
 lines.push(`TODO values [решаешь ты] — ${todos.length}:`);
 for (const [p, note] of todos) lines.push(`  • ${p} — ${note}`);
 lines.push('');
 lines.push(`[ждёт] items hidden in public builds — ${pending.length}: ${pending.join(', ') || '—'}`);
+lines.push(`Live flags (published) — ${published.length}: ${published.join(', ') || '—'}`);
 lines.push(`Articles: ${articleState.join(' · ')}`);
 if (errors.length) {
   lines.push('');

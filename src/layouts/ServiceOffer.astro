@@ -45,7 +45,7 @@ const secondary = o.secondary ? { label: o.secondary.label, href: companyUrl(o.s
 const articles = o.proofArticles ? (await visibleArticles()).filter((a) => a.data.service === o.id && !a.data.placeholder) : [];
 const sources = o.testimonials ?? [];
 const testimonialList = [
-  ...(sources.includes('partners') && isOn('firstFiveCenters') ? testimonials.partners : []),
+  ...(sources.includes('partners') ? testimonials.partners : []),
   ...(sources.includes('coddy') && isOn('testimonialsCoddy') ? testimonials.coddy : []),
 ].filter((t) => t.quote && t.name);
 

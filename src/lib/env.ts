@@ -12,8 +12,14 @@ export const isPublicBuild: boolean =
 /** Стенд под паролем (AK_PROTECTED_STAND=1): видны [ждёт] и плейсхолдеры, не индексируется, не прод. */
 export const isProtectedStand: boolean = process.env.AK_PROTECTED_STAND === '1';
 
+/**
+ * Открытое превью без пароля (AK_PUBLIC_PREVIEW=1): как публичная выкладка — без [ждёт] и плейсхолдеров,
+ * но не индексируется и не требует закрытых TODO. Для показа сайта до запуска на домене.
+ */
+export const isPublicPreview: boolean = process.env.AK_PUBLIC_PREVIEW === '1';
+
 /** Продакшен Netlify — единственный контекст, который индексируется поисковиками. */
-export const isProduction: boolean = process.env.CONTEXT === 'production' && !isProtectedStand;
+export const isProduction: boolean = process.env.CONTEXT === 'production' && !isProtectedStand && !isPublicPreview;
 
 /** Плейсхолдеры и пункты [ждёт] видны только вне публичных выкладок. */
 export const showPending: boolean = !isPublicBuild;

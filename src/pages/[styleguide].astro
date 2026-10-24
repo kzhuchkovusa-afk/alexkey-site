@@ -19,6 +19,9 @@ import ProofBand from '../components/proof/ProofBand.astro';
 import ProofNote from '../components/proof/ProofNote.astro';
 import Timeline from '../components/proof/Timeline.astro';
 import PainCards from '../components/offer/PainCards.astro';
+import PainsByService from '../components/offer/PainsByService.astro';
+import FirstTen from '../components/offer/FirstTen.astro';
+import Recognition from '../components/proof/Recognition.astro';
 import ServiceCard from '../components/offer/ServiceCard.astro';
 import PathSteps from '../components/offer/PathSteps.astro';
 import OperatorReasons from '../components/offer/OperatorReasons.astro';
@@ -145,7 +148,10 @@ const h = 'mb-6 flex items-baseline justify-between gap-4 border-b border-line p
     <p class="text-small font-semibold text-slate">06 · Components</p>
     <h1 class="text-h1">Offer blocks</h1>
   </Section>
-  <Section tone="mist" pad="compact"><PainCards items={home.pains.slice(0, 5)} /></Section>
+  <Section tone="mist" pad="compact"><PainsByService items={home.painsByService} linkLabel={home.painsLink} /></Section>
+  <Section tone="mist" pad="compact"><PainCards items={home.painsByService.flatMap((p) => p.quotes).slice(0, 5)} /></Section>
+  <Section pad="compact"><Recognition /></Section>
+  <FirstTen />
   <Section pad="compact">
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {Object.values(services).map((s, i) => <ServiceCard href={s.href} name={s.name} promise={s.promise} num={`0${i + 1}`} />)}
