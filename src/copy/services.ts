@@ -113,7 +113,7 @@ export const offers: Record<ServiceId, ServiceOfferData> = {
       ],
       note: 'Equipment: a laptop or tablet per student. Robotics kits are separate, $70–$350.', // [review]
     },
-    guarantee: { value: 'Free demo lesson. No credit card, no contract, cancel anytime.', caption: "On the company's terms" }, // caption [design]
+    guarantee: { value: 'Free demo lesson. No card, no contract. Cancel anytime.', caption: "On the company's terms" }, // caption [design]
     price: {
       price: decisions.prices.programs,
       unit: decisions.prices.programsUnit,

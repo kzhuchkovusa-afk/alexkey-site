@@ -24,7 +24,7 @@ export const nameBridge = {
 };
 
 /** Microcopy under the demo button — TZ, block 13. */
-export const demoNote = 'Your teacher or director can run it this week. No card, no call, no contract.';
+export const demoNote = 'Your teacher or director can run it this week. No card, no contract.';
 
 export interface ServiceMeta {
   id: ServiceId;

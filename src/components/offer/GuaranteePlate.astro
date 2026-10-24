@@ -13,7 +13,7 @@ const { text, caption, quiet = false, class: className } = Astro.props;
 
 <div
   class:list={[
-    'flex flex-col gap-3 rounded-card',
+    'flex flex-col gap-3 self-start rounded-card',
     quiet ? 'p-5.5 shadow-[inset_0_0_0_1px_var(--color-line)]' : 'bg-key-tint p-6 lg:p-6.5',
     className,
   ]}

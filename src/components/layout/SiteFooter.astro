@@ -3,7 +3,7 @@ import Signature from '../brand/Signature.astro';
 import Ph from '../ui/Ph.astro';
 import { decisions } from '../../site.config';
 import { navigation } from '../../copy/shared';
-import { showPending, val } from '../../lib/env';
+import { isTodo, showPending, val } from '../../lib/env';
 
 /** Footer (board 05): ink; no big name; © year · operator line [ждёт: юрист]. */
 const year = new Date().getFullYear();
@@ -36,7 +36,14 @@ const linkClass = 'inline-flex min-h-11 items-center underline decoration-1 unde
     </div>
     <div class="flex flex-col-reverse gap-4 pt-5 text-small text-on-ink-muted lg:flex-row lg:items-center lg:justify-between">
       <p>
-        © {year} · <Ph value={decisions.operator.footerLine} label="Operator line — pending legal review" />
+        © {year}
+        {
+          isTodo(decisions.operator.footerLine) ? (
+            showPending && <Ph value={decisions.operator.footerLine} label="Operator line — pending legal review" />
+          ) : (
+            <> · {decisions.operator.footerLine}</>
+          )
+        }
       </p>
       <ul class="flex flex-wrap gap-x-5">
         {

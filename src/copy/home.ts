@@ -108,7 +108,7 @@ export const home = {
   },
 
   // 9. Guarantee
-  guaranteePrograms: 'Free demo lesson. No card, no call, no contract. Cancel anytime.',
+  guaranteePrograms: 'Free demo lesson. No card, no contract. Cancel anytime.',
   guaranteeProgramsCaption: "Programs · on the company's terms", // [design]
 
   // 10. Price
@@ -145,7 +145,7 @@ export const home = {
   faq: [
     { q: 'Is it a video course?', a: 'No. Your own teacher leads the lesson, following a minute-by-minute script.' }, // [review]
     { q: 'Do I need a tech teacher?', a: 'No. A ready-made STEM program your current teacher can run — after 10 minutes of prep.' }, // [design]
-    { q: 'Is there a contract?', a: 'No. The demo lesson is free — no card, no call, no contract. Cancel anytime.' }, // [review]
+    { q: 'Is there a contract?', a: 'No. The demo lesson is free — no card, no contract. Cancel anytime.' }, // [review]
     { q: 'What equipment do I need?', a: 'A laptop or tablet for each student. Robotics kits are separate, $70–$350.' }, // [review]
     { q: 'Is it all screen time?', a: 'No. Robotics is hands-on, and programs for ages 4–5 use no screens at all.' }, // [review]
   ],
