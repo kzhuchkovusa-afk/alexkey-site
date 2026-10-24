@@ -16,7 +16,7 @@ import Tag from '../components/ui/Tag.astro';
 import Photo from '../components/ui/Photo.astro';
 import IntroByline from '../components/hero/IntroByline.astro';
 import ProofBand from '../components/proof/ProofBand.astro';
-import ProofNote from '../components/proof/ProofNote.astro';
+import NameNote from '../components/proof/NameNote.astro';
 import Timeline from '../components/proof/Timeline.astro';
 import PainCards from '../components/offer/PainCards.astro';
 import PainsByService from '../components/offer/PainsByService.astro';
@@ -104,13 +104,13 @@ const h = 'mb-6 flex items-baseline justify-between gap-4 border-b border-line p
   <ProofBand />
 
   <Section pad="compact">
-    <h2 class={h}>Name bridge · form controls</h2>
+    <h2 class={h}>Name note · form controls</h2>
     <div class="grid gap-10 lg:grid-cols-2">
-      <div class="rounded-card bg-mist p-6">
-        <div class="w-fit rounded-card bg-paper p-5">
-          <p class="text-[20px] font-extrabold">IEEE Senior Member</p>
-          <ProofNote />
-        </div>
+      <div class="flex flex-col gap-4 rounded-card bg-mist p-6">
+        <NameNote kind="pages" />
+        <NameNote kind="articles" />
+        <NameNote kind="citation" />
+        <NameNote kind="testimonial" />
       </div>
       <form class="flex flex-col gap-5" onsubmit="return false">
         <div class="grid gap-4 md:grid-cols-2">

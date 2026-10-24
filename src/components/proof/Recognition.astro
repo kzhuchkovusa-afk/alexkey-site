@@ -17,6 +17,7 @@ const all: Card[] = [
     title: r.awards.title,
     href: r.awards.href,
     lines: [
+      { text: r.awards.mayor, flag: 'awardMayor' },
       { text: r.awards.growth, flag: 'awardGrowth' },
       { text: r.awards.openWorld, flag: 'awardOpenWorld' },
     ],

@@ -226,7 +226,7 @@ export const offers: Record<ServiceId, ServiceOfferData> = {
       'Built for kids’ education: we automate the steps that matter in a learning center — trials, attendance, parents — and keep a human in every conversation that needs one.',
     proof: [
       { value: 'IEEE', label: 'Senior Member', proof: true, link: decisions.proofLinks.ieee, linkLabel: 'See the certificate' },
-      { value: 'AMA South Florida', label: 'Board of Directors — Director of AI & Learning Systems', proof: true, link: decisions.proofLinks.ama },
+      { value: 'AMA South Florida', label: 'Board of Directors — VP Technology', proof: true, link: decisions.proofLinks.ama },
       net('locations — sales automation and CRM across the CODDY network'), // [review]
       { value: '15–20 hours', label: 'a week freed up by chatbots in one documented project', flag: 'caseChatbots' }, // [review]
       { value: 'Up to 56%', label: 'open rate on AI-written emails to cold leads', flag: 'caseAiEmails' }, // [review]
@@ -297,9 +297,9 @@ export const offers: Record<ServiceId, ServiceOfferData> = {
       "Written for owners, not marketers. I'm the author of No-Marketer Marketing: The WTF System and sit on the board of AMA South Florida. The method combines proven direct-response marketing with AI — and it's built for kids' education.",
     proof: [
       { value: '209 pages', label: 'Author of No-Marketer Marketing: The WTF System', proof: true },
-      { value: 'AMA South Florida', label: 'Board of Directors — Director of AI & Learning Systems', proof: true, link: decisions.proofLinks.ama },
-      { value: 'Jury', label: 'Glonary Awards 2025 (Business)', proof: true, flag: 'glonaryJury' },
-      { value: 'Invited judge', label: 'AMA South Florida Marketing Awards 2026', proof: true, flag: 'amaJudge' },
+      { value: 'AMA South Florida', label: 'Board of Directors — VP Technology', proof: true, link: decisions.proofLinks.ama },
+      { value: 'Jury member', label: 'Glonary Awards for Business Leaders 2025', proof: true, link: decisions.proofLinks.glonary, flag: 'glonaryJury' },
+      { value: 'Judge', label: 'AMA South Florida Marketing Awards', proof: true, flag: 'amaJudge' },
       { value: '−39%', label: 'cost per lead with the AI-Target Insight method, in one documented project', flag: 'caseAiTargetInsight' }, // [review]
     ],
     benefits: [

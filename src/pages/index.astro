@@ -34,8 +34,8 @@ import { readingMinutes, rubricLabel, visibleArticles } from '../lib/articles';
 
 /**
  * Home — 13 blocks (TZ v1.0) with the review of 24.10 (PB/site/tasks/01-home.md).
- * No "as Konstantin Z." here and no external links to pages under the native name:
- * the name is explained only on /about.
+ * Name rule (review 24.10): no external links to pages under the native name here,
+ * so no NameNote either — those links live on /about and the service pages.
  */
 const articles = (await visibleArticles()).filter((a) => home.playbookSlugs.includes(a.id));
 const usFacts = [
@@ -43,7 +43,7 @@ const usFacts = [
   { value: '500+', label: 'students learning on licensed GoCoding programs' }, // [review]
   {
     value: 'AMA South Florida',
-    label: 'Board of Directors — Director of AI & Learning Systems',
+    label: 'Board of Directors — VP Technology',
     link: home.proofLinkHref,
     linkLabel: home.proofLinkLabel,
   },
@@ -103,7 +103,7 @@ const ctaNote = taken < total ? home.firstTen.ctaNote(taken, total) : home.ctaNo
   <!-- 5 · Uniqueness -->
   <Section tone="mist" labelledby="unique-title">
     <SectionHeading id="unique-title">{home.uniqueTitle}</SectionHeading>
-    <OperatorReasons items={operatorReasons} notes={false} />
+    <OperatorReasons items={operatorReasons} />
     <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[17px] font-bold text-ink lg:mt-10">
       {
         home.notFranchise.map((t) => (
@@ -123,7 +123,7 @@ const ctaNote = taken < total ? home.firstTen.ctaNote(taken, total) : home.ctaNo
   <Section labelledby="proof-title">
     <SectionHeading id="proof-title">{home.proofTitle}</SectionHeading>
     <h3 class="mb-4 text-[18px] font-bold text-slate">{home.proofUsLabel}</h3>
-    <ProofFacts facts={usFacts} notes={false} />
+    <ProofFacts facts={usFacts} />
 
     <h3 class="mt-10 mb-4 text-[18px] font-bold text-slate">{home.recognitionLabel}</h3>
     <Recognition />

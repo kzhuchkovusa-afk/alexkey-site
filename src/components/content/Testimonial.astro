@@ -1,5 +1,5 @@
 ---
-import ProofNote from '../proof/ProofNote.astro';
+import NameNote from '../proof/NameNote.astro';
 import { showPending } from '../../lib/env';
 
 /**
@@ -11,7 +11,7 @@ export interface TestimonialData {
   name: string;
   role: string;
   city: string;
-  /** The author writes "Konstantin" → "about Konstantin Z." */
+  /** The author calls him "Konstantin" → NameNote (testimonial) under the quote. */
   aboutNative?: boolean;
 }
 interface Props {
@@ -33,19 +33,16 @@ const list: TestimonialData[] =
       {list.map((t) => (
         <li>
           <figure class="flex h-full flex-col gap-6 rounded-card bg-mist p-6 lg:p-7">
-            <blockquote class="grow text-[20px] leading-snug font-semibold text-ink">
-              <p>“{t.quote}”</p>
-            </blockquote>
+            <div class="flex grow flex-col gap-3">
+              <blockquote class="text-[20px] leading-snug font-semibold text-ink">
+                <p>“{t.quote}”</p>
+              </blockquote>
+              {t.aboutNative && <NameNote kind="testimonial" />}
+            </div>
             <figcaption class="flex flex-col text-small">
               <span class="font-bold text-ink">{t.name}</span>
               <span class="text-slate">
                 {t.role}, {t.city}
-                {t.aboutNative && (
-                  <>
-                    {' · '}
-                    <ProofNote prefix="about" />
-                  </>
-                )}
               </span>
             </figcaption>
           </figure>

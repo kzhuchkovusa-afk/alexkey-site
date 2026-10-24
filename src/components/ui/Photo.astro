@@ -18,7 +18,7 @@ interface Props {
   sizes?: string;
   priority?: boolean;
   class?: string;
-  /** Slot content overlays the photo (e.g. name plate on desktop hero). */
+  /** Slot content overlays the photo (e.g. name plate on desktop hero); slot "caption" replaces `caption`. */
   overlay?: boolean;
 }
 const {
@@ -62,7 +62,13 @@ const show = Boolean(src) || showPending;
         )}
         <slot />
       </div>
-      {caption && <figcaption class="text-[14px] leading-snug text-slate">{caption}</figcaption>}
+      {Astro.slots.has('caption') ? (
+        <figcaption>
+          <slot name="caption" />
+        </figcaption>
+      ) : (
+        caption && <figcaption class="text-[14px] leading-snug text-slate">{caption}</figcaption>
+      )}
     </figure>
   )
 }

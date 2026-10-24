@@ -80,12 +80,18 @@ export const decisions = {
     portraitAlt: 'Alex Key in Brooklyn, by the East River',
   },
 
-  /** Ссылки-подтверждения у фактов с пометкой «as Konstantin Z.». */
+  /**
+   * Ссылки-подтверждения у фактов. Внешние ссылки и файлы /proof/ — под родным именем:
+   * рядом с ними выводится NameNote (правило имени, ревью 24.10). Только /about и страницы услуг, не главная.
+   */
   proofLinks: {
     coddy: TODO('подтверждение CODDY 2018–2022 (напр. LinkedIn)'),
-    ieee: TODO('профиль или сертификат IEEE Senior Member'),
-    /** Страница под родным именем — ссылка только с /about и страниц услуг, не с главной. */
+    /** Сертификат IEEE Senior Member — файл в public/proof/. */
+    ieee: '/proof/ieee-certificate.jpg',
+    /** Страница AMA South Florida: должность «VP Technology». */
     ama: 'https://amasfl.org/konstantin-zhuchkov-director-of-ai-learning-systems/',
+    /** Glonary Awards for Business Leaders 2025 — страница жюри. */
+    glonary: 'https://glonaryawards.com/business_leaders/judges/konstantin-zhuchkov',
   },
 
   /** Цены. Программы — как на сайте компании [предложение]; услуги — [решаешь ты]. */
@@ -162,13 +168,14 @@ export const decisions = {
     },
     awards: {
       title: 'Awards',
+      mayor: 'Citation from the Office of the Mayor of New York City — for small-business achievement',
       growth: 'Growth Priorities national award — 2nd-degree laureate (2020), for interactive coding courses for kids',
       openWorld: 'Open World Leadership Program — delegate among education leaders (a U.S. Congress program)',
       href: '/about#awards',
     },
     education: {
       title: 'Education',
-      text: 'Five degrees — IT, translation, information security management, IT product development and an MBA.',
+      text: 'Five degrees — IT, IT translation (English and French), information security management, product management and an MBA.',
       href: '/about#education',
     },
   },
@@ -185,28 +192,26 @@ export const live = {
   coddyConversion: false,
   /** 2–3 отзыва владельцев школ CODDY — [ждёт: согласие авторов]. Данные пустые. */
   testimonialsCoddy: false,
-  /** /about: «Featured in CEO Today and TechBullion» — [ждёт]. На главной вместо него — pressHome. */
-  asSeenIn: false,
   /** Главная → Recognition → In the press (решено 24.10) */
   pressHome: true,
-  /** Главная → Recognition → Research: AI-Target Insight paper (решено 24.10) */
+  /** Recognition → Research: AI-Target Insight paper — главная и /about (решено 24.10) */
   research: true,
-  /** Главная → Recognition → Awards: Growth Priorities 2020 (решено 24.10) */
+  /** Recognition → Awards: грамота офиса мэра Нью-Йорка — главная и /about с фото (решено 24.10) */
+  awardMayor: true,
+  /** Recognition → Awards: Growth Priorities 2020 — главная и /about (решено 24.10) */
   awardGrowth: true,
-  /** Главная → Recognition → Awards: Open World, без года (решено 24.10) */
+  /** Recognition → Awards: Open World, без года — главная и /about (решено 24.10) */
   awardOpenWorld: true,
-  /** Главная → Recognition → Education: five degrees (решено 24.10) */
+  /** Recognition → Education: five degrees — главная и /about (решено 24.10) */
   education: true,
   /** Полоса доказательств: «Author · No-Marketer Marketing» — ждёт страницу /book, потом ведёт на неё */
   bookPage: false,
   /** Главная: блок бонусов — PDF и таблиц пока нет */
   bonuses: false,
-  /** Invited judge, AMA South Florida Marketing Awards 2026 — [ждёт: состоялось ли] */
-  amaJudge: false,
-  /** Jury, Glonary Awards 2025 (Business) — в инвентаре «Фаза 2» */
-  glonaryJury: false,
-  /** Delegate, Open World Leadership Program — [ждёт: год по сертификату] */
-  openWorld: false,
+  /** Judge, AMA South Florida Marketing Awards — судейство подтверждено 24.10 */
+  amaJudge: true,
+  /** Jury member, Glonary Awards for Business Leaders 2025 (решено 24.10) */
+  glonaryJury: true,
   /** Книга No-Marketer Marketing бонусом для партнёров — [ждёт: юрист] */
   bookBonus: false,
   /** Automation: чат-боты освободили 15–20 часов в неделю — [ждёт: разрешение и контекст] */

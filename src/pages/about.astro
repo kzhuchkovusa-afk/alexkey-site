@@ -7,15 +7,28 @@ import Button from '../components/ui/Button.astro';
 import Pending from '../components/ui/Pending.astro';
 import Txt from '../components/ui/Txt.astro';
 import IntroByline from '../components/hero/IntroByline.astro';
-import ProofNote from '../components/proof/ProofNote.astro';
+import NameNote from '../components/proof/NameNote.astro';
 import Timeline from '../components/proof/Timeline.astro';
 import { about } from '../copy/about';
-import { nameBridge } from '../copy/shared';
-import { portrait } from '../lib/photos';
+import { opensNewTab } from '../copy/shared';
+import { decisions } from '../site.config';
+import { photo, portrait } from '../lib/photos';
 import { callUrl } from '../lib/links';
 import { isOn, val } from '../lib/env';
 
+/**
+ * About (review 24.10, task 02). Name rule: the native name appears only next to links to pages and
+ * documents under it — NameNote under Credentials (with the LinkedIn link), under In the press and under
+ * the mayor's citation photo.
+ */
 const credentials = about.credentials.filter((c) => !c.flag || isOn(c.flag));
+const linkedin = val(decisions.social.linkedin);
+const research = about.research.items.filter((r) => !r.flag || isOn(r.flag));
+const awards = about.awards.items.filter((a) => isOn(a.flag));
+const showEducation = isOn(about.education.flag);
+// html already has scroll-padding-top: 5rem (global.css); this adds air under the 64/84 px header.
+const anchor = 'scroll-mt-4 lg:scroll-mt-6';
+const rowClass = 'flex flex-col gap-1 border-b border-line py-4 first:pt-0 last:border-b-0';
 ---
 
 <Base title={about.seo.title} description={about.seo.description} page="about" og="about">
@@ -24,9 +37,7 @@ const credentials = about.credentials.filter((c) => !c.flag || isOn(c.flag));
       <div class="flex flex-col gap-5 lg:gap-7">
         <h1 id="hero-title" class="text-h1">{about.h1}</h1>
         <IntroByline />
-        <p class="max-w-[40rem] text-lead text-body">
-          {about.lead} <ProofNote />
-        </p>
+        <p class="max-w-[40rem] text-lead text-body">{about.lead}</p>
         <p class="max-w-[40rem] text-body">{about.operator}</p>
         <div>
           <Button href={callUrl('about', 'hero')} size="lg" icon="arrow" cta="about-hero" class="w-full lg:w-auto">Book a 15-min call</Button>
@@ -45,7 +56,6 @@ const credentials = about.credentials.filter((c) => !c.flag || isOn(c.flag));
             <p class="text-caption text-slate">0{i + 1}</p>
             <h3 class="text-[20px] font-extrabold tracking-[-0.01em]">{s.title}</h3>
             <p class="text-[17px] leading-[1.55] text-body">{s.text}</p>
-            {s.proof && <ProofNote class="self-start" />}
           </li>
         ))
       }
@@ -58,29 +68,36 @@ const credentials = about.credentials.filter((c) => !c.flag || isOn(c.flag));
         <SectionHeading id="timeline-title">{about.timelineTitle}</SectionHeading>
         <Timeline items={about.timeline} />
       </div>
-      <div id="credentials" class="scroll-mt-20">
-        <SectionHeading id="credentials-title">{about.credentialsTitle}</SectionHeading>
+      <div id="credentials" class={anchor}>
+        <h2 id="credentials-title" class="mb-4 text-h2">{about.credentialsTitle}</h2>
+        <NameNote kind="pages" class="mb-6 lg:mb-8">
+          {
+            linkedin && (
+              <a href={linkedin} target="_blank" rel="me noopener" class="font-bold whitespace-nowrap text-ink underline decoration-1 underline-offset-4 hover:decoration-2">
+                <Txt text={about.linkedinLabel} />
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+            )
+          }
+        </NameNote>
         <ul class="flex flex-col">
           {
             credentials.map((c) => {
               const href = c.link ? val(c.link) : null;
               const row = (
-                <div class="flex flex-col gap-1 border-b border-line py-4 first:pt-0">
+                <div class="flex flex-col gap-1">
                   <p class="text-[18px] leading-snug font-bold text-ink">{c.title}</p>
                   {c.text && <p class="text-small text-slate">{c.text}</p>}
-                  {(c.proof || href) && (
-                    <p class="flex flex-wrap items-center gap-x-4">
-                      {c.proof && <ProofNote />}
-                      {href && (
-                        <Button href={href} variant="text" icon="external" newTab class="text-[15px]">
-                          {c.linkLabel ?? 'See the record'}
-                        </Button>
-                      )}
+                  {href && (
+                    <p>
+                      <Button href={href} variant="text" icon={opensNewTab(href) ? 'external' : 'arrow'} newTab={opensNewTab(href)} class="text-[15px]">
+                        {c.linkLabel ?? 'See the record'}
+                      </Button>
                     </p>
                   )}
                 </div>
               );
-              return <li>{c.flag ? <Pending flag={c.flag}>{row}</Pending> : row}</li>;
+              return <li class={rowClass}>{c.flag ? <Pending flag={c.flag}>{row}</Pending> : row}</li>;
             })
           }
         </ul>
@@ -88,9 +105,117 @@ const credentials = about.credentials.filter((c) => !c.flag || isOn(c.flag));
     </div>
   </Section>
 
-  <Section tone="mist" labelledby="name-title" width="measure">
-    <h2 id="name-title" class="mb-5 text-h2">{nameBridge.aboutTitle}</h2>
-    <p class="text-lead text-body">{nameBridge.aboutText}</p>
+  <Section tone="mist" labelledby="recognition-title">
+    <SectionHeading id="recognition-title">{about.recognitionTitle}</SectionHeading>
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-x-20 lg:gap-y-16">
+      <div id={about.press.id} class:list={['flex flex-col', anchor]}>
+        <h3 id="press-title" class="mb-3 text-h3">{about.press.title}</h3>
+        <NameNote kind="articles" class="mb-5" />
+        <ul class="flex flex-col">
+          {
+            about.press.items.map((a) => (
+              <li class={rowClass}>
+                <p class="text-[17px] leading-snug text-body">
+                  <span class="font-bold text-ink">
+                    {a.outlet} · {a.date}
+                  </span>{' '}
+                  — {a.title}
+                  {a.inRussian && ' (in Russian)'}
+                </p>
+                {a.href && (
+                  <p>
+                    <Button href={a.href} variant="text" icon="external" newTab class="text-[15px]">
+                      {about.press.linkLabel}
+                    </Button>
+                  </p>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      {
+        research.length > 0 && (
+          <div id={about.research.id} class:list={['flex flex-col', anchor]}>
+            <h3 class="mb-5 text-h3">{about.research.title}</h3>
+            <ul class="flex flex-col">
+              {research.map((r) => {
+                const row = (
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[17px] leading-snug text-body">{r.text}</p>
+                    {r.note && (
+                      <Pending flag={r.note.flag}>
+                        <p class="text-small text-slate">{r.note.text}</p>
+                      </Pending>
+                    )}
+                    {r.link && r.linkFlag && (
+                      <Pending flag={r.linkFlag}>
+                        <Button href={r.link} variant="text" icon="arrow" class="text-[15px]">
+                          {r.linkLabel}
+                        </Button>
+                      </Pending>
+                    )}
+                  </div>
+                );
+                return <li class={rowClass}>{r.flag ? <Pending flag={r.flag}>{row}</Pending> : row}</li>;
+              })}
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        awards.length > 0 && (
+          <div id={about.awards.id} class:list={['flex flex-col', anchor]}>
+            <h3 class="mb-5 text-h3">{about.awards.title}</h3>
+            <ul class="flex flex-col">
+              {awards.map((a) => (
+                <li class={rowClass}>
+                  <Pending flag={a.flag}>
+                    <div class="flex flex-col gap-4">
+                      <p class="text-[17px] leading-snug text-body">{a.text}</p>
+                      {a.photo && (
+                        <Photo
+                          src={photo(a.photo)}
+                          alt={about.awards.photoAlt}
+                          ratio="4/5"
+                          label="Citation photo 4:5"
+                          widths={[280, 360, 560, 720]}
+                          sizes="(min-width: 1024px) 280px, min(360px, calc(100vw - 40px))"
+                          class="w-full max-w-[360px] lg:max-w-[280px]"
+                        >
+                          <NameNote slot="caption" kind="citation" />
+                        </Photo>
+                      )}
+                    </div>
+                  </Pending>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        showEducation && (
+          <div id={about.education.id} class:list={['flex flex-col', anchor]}>
+            <h3 class="mb-5 text-h3">{about.education.title}</h3>
+            <Pending flag={about.education.flag}>
+              <p class="mb-4 text-[17px] leading-snug text-body">{about.education.text}</p>
+              <ul class="flex flex-col gap-2.5">
+                {about.education.items.map((e) => (
+                  <li class="flex gap-3 text-[17px] leading-snug text-body">
+                    <span aria-hidden="true" class="mt-2.5 size-1.5 shrink-0 bg-ink" />
+                    {e}
+                  </li>
+                ))}
+              </ul>
+            </Pending>
+          </div>
+        )
+      }
+    </div>
   </Section>
 
   <Section labelledby="how-title" width="measure">

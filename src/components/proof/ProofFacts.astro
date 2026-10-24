@@ -1,14 +1,16 @@
 ---
-import ProofNote from './ProofNote.astro';
+import NameNote from './NameNote.astro';
 import Pending from '../ui/Pending.astro';
 import Button from '../ui/Button.astro';
 import FromTo from '../ui/FromTo.astro';
 import { isOn, val } from '../../lib/env';
 import type { LiveFlag } from '../../site.config';
+import { isNativeNameLink, opensNewTab } from '../../copy/shared';
 
 /**
- * Block 6 · facts by topic: value + label, "as Konstantin Z." where the record is under the native name,
- * link to the proof when it is set in site.config.ts. Facts with `flag` are [ждёт].
+ * Block 6 · facts by topic: value + label + link to the proof when it is set in site.config.ts.
+ * `proof` — the record is under the native name: if any shown card links to such a record,
+ * one NameNote (pages) goes under the grid. Facts with `flag` are [ждёт].
  */
 export interface Fact {
   value: string;
@@ -22,19 +24,17 @@ export interface Fact {
 }
 interface Props {
   facts: Fact[];
-  /** false — no "as Konstantin Z." notes (home page, review 24.10). */
-  notes?: boolean;
 }
-const { facts, notes = true } = Astro.props;
+const { facts } = Astro.props;
 const shown = facts.filter((f) => !f.flag || isOn(f.flag));
+const withNameLink = shown.some((f) => isNativeNameLink(f.link ? val(f.link) : null, f.proof));
 ---
 
 <ul class:list={['grid gap-3 md:grid-cols-2 lg:gap-4', shown.length >= 3 && 'lg:grid-cols-3', shown.length === 4 && 'lg:grid-cols-4']}>
   {
     shown.map((f) => {
       const href = f.link ? val(f.link) : null;
-      const external = Boolean(href && /^https?:\/\//.test(href));
-      const note = notes && f.proof;
+      const newTab = opensNewTab(href);
       const body = (
         <div class="flex h-full flex-col gap-2 rounded-card p-6 shadow-[inset_0_0_0_1px_var(--color-line)]">
           {f.fromTo ? (
@@ -45,14 +45,11 @@ const shown = facts.filter((f) => !f.flag || isOn(f.flag));
             <p class="text-[28px] leading-tight font-extrabold tracking-[-0.02em] text-ink lg:text-[32px]">{f.value}</p>
           )}
           <p class="grow text-[17px] leading-snug text-body">{f.label}</p>
-          {(note || href) && (
-            <p class="flex flex-wrap items-center gap-x-4 gap-y-1 pt-1">
-              {note && <ProofNote />}
-              {href && (
-                <Button href={href} variant="text" icon={external ? 'external' : 'arrow'} newTab={external} class="text-[15px]">
-                  {f.linkLabel ?? 'See the record'}
-                </Button>
-              )}
+          {href && (
+            <p class="pt-1">
+              <Button href={href} variant="text" icon={newTab ? 'external' : 'arrow'} newTab={newTab} class="text-[15px]">
+                {f.linkLabel ?? 'See the record'}
+              </Button>
             </p>
           )}
         </div>
@@ -61,3 +58,4 @@ const shown = facts.filter((f) => !f.flag || isOn(f.flag));
     })
   }
 </ul>
+{withNameLink && <NameNote kind="pages" class="mt-4" />}

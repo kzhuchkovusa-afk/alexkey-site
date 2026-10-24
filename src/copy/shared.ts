@@ -6,7 +6,8 @@ import type { ServiceId } from '../lib/links';
 
 export const person = {
   name: 'Alex Key',
-  nativeName: 'Konstantin Z.',
+  /** Native name — schema.org alternateName only; on the page it appears just in NameNote. */
+  nativeName: 'Konstantin Zhuchkov',
   role: 'Managing Director, STEM Education Programs',
   org: 'GoCoding',
   orgLegal: 'ArgoPrep Center LLC',
@@ -15,13 +16,29 @@ export const person = {
   byline: 'Managing Director, STEM Education Programs at GoCoding',
 };
 
-/** TZ, «Имя: Alex Key и Konstantin Z.» — texts (EN, draft). */
-export const nameBridge = {
-  tooltip: 'Alex Key is my business name in the U.S. My native name is Konstantin Z.',
-  aboutTitle: 'Why "Alex Key"?',
-  aboutText:
-    "Alex Key is my business name in the U.S. My native name is Konstantin Z. — you'll see it on my CODDY years (2018–2022), my IEEE membership and my earlier press. Same person — in kids' education since 2018.",
+/**
+ * Name rule (review 24.10): the native name appears only where a visitor will meet it — next to links to pages
+ * and documents under that name. One visible NameNote per group of such links; nowhere else.
+ */
+export const nameNote = {
+  pages:
+    "Heads-up: on these pages I'm Konstantin Zhuchkov, my native name. In the U.S. I go by Alex Key — it's easier for everyone. Where there's a photo, you'll recognize me.",
+  articles:
+    "Heads-up: in these articles I'm Konstantin Zhuchkov, my native name. In the U.S. I go by Alex Key — it's easier for everyone. Where there's a photo, you'll recognize me.",
+  citation: "On the citation I'm Konstantin Zhuchkov, my native name. In the U.S. I go by Alex Key.",
+  testimonial: 'They knew me as Konstantin, my native name. In the U.S. I go by Alex Key.',
 };
+
+/**
+ * A link that opens a page or document under the native name: an external link on a fact marked `proof`,
+ * or a file from /proof/. Links inside the site (e.g. /about#credentials) don't count.
+ */
+export const isNativeNameLink = (href: string | null | undefined, proof?: boolean): boolean =>
+  Boolean(href && ((proof && /^https?:\/\//.test(href)) || href.startsWith('/proof/')));
+
+/** External pages and /proof/ documents open in a new tab. */
+export const opensNewTab = (href: string | null | undefined): boolean =>
+  Boolean(href && (/^https?:\/\//.test(href) || href.startsWith('/proof/')));
 
 /** Microcopy under the demo button — TZ, block 13. */
 export const demoNote = 'Your teacher or director can run it this week. No card, no contract.';
@@ -102,7 +119,6 @@ export const operatorReasons = [
   {
     title: 'An operator, not a theorist',
     text: 'Senior Instructor → Program Director → Head of Franchise Development. I taught the classes, ran the programs and led franchise development.',
-    proof: true,
   },
   {
     title: 'Product and system in one place',

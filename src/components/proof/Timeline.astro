@@ -1,10 +1,14 @@
 ---
-import ProofNote from './ProofNote.astro';
+import NameNote from './NameNote.astro';
 import Button from '../ui/Button.astro';
 import Txt from '../ui/Txt.astro';
 import { val } from '../../lib/env';
+import { isNativeNameLink, opensNewTab } from '../../copy/shared';
 
-/** About timeline (board 07): year · role · where · ProofNote; the current role gets the Key node. */
+/**
+ * About timeline (board 07): year · role · where · link; the current role gets the Key node.
+ * One NameNote under the list when an item links to a record under the native name.
+ */
 interface Item {
   year: string;
   role: string;
@@ -17,6 +21,7 @@ interface Props {
   items: Item[];
 }
 const { items } = Astro.props;
+const withNameLink = items.some((it) => isNativeNameLink(it.link ? val(it.link) : null, it.proof));
 ---
 
 <ol class="flex flex-col">
@@ -31,14 +36,8 @@ const { items } = Astro.props;
             <p class="text-[19px] leading-snug font-bold text-ink lg:text-[20px]">{it.role}</p>
             <p class="mt-1 flex flex-wrap items-center gap-x-2 text-small text-slate">
               <span><Txt text={it.where} /></span>
-              {it.proof && (
-                <>
-                  <span aria-hidden="true">·</span>
-                  <ProofNote />
-                </>
-              )}
               {href && (
-                <Button href={href} variant="text" icon="external" newTab class="text-[15px]">
+                <Button href={href} variant="text" icon={opensNewTab(href) ? 'external' : 'arrow'} newTab={opensNewTab(href)} class="text-[15px]">
                   See the record
                 </Button>
               )}
@@ -49,3 +48,4 @@ const { items } = Astro.props;
     })
   }
 </ol>
+{withNameLink && <NameNote kind="pages" class="mt-2" />}

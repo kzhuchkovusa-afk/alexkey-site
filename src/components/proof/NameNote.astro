@@ -1,0 +1,21 @@
+---
+import Icon from '../ui/Icon.astro';
+import { nameNote } from '../../copy/shared';
+
+/**
+ * Name rule (review 24.10): a visible line, not a tooltip — once per group of links to pages or documents
+ * under the native name (under the group heading or under the card grid). Slot: a trailing link.
+ */
+interface Props {
+  kind: keyof typeof nameNote;
+  class?: string;
+}
+const { kind, class: className } = Astro.props;
+---
+
+<p class:list={['flex items-start gap-2 text-caption text-slate', className]}>
+  <Icon name="info" size={16} class="mt-0.5" />
+  <span>
+    {nameNote[kind]}{Astro.slots.has('default') && ' '}<slot />
+  </span>
+</p>

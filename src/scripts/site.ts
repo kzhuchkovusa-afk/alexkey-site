@@ -1,8 +1,8 @@
 import { entryLabel, incomingUtm, loadGa, track } from './analytics';
 
 /**
- * The only site-wide JavaScript (DESIGN §12): mobile menu, sticky bar, name-bridge tooltip,
- * analytics + UTM. Everything works without it except these enhancements.
+ * The only site-wide JavaScript (DESIGN §12): mobile menu, sticky bar, analytics + UTM.
+ * Everything works without it except these enhancements.
  */
 
 const page = document.body.dataset.page ?? 'unknown';
@@ -125,39 +125,3 @@ if (bar && 'IntersectionObserver' in window) {
   document.querySelectorAll('[data-sticky-hide]').forEach((el) => hideObs.observe(el));
   update();
 }
-
-/* ---------- Name bridge tooltip: hover, focus, tap; Esc closes ---------- */
-
-document.querySelectorAll<HTMLElement>('[data-proofnote]').forEach((wrap) => {
-  const btn = wrap.querySelector('button');
-  const tip = wrap.querySelector<HTMLElement>('[role="tooltip"]');
-  if (!btn || !tip) return;
-  let pinned = false;
-  const place = () => {
-    tip.style.left = '0px';
-    const r = tip.getBoundingClientRect();
-    const overflow = r.right - (window.innerWidth - 12);
-    if (overflow > 0) tip.style.left = `${-overflow}px`;
-  };
-  const show = () => {
-    tip.hidden = false;
-    btn.setAttribute('aria-expanded', 'true');
-    place();
-  };
-  const hide = () => {
-    tip.hidden = true;
-    btn.setAttribute('aria-expanded', 'false');
-    pinned = false;
-  };
-  btn.addEventListener('click', () => {
-    pinned = !pinned || Boolean(tip.hidden);
-    if (pinned) show();
-    else hide();
-  });
-  wrap.addEventListener('mouseenter', show);
-  wrap.addEventListener('mouseleave', () => !pinned && hide());
-  btn.addEventListener('focus', show);
-  btn.addEventListener('blur', () => !pinned && hide());
-  document.addEventListener('keydown', (e) => e.key === 'Escape' && hide());
-  document.addEventListener('click', (e) => !wrap.contains(e.target as Node) && hide());
-});
