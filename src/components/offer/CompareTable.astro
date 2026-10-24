@@ -1,0 +1,109 @@
+---
+import { isTodo, showPending } from '../../lib/env';
+
+/**
+ * Block 5 · comparison: Franchise · Coach · Software · GoCoding for Business (ink frame).
+ * Below lg — cards, GoCoding first. Cells still TODO in site.config.ts: placeholder locally, "—" never invented.
+ */
+interface Row {
+  label: string;
+  franchise: string;
+  coach: string;
+  software: string;
+  ours: string;
+}
+interface Props {
+  rows: Row[];
+}
+const { rows } = Astro.props;
+const cols = [
+  { key: 'franchise', label: 'Franchise' },
+  { key: 'coach', label: 'Coach' },
+  { key: 'software', label: 'Software' },
+] as const;
+const ours = 'GoCoding for Business';
+const cell = (v: string) => (isTodo(v) ? (showPending ? `[${v.replace(/^TODO:\s*/, '')}]` : null) : v);
+// A column with a missing cell is not shown in public builds.
+const visibleCols = cols.filter((c) => rows.every((r) => cell(r[c.key]) !== null));
+---
+
+<div class="hidden lg:block">
+  <table class="w-full table-fixed border-collapse text-left">
+    <caption class="sr-only">How {ours} compares</caption>
+    <colgroup>
+      <col class="w-[200px]" />
+      {visibleCols.map(() => <col />)}
+      <col class="w-[27%]" />
+    </colgroup>
+    <thead>
+      <tr>
+        <td></td>
+        {visibleCols.map((c) => <th scope="col" class="px-5 py-4.5 text-[17px] font-bold text-slate">{c.label}</th>)}
+        <th scope="col" class="rounded-t-card bg-ink px-5.5 py-4.5 text-[17px] font-extrabold text-paper">
+          <span class="inline-flex items-center gap-2.5">{ours}<span aria-hidden="true" class="size-[9px] bg-key"></span></span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((r, i) => (
+          <tr class="border-t border-line last:border-b">
+            <th scope="row" class="px-5 py-4.5 align-top text-[16px] font-bold text-ink">{r.label}</th>
+            {visibleCols.map((c) => {
+              const v = cell(r[c.key]);
+              return (
+                <td class:list={['px-5 py-4.5 align-top text-[17px] leading-[1.45]', isTodo(r[c.key]) ? 'text-slate' : 'text-body']}>
+                  {isTodo(r[c.key]) ? <mark class="ph">{v}</mark> : v}
+                </td>
+              );
+            })}
+            <td
+              class:list={[
+                'px-5.5 py-4.5 align-top text-[17px] leading-[1.45] font-bold text-ink shadow-[inset_2px_0_0_var(--color-ink),inset_-2px_0_0_var(--color-ink)]',
+                i === rows.length - 1 &&
+                  'rounded-b-card shadow-[inset_2px_0_0_var(--color-ink),inset_-2px_0_0_var(--color-ink),inset_0_-2px_0_var(--color-ink)]',
+              ]}
+            >
+              {r.ours}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<div class="flex flex-col gap-3 lg:hidden">
+  <section aria-label={ours} class="overflow-hidden rounded-card shadow-[inset_0_0_0_2px_var(--color-ink)]">
+    <h3 class="flex items-center gap-2.5 bg-ink px-5 py-4 text-[18px] font-extrabold text-paper">
+      {ours}<span aria-hidden="true" class="size-[9px] bg-key"></span>
+    </h3>
+    <dl class="flex flex-col gap-3 px-5 py-4.5">
+      {
+        rows.map((r) => (
+          <div>
+            <dt class="text-caption text-slate">{r.label}</dt>
+            <dd class="text-[17px] leading-snug font-bold text-ink">{r.ours}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+  {
+    visibleCols.map((c) => (
+      <section aria-label={c.label} class="rounded-card px-5 py-4.5 shadow-[inset_0_0_0_1px_var(--color-line)]">
+        <h3 class="mb-3 text-[17px] font-bold text-slate">{c.label}</h3>
+        <dl class="flex flex-col gap-3">
+          {rows.map((r) => (
+            <div>
+              <dt class="text-caption text-slate">{r.label}</dt>
+              <dd class="text-[17px] leading-snug text-body">
+                {isTodo(r[c.key]) ? <mark class="ph">{cell(r[c.key])}</mark> : r[c.key]}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    ))
+  }
+</div>

@@ -1,0 +1,135 @@
+@import "tailwindcss";
+@import "../../design/theme.css";
+
+/* The brand font is registered by the Astro Fonts API (astro.config.mjs) under --font-brand,
+   with metric-adjusted Arial fallback. Same family as in theme.css. */
+@theme {
+  --font-sans: var(--font-brand), "Schibsted Grotesk Variable", Arial, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+  }
+  body {
+    background: var(--color-paper);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1 0 auto;
+  }
+  a {
+    color: inherit;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  em,
+  cite {
+    font-style: italic;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html:focus-within {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* Article body (Playbook) — 640 px measure, 18 → 20 px. */
+@layer components {
+  .prose-ak {
+    max-width: var(--container-measure);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--color-body);
+  }
+  .prose-ak > * + * {
+    margin-top: 1.1em;
+  }
+  .prose-ak h2 {
+    margin-top: 2em;
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    letter-spacing: var(--text-h3--letter-spacing);
+    font-weight: 700;
+  }
+  .prose-ak h3 {
+    margin-top: 1.6em;
+    font-size: var(--text-lead);
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+  .prose-ak ol,
+  .prose-ak ul {
+    padding-left: 1.4em;
+  }
+  .prose-ak ol {
+    list-style: decimal;
+  }
+  .prose-ak ul {
+    list-style: square;
+  }
+  .prose-ak li + li {
+    margin-top: 0.4em;
+  }
+  .prose-ak li::marker {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+  .prose-ak strong {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+  .prose-ak blockquote {
+    border-left: 2px solid var(--color-ink);
+    padding-left: 1em;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  .prose-ak a {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 4px;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  .inline-arrow {
+    display: inline-block;
+    width: 0.9em;
+    height: 0.8em;
+    vertical-align: -0.05em;
+  }
+  .prose-ak hr {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+    margin-block: 2em;
+  }
+
+  /* Legal pages */
+  .prose-legal h2 {
+    margin-top: 2em;
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+  .prose-legal p,
+  .prose-legal ul {
+    margin-top: 0.9em;
+  }
+  .prose-legal ul {
+    list-style: square;
+    padding-left: 1.4em;
+  }
+
+  /* Dev-only placeholder marker (never rendered in public builds). */
+  .ph {
+    background: var(--color-key-tint);
+    color: var(--color-ink);
+    outline: 1px dashed var(--color-key-press);
+    outline-offset: 1px;
+    font-style: normal;
+  }
+}

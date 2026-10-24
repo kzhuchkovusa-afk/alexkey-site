@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/layout/Section.astro';
+import ArticleCard from '../../components/content/ArticleCard.astro';
+import Tag from '../../components/ui/Tag.astro';
+import { rubrics } from '../../copy/shared';
+import { readingMinutes, rubricLabel, visibleArticles } from '../../lib/articles';
+import { showPending } from '../../lib/env';
+
+/** /playbook — catalog with a rubric filter (TZ: 5 rubrics). Works without JS: all cards are shown. */
+const articles = (await visibleArticles()).filter((a) => !a.data.placeholder || showPending);
+---
+
+<Base
+  title="Playbook — breakdowns for learning center owners"
+  description="Short breakdowns you can apply in your center today: staffing and curriculum, trial lessons, retention, Monday numbers."
+  page="playbook"
+  og="playbook"
+>
+  <section data-hero aria-labelledby="hero-title" class="bg-paper">
+    <div class="mx-auto flex max-w-[calc(var(--container-site)+2*var(--page-pad))] flex-col gap-5 px-(--page-pad) pt-8 pb-8 lg:gap-6 lg:pt-20 lg:pb-12">
+      <h1 id="hero-title" class="text-h1">Playbook</h1>
+      <p class="max-w-measure text-lead text-body">Short breakdowns you can apply in your center today.</p>
+      <div role="group" aria-label="Filter by rubric" class="flex flex-wrap gap-2 pt-2" data-filter>
+        <Tag selected data-rubric="all">All</Tag>
+        {rubrics.map((r) => <Tag data-rubric={r.id}>{r.label}</Tag>)}
+      </div>
+    </div>
+  </section>
+
+  <Section pad="none" class="pb-(--section-y)" label="Articles">
+    {
+      articles.length > 0 ? (
+        <ul class="grid gap-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-4" data-articles>
+          {articles.map((a) => (
+            <li data-rubric={a.data.rubric}>
+              <ArticleCard href={`/playbook/${a.id}`} rubric={rubricLabel(a.data.rubric)} title={a.data.title} gist={a.data.gist} minutes={readingMinutes(a)} headingLevel="h2" />
+            </li>
+          ))}
+        </ul>
+      ) : null
+    }
+    <p data-empty hidden={articles.length > 0} class="text-body text-slate">New breakdowns are on the way.</p>
+  </Section>
+</Base>
+
+<script>
+  const filter = document.querySelector('[data-filter]');
+  const items = document.querySelectorAll<HTMLElement>('[data-articles] > li');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+  filter?.addEventListener('click', (e) => {
+    const btn = (e.target as Element).closest<HTMLButtonElement>('button[data-rubric]');
+    if (!btn) return;
+    const id = btn.dataset.rubric;
+    filter.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+    let shown = 0;
+    items.forEach((li) => {
+      const on = id === 'all' || li.dataset.rubric === id;
+      li.hidden = !on;
+      if (on) shown++;
+    });
+    if (empty) empty.hidden = shown > 0;
+  });
+</script>

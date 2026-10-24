@@ -1,0 +1,20 @@
+---
+/** Block 7 · benefits — change in the center, not a feature. Statements on Mist (board 06). */
+interface Props {
+  items: string[];
+  /** Card surface: mist on a paper section (default), paper on a mist section. */
+  card?: 'mist' | 'paper';
+}
+const { items, card = 'mist' } = Astro.props;
+---
+
+<ul class:list={['grid gap-3 md:grid-cols-2 lg:gap-4', items.length % 3 === 0 ? 'lg:grid-cols-3' : 'lg:grid-cols-2']}>
+  {
+    items.map((text) => (
+      <li class:list={['flex flex-col gap-4 rounded-card px-6 pt-6 pb-7 lg:px-7 lg:pt-6.5', card === 'mist' ? 'bg-mist' : 'bg-paper']}>
+        <span aria-hidden="true" class="ink-square size-2.5" />
+        <p class="text-[19px] leading-[1.3] font-bold tracking-[-0.01em] text-ink lg:text-[21px]">{text}</p>
+      </li>
+    ))
+  }
+</ul>

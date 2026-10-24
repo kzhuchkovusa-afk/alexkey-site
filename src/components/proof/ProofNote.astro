@@ -1,0 +1,44 @@
+---
+import Icon from '../ui/Icon.astro';
+import { nameBridge } from '../../copy/shared';
+
+/**
+ * Name bridge (6.5): "as Konstantin Z." next to every proof that is under the native name.
+ * Tooltip on hover, focus and tap; Esc closes. Text — TZ v1.0, section «Имя».
+ */
+interface Props {
+  tone?: 'light' | 'ink';
+  /** "about Konstantin Z." for testimonials that name him. */
+  prefix?: 'as' | 'about';
+  class?: string;
+}
+const { tone = 'light', prefix = 'as', class: className } = Astro.props;
+const id = `pn-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<span class:list={['relative inline-flex align-baseline', className]} data-proofnote>
+  <button
+    type="button"
+    aria-expanded="false"
+    aria-controls={id}
+    aria-describedby={id}
+    class:list={[
+      'proof-note -my-3 inline-flex items-center gap-1 py-3 text-left decoration-dotted',
+      tone === 'ink' ? 'font-semibold text-paper!' : '',
+    ]}
+  >
+    {prefix} Konstantin Z.
+    <Icon name="info" size={14} class={tone === 'ink' ? 'text-on-ink-muted' : 'text-slate'} />
+  </button>
+  <span
+    id={id}
+    role="tooltip"
+    hidden
+    class:list={[
+      'absolute top-full left-0 z-30 mt-1 w-[min(18rem,calc(100vw-2.5rem))] rounded-tip px-4 py-3 text-small leading-snug font-normal shadow-float',
+      tone === 'ink' ? 'bg-paper text-ink' : 'bg-ink text-paper',
+    ]}
+  >
+    {nameBridge.tooltip}
+  </span>
+</span>

@@ -1,0 +1,27 @@
+---
+import Tag from '../ui/Tag.astro';
+import Icon from '../ui/Icon.astro';
+
+/** Playbook card (board 07): rubric · title · one-line gist · reading time. No images. */
+interface Props {
+  href: string;
+  rubric: string;
+  title: string;
+  gist: string;
+  minutes: number;
+  headingLevel?: 'h2' | 'h3';
+}
+const { href, rubric, title, gist, minutes, headingLevel: H = 'h3' } = Astro.props;
+---
+
+<article class="relative flex h-full flex-col gap-3.5 rounded-card p-6 shadow-[inset_0_0_0_1px_var(--color-line)] transition-shadow duration-(--dur-fast) hover:shadow-[inset_0_0_0_1.5px_var(--color-ink)] lg:p-7">
+  <Tag static>{rubric}</Tag>
+  <H class="text-[22px] leading-tight font-extrabold tracking-[-0.015em] text-ink lg:text-[26px]">
+    <a href={href} class="no-underline after:absolute after:inset-0 after:rounded-card">{title}</a>
+  </H>
+  <p class="grow text-[17px] leading-normal text-body">{gist}</p>
+  <p class="flex items-center justify-between text-[15px] text-slate">
+    <span>{minutes} min read</span>
+    <Icon name="arrow" size={22} class="text-ink" />
+  </p>
+</article>

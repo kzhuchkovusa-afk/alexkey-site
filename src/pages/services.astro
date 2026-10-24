@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/layout/Section.astro';
+import Button from '../components/ui/Button.astro';
+import Eyebrow from '../components/ui/Eyebrow.astro';
+import ServiceCard from '../components/offer/ServiceCard.astro';
+import { services } from '../copy/shared';
+import { home } from '../copy/home';
+import { callUrl, demoUrl } from '../lib/links';
+
+/** /services — four cards (promise, for whom, button) + "Not sure where to start? Book 15 minutes." */
+const list = Object.values(services);
+---
+
+<Base
+  title="Services — STEM programs and the systems to fill them"
+  description="STEM Programs, Sales & Retention, Automation & AI, Marketing & Student Flow — for U.S. learning centers, afterschool and enrichment programs."
+  page="services"
+  og="services"
+>
+  <section data-hero aria-labelledby="hero-title" class="bg-paper">
+    <div class="mx-auto flex max-w-[calc(var(--container-site)+2*var(--page-pad))] flex-col gap-5 px-(--page-pad) pt-8 pb-12 lg:gap-7 lg:pt-20 lg:pb-16">
+      <Eyebrow>Services</Eyebrow>
+      <h1 id="hero-title" class="max-w-[52rem] text-h1">{home.solutionTitle}</h1>
+    </div>
+  </section>
+
+  <Section pad="none" class="pb-12 lg:pb-16" label="Services">
+    <ul class="grid gap-3 md:grid-cols-2 lg:gap-4">
+      {
+        list.map((s, i) => (
+          <li>
+            <ServiceCard href={s.href} name={s.name} promise={s.promise} note={s.forWhom} num={`0${i + 1}`} headingLevel="h2">
+              <div class="relative z-10 pt-1">
+                {s.id === 'programs' ? (
+                  <Button href={demoUrl('services', `card-${s.id}`)} icon="arrow" cta="services-card" class="w-full md:w-auto">
+                    Get a free demo lesson
+                  </Button>
+                ) : (
+                  <Button href={callUrl('services', `card-${s.id}`, s.id)} variant="secondary" cta="services-card" class="w-full md:w-auto">
+                    Book a 15-min call
+                  </Button>
+                )}
+              </div>
+            </ServiceCard>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section tone="mist" labelledby="unsure-title">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <h2 id="unsure-title" class="max-w-[40rem] text-h2">Not sure where to start? Book 15 minutes.</h2>
+      <Button href={callUrl('services', 'unsure', 'not-sure')} size="lg" icon="arrow" cta="services-unsure" class="w-full lg:w-auto">
+        Book a 15-min call
+      </Button>
+    </div>
+  </Section>
+</Base>

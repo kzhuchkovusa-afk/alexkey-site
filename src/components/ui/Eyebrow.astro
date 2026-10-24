@@ -1,0 +1,14 @@
+---
+/** Eyebrow: ink square + short label above a heading. */
+interface Props {
+  tone?: 'light' | 'ink';
+  class?: string;
+  as?: 'p' | 'span' | 'div';
+}
+const { tone = 'light', class: className, as: Tag = 'p' } = Astro.props;
+---
+
+<Tag class:list={['flex items-center gap-2.5 text-small font-semibold', tone === 'ink' ? 'text-on-ink-muted' : 'text-ink', className]}>
+  <span aria-hidden="true" class:list={['size-[9px] shrink-0', tone === 'ink' ? 'bg-on-ink-muted' : 'bg-ink']}></span>
+  <slot />
+</Tag>

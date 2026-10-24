@@ -1,0 +1,87 @@
+---
+import Icon from './Icon.astro';
+
+/**
+ * Button (board 05). Verb + result. One primary button per screen.
+ * Analytics: links to the demo form, /call and the company /programs page are
+ * tracked by href in src/scripts/site.ts; `cta` names the place of the click.
+ */
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary' | 'text';
+  /** lg — 56 px (phone, hero); md — 56 → 52 px on desktop; sm — 44 px (header). */
+  size?: 'lg' | 'md' | 'sm';
+  tone?: 'light' | 'ink';
+  icon?: 'arrow' | 'external' | 'none';
+  full?: boolean;
+  /** Place of the click for analytics, e.g. "home-hero". */
+  cta?: string;
+  newTab?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  tone = 'light',
+  icon = 'none',
+  full = false,
+  cta,
+  newTab = false,
+  class: className,
+} = Astro.props;
+
+const isExternal = /^https?:\/\//.test(href);
+const openNew = newTab;
+
+const base =
+  'inline-flex items-center justify-center gap-2.5 rounded-control text-ui font-bold no-underline transition-[background-color,box-shadow,color] duration-(--dur-fast) ease-out';
+const sizes = {
+  lg: 'h-14 px-6',
+  md: 'h-14 px-6 lg:h-13',
+  sm: 'h-11 px-3.5 text-[15px] lg:px-5 lg:text-ui',
+};
+const variants = {
+  primary: 'bg-key text-ink hover:bg-key-press active:bg-key-press',
+  secondary:
+    tone === 'ink'
+      ? 'text-paper shadow-[inset_0_0_0_1.5px_var(--color-on-ink-muted)] hover:bg-ink-2 hover:shadow-[inset_0_0_0_1.5px_var(--color-paper)]'
+      : 'text-ink shadow-[inset_0_0_0_1.5px_var(--color-ink)] hover:bg-mist',
+  text: '',
+};
+---
+
+{
+  variant === 'text' ? (
+    <a
+      href={href}
+      data-cta={cta}
+      target={openNew ? '_blank' : undefined}
+      rel={isExternal ? 'noopener' : undefined}
+      class:list={[
+        'group inline-flex min-h-11 items-center gap-1.5 font-bold',
+        tone === 'ink' ? 'text-paper' : 'text-ink',
+        className,
+      ]}
+    >
+      <span class="underline decoration-[1.5px] underline-offset-4 group-hover:decoration-2">
+        <slot />
+      </span>
+      {icon !== 'none' && <Icon name={icon} size={18} />}
+      {openNew && <span class="sr-only">(opens in a new tab)</span>}
+    </a>
+  ) : (
+    <a
+      href={href}
+      data-cta={cta}
+      target={openNew ? '_blank' : undefined}
+      rel={isExternal ? 'noopener' : undefined}
+      class:list={[base, sizes[size], variants[variant], full && 'w-full', className]}
+    >
+      <slot />
+      {icon !== 'none' && <Icon name={icon} size={18} />}
+      {openNew && <span class="sr-only">(opens in a new tab)</span>}
+    </a>
+  )
+}

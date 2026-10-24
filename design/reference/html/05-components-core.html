@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Alex Key — core components</title>
+
+</head>
+<body>
+<div data-board>
+<div hidden-helmet style="display:contents">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0F1F38}a:hover{color:#1B2E4F}
+</style>
+</div>
+<div style="width: 1440px; height: 2660px; box-sizing: border-box; padding: 64px 80px; display: flex; flex-direction: column; gap: 56px; font-family: 'Schibsted Grotesk', 'Onest', Arial, sans-serif; color: #0F1F38; background: #FFFFFF; overflow: hidden;">
+  <header style="display: flex; justify-content: space-between; align-items: flex-end; gap: 48px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <span style="font-size: 15px; font-weight: 600; color: #55627A;">05 · Components</span>
+      <h1 lang="en" style="margin: 0; font-size: 56px; font-weight: 800; letter-spacing: -0.03em; line-height: 1;">Core</h1>
+    </div>
+    <p style="margin: 0; max-width: 620px; font-size: 18px; line-height: 1.55; color: #2F3D56;">Знак, шапка, кнопки, ключевые метки, мост имени, полоса доказательств, формы и подвал — из них собираются все страницы.</p>
+  </header>
+
+  <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px;">
+    <section style="display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Key mark &amp; signature</h2><span style="font-size: 14px; color: #55627A;">Знак — ключ. Имя — тихой подписью</span></div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;">
+        <div style="height: 136px; border-radius: 12px; box-shadow: inset 0 0 0 1px #DCE1E8; display: flex; align-items: center; justify-content: center;"><span lang="en" style="display: inline-flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 600; letter-spacing: -0.01em;"><span style="width: 22px; height: 22px; background: #F5A524;"></span>Alex Key</span></div>
+        <div style="height: 136px; border-radius: 12px; background: #0F1F38; color: #FFFFFF; display: flex; align-items: center; justify-content: center;"><span lang="en" style="display: inline-flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 600; letter-spacing: -0.01em;"><span style="width: 22px; height: 22px; background: #F5A524;"></span>Alex Key</span></div>
+      </div>
+      <div style="display: flex; gap: 24px; align-items: flex-end;">
+        <span style="display: flex; flex-direction: column; gap: 8px; align-items: center; font-size: 13px; color: #55627A;"><span style="width: 64px; height: 64px; border-radius: 12px; background: #0F1F38; display: flex; align-items: flex-end; justify-content: flex-end; padding: 14px; box-sizing: border-box;"><span style="width: 18px; height: 18px; background: #F5A524;"></span></span>64 · аватар</span>
+        <span style="display: flex; flex-direction: column; gap: 8px; align-items: center; font-size: 13px; color: #55627A;"><span style="width: 32px; height: 32px; border-radius: 7px; background: #0F1F38; display: flex; align-items: flex-end; justify-content: flex-end; padding: 7px; box-sizing: border-box;"><span style="width: 9px; height: 9px; background: #F5A524;"></span></span>32 · фавикон</span>
+        <span style="display: flex; flex-direction: column; gap: 8px; align-items: center; font-size: 13px; color: #55627A;"><span style="width: 16px; height: 16px; border-radius: 3px; background: #0F1F38; display: flex; align-items: flex-end; justify-content: flex-end; padding: 3px; box-sizing: border-box;"><span style="width: 5px; height: 5px; background: #F5A524;"></span></span>16</span>
+        <p style="margin: 0 0 0 12px; flex: 1; font-size: 15px; line-height: 1.5; color: #2F3D56;">Знак — янтарный ключ: фавикон, аватар, карточки постов. Имя рядом — вес 600, не крупнее 18 px. Громко имя звучит один раз — в интро-блоке страницы.</p>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Eyebrow, intro, tags</h2><span style="font-size: 14px; color: #55627A;">Интро — единственный блок с именем на странице</span></div>
+      <div lang="en" style="border-radius: 12px; box-shadow: inset 0 0 0 1px #DCE1E8; padding: 24px; display: flex; flex-direction: column; gap: 22px;">
+        <span style="display: inline-flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600;"><span style="width: 10px; height: 10px; background: #0F1F38;"></span>For U.S. afterschool &amp; tutoring centers</span>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 50%; background: #E8EDF4; display: flex; align-items: center; justify-content: center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7D889C" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"></circle><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"></path></svg></span>
+          <span style="display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 17px; font-weight: 700;">Alex Key</span><span style="font-size: 15px; line-height: 1.35; color: #55627A;">Managing Director, STEM Education Programs · GoCoding, Brooklyn</span></span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="display: inline-flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 6px; background: #0F1F38; color: #FFFFFF; font-size: 15px; font-weight: 600;">All</span>
+          <span style="display: inline-flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 15px; font-weight: 600;">Scaling without chaos</span>
+          <span style="display: inline-flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 15px; font-weight: 600;">Staffing &amp; curriculum</span>
+          <span style="display: inline-flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 15px; font-weight: 600;">Processes</span>
+          <span style="display: inline-flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 15px; font-weight: 600;">Sales</span>
+          <span style="display: inline-flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 15px; font-weight: 600;">Student flow</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section style="display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Header &amp; sticky bar</h2><span style="font-size: 14px; color: #55627A;">Шапка: знак · Services · About · Playbook · главная кнопка. На телефоне внизу — липкая панель с двумя действиями</span></div>
+    <div lang="en" style="height: 80px; box-sizing: border-box; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; border-radius: 12px; box-shadow: inset 0 0 0 1px #DCE1E8; background: #FFFFFF;">
+      <span style="display: inline-flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 600; letter-spacing: -0.01em;"><span style="width: 14px; height: 14px; background: #F5A524;"></span>Alex Key</span>
+      <nav style="display: flex; align-items: center; gap: 36px;">
+        <a href="#services" style="font-size: 17px; font-weight: 600; color: #0F1F38; text-decoration: none;">Services</a>
+        <a href="#about" style="font-size: 17px; font-weight: 600; color: #0F1F38; text-decoration: none;">About</a>
+        <a href="#playbook" style="font-size: 17px; font-weight: 600; color: #0F1F38; text-decoration: none;">Playbook</a>
+        <a href="#demo" style="display: inline-flex; height: 48px; padding: 0 20px; align-items: center; border-radius: 6px; background: #F5A524; color: #0F1F38; font-size: 17px; font-weight: 700; text-decoration: none;">Free demo lesson</a>
+      </nav>
+    </div>
+    <div style="display: flex; gap: 40px; align-items: flex-start;">
+      <div lang="en" style="width: 390px; height: 64px; box-sizing: border-box; padding: 0 8px 0 20px; display: flex; align-items: center; justify-content: space-between; background: #FFFFFF; border-radius: 12px; box-shadow: inset 0 0 0 1px #DCE1E8;">
+        <span style="display: inline-flex; align-items: center; gap: 9px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em;"><span style="width: 13px; height: 13px; background: #F5A524;"></span>Alex Key</span>
+        <span style="display: flex; align-items: center; gap: 2px;">
+          <a href="#demo" style="display: inline-flex; height: 44px; padding: 0 14px; align-items: center; border-radius: 6px; background: #F5A524; color: #0F1F38; font-size: 15px; font-weight: 700; text-decoration: none;">Free demo lesson</a>
+          <button type="button" aria-label="Open menu" style="width: 44px; height: 44px; border: 0; padding: 0; background: transparent; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+        </span>
+      </div>
+      <div lang="en" style="width: 390px; box-sizing: border-box; padding: 12px 16px; display: flex; gap: 10px; background: #FFFFFF; border-radius: 12px; box-shadow: 0 1px 2px rgba(15, 31, 56, 0.06), 0 12px 32px rgba(15, 31, 56, 0.14);">
+        <a href="#demo" style="flex: 1; display: inline-flex; height: 52px; align-items: center; justify-content: center; border-radius: 6px; background: #F5A524; color: #0F1F38; font-size: 16px; font-weight: 700; text-decoration: none;">Free demo lesson</a>
+        <a href="#call" style="display: inline-flex; height: 52px; padding: 0 16px; align-items: center; justify-content: center; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #0F1F38; color: #0F1F38; font-size: 16px; font-weight: 700; text-decoration: none;">15-min call</a>
+      </div>
+      <p style="margin: 0; flex: 1; font-size: 15px; line-height: 1.5; color: #2F3D56;">Липкая панель появляется, когда hero ушёл с экрана, и прячется над формой и в подвале. Высота кнопок 52, отступы 12 / 16.</p>
+    </div>
+  </section>
+
+  <div style="display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px;">
+    <section style="display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Buttons</h2><span style="font-size: 14px; color: #55627A;">Глагол + результат. Одна главная кнопка на экран</span></div>
+      <div lang="en" style="display: grid; grid-template-columns: 96px repeat(4, minmax(0, 1fr)); gap: 14px 12px; align-items: center;">
+        <span></span>
+        <span lang="ru" style="font-size: 13px; font-weight: 700; color: #55627A;">Обычная</span>
+        <span lang="ru" style="font-size: 13px; font-weight: 700; color: #55627A;">Наведение</span>
+        <span lang="ru" style="font-size: 13px; font-weight: 700; color: #55627A;">Фокус</span>
+        <span lang="ru" style="font-size: 13px; font-weight: 700; color: #55627A;">Недоступна</span>
+
+        <span style="font-size: 14px; font-weight: 700;">Primary</span>
+        <span style="display: flex; height: 52px; align-items: center; justify-content: center; border-radius: 6px; background: #F5A524; color: #0F1F38; font-size: 16px; font-weight: 700;">Get a free demo</span>
+        <span style="display: flex; height: 52px; align-items: center; justify-content: center; border-radius: 6px; background: #E0901A; color: #0F1F38; font-size: 16px; font-weight: 700;">Get a free demo</span>
+        <span style="display: flex; height: 52px; align-items: center; justify-content: center; border-radius: 6px; background: #F5A524; color: #0F1F38; font-size: 16px; font-weight: 700; outline: 3px solid #0F1F38; outline-offset: 3px;">Get a free demo</span>
+        <span style="display: flex; height: 52px; align-items: center; justify-content: center; border-radius: 6px; background: #E6E9EE; color: #6B768B; font-size: 16px; font-weight: 700;">Get a free demo</span>
+
+        <span style="font-size: 14px; font-weight: 700;">Secondary</span>
+        <span style="display: flex; height: 52px; align-items: center; justify-content: center; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #0F1F38; font-size: 16px; font-weight: 700;">Book a call</span>
+        <span style="display: flex; height: 52px; align-items: center; justify-content: center; border-radius: 6px; background: #F1F3F6; box-shadow: inset 0 0 0 1.5px #0F1F38; font-size: 16px; font-weight: 700;">Book a call</span>
+        <span style="display: flex; height: 52px; align-items: center; justify-content: center; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #0F1F38; font-size: 16px; font-weight: 700; outline: 3px solid #0F1F38; outline-offset: 3px;">Book a call</span>
+        <span style="display: flex; height: 52px; align-items: center; justify-content: center; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #C9D0DA; color: #6B768B; font-size: 16px; font-weight: 700;">Book a call</span>
+
+        <span style="font-size: 14px; font-weight: 700;">Text link</span>
+        <span style="display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px;">How it works<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+        <span style="display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 4px;">How it works<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+        <span style="display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; outline: 3px solid #0F1F38; outline-offset: 4px; border-radius: 2px; width: fit-content;">How it works<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+        <span style="display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; color: #6B768B;">How it works</span>
+      </div>
+      <div lang="en" style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap; border-radius: 12px; background: #0F1F38; padding: 22px 24px;">
+        <span style="display: inline-flex; height: 56px; padding: 0 24px; align-items: center; gap: 10px; border-radius: 6px; background: #F5A524; color: #0F1F38; font-size: 17px; font-weight: 700;">Get a free demo lesson<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+        <span style="display: inline-flex; height: 56px; padding: 0 24px; align-items: center; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #AAB6CB; color: #FFFFFF; font-size: 17px; font-weight: 700;">Book a 15-min call</span>
+        <span lang="ru" style="font-size: 14px; line-height: 1.45; color: #AAB6CB; flex: 1; min-width: 200px;">На Ink: главная остаётся янтарной, вторая — контурная белая.</span>
+      </div>
+      <div style="display: flex; gap: 24px; font-size: 14px; line-height: 1.5; color: #2F3D56;">
+        <span><span style="font-weight: 700; color: #0F1F38;">L 56</span> — телефон, hero, на всю ширину</span>
+        <span><span style="font-weight: 700; color: #0F1F38;">M 52</span> — десктоп</span>
+        <span><span style="font-weight: 700; color: #0F1F38;">S 44</span> — шапка</span>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Key marks</h2><span style="font-size: 14px; color: #55627A;">Ключ отмечает только главное</span></div>
+      <div lang="en" style="border-radius: 12px; box-shadow: inset 0 0 0 1px #DCE1E8; padding: 24px; display: flex; flex-direction: column; gap: 22px;">
+        <p style="margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.12;">Trials that end with <span style="background: linear-gradient(180deg, transparent 60%, #F5A524 60%, #F5A524 94%, transparent 94%); padding: 0 0.04em; -webkit-box-decoration-break: clone; box-decoration-break: clone;">a date on the calendar.</span></p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <span style="display: flex; gap: 12px; align-items: baseline; font-size: 17px; line-height: 1.45;"><span style="width: 8px; height: 8px; flex-shrink: 0; background: #0F1F38;"></span>A new program in your rooms in 2 weeks.</span>
+          <span style="display: flex; gap: 12px; align-items: baseline; font-size: 17px; line-height: 1.45;"><span style="width: 8px; height: 8px; flex-shrink: 0; background: #0F1F38;"></span>Taught by staff you already have.</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 16px; font-weight: 600;">
+          <span style="display: inline-flex; align-items: center; gap: 10px;"><span style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #F5A524; font-size: 15px; font-weight: 800;">1</span>15-min call</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7D889C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          <span style="display: inline-flex; align-items: center; gap: 10px;"><span style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #0F1F38; color: #FFFFFF; font-size: 15px; font-weight: 800;">2</span>Plan</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7D889C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          <span style="display: inline-flex; align-items: center; gap: 10px;"><span style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #0F1F38; color: #FFFFFF; font-size: 15px; font-weight: 800;">3</span>Launch</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+          <span style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 76px; border-radius: 8px; box-shadow: inset 0 0 0 1px #DCE1E8; font-size: 40px; font-weight: 800; letter-spacing: -0.04em;">48<svg width="40" height="18" viewBox="0 0 40 18" fill="none" aria-hidden="true"><path d="M1.5 9h34M28 2l7.5 7L28 16" stroke="#0F1F38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>158</span>
+          <span style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 76px; border-radius: 8px; background: #0F1F38; color: #FFFFFF; font-size: 40px; font-weight: 800; letter-spacing: -0.04em;">48<svg width="40" height="18" viewBox="0 0 40 18" fill="none" aria-hidden="true"><path d="M1.5 9h34M28 2l7.5 7L28 16" stroke="#F5A524" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>158</span>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2F3D56;">Маркер — одна фраза в H1. Шаг «1» янтарный, потому что это следующий шаг. Маркеры списков и стрелки на белом — Ink, на синем стрелка — Key.</p>
+    </section>
+  </div>
+
+  <section style="display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Proof band</h2><span style="font-size: 14px; color: #55627A;">Сразу под hero. Большая цифра — якорь, остальное — факты с одной сноской</span></div>
+    <div lang="en" style="border-radius: 12px; background: #0F1F38; color: #FFFFFF; padding: 48px 56px 36px; display: flex; flex-direction: column; gap: 36px;">
+      <div style="display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.75fr); gap: 48px; align-items: end;">
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <span style="display: flex; align-items: center; gap: 16px; font-size: 104px; font-weight: 800; letter-spacing: -0.045em; line-height: 0.82; font-variant-numeric: tabular-nums;">48<svg width="80" height="33" viewBox="0 0 88 36" fill="none" aria-hidden="true" style="flex-shrink: 0;"><path d="M3 18h78M67 5l14 13-14 13" stroke="#F5A524" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path></svg>158</span>
+          <span style="font-size: 17px; line-height: 1.45; color: #AAB6CB;">locations in a kids’ coding school network · <span style="white-space: nowrap;">2018–2022</span></span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));">
+          <span style="display: flex; flex-direction: column; gap: 6px; padding: 4px 24px; border-left: 1px solid #2C3F5F;"><span style="font-size: 32px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05;">20+</span><span style="font-size: 15px; line-height: 1.4; color: #AAB6CB;">countries</span></span>
+          <span style="display: flex; flex-direction: column; gap: 6px; padding: 4px 24px; border-left: 1px solid #2C3F5F;"><span style="font-size: 32px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05;">IEEE</span><span style="font-size: 15px; line-height: 1.4; color: #AAB6CB;">Senior Member</span></span>
+          <span style="display: flex; flex-direction: column; gap: 6px; padding: 4px 24px; border-left: 1px solid #2C3F5F;"><span style="font-size: 32px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05;">AMA</span><span style="font-size: 15px; line-height: 1.4; color: #AAB6CB;">South Florida Board of Directors</span></span>
+          <span style="display: flex; flex-direction: column; gap: 6px; padding: 4px 24px; border-left: 1px solid #2C3F5F;"><span style="font-size: 32px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05;">Author</span><span style="font-size: 15px; line-height: 1.4; color: #AAB6CB;">No-Marketer Marketing</span></span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; border-top: 1px solid #2C3F5F; padding-top: 18px; font-size: 14px; line-height: 1.45; color: #AAB6CB;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#AAB6CB" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 11v5.5M12 7.8v.2"></path></svg><span><span style="color: #FFFFFF; font-weight: 600; text-decoration: underline dotted; text-underline-offset: 3px;">as Konstantin Z.</span> — these records are under my native name.</span></div>
+    </div>
+  </section>
+
+  <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px;">
+    <section style="display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Name bridge</h2><span style="font-size: 14px; color: #55627A;">Подпись у каждого доказательства</span></div>
+      <div lang="en" style="border-radius: 12px; background: #F1F3F6; padding: 28px; display: flex; gap: 28px; align-items: flex-start;">
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 8px; border-radius: 12px; background: #FFFFFF; padding: 20px; box-shadow: inset 0 0 0 1px #DCE1E8;">
+          <span style="font-size: 20px; font-weight: 800; letter-spacing: -0.015em;">IEEE Senior Member</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: #55627A;"><span style="text-decoration: underline dotted; text-underline-offset: 3px;">as Konstantin Z.</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#55627A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 11v5.5M12 7.8v.2"></path></svg></span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; margin-top: 6px;">See the certificate<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 16L16 8M9.5 8H16v6.5"></path></svg></span>
+        </div>
+        <div style="flex: 1; position: relative; margin-top: 40px; background: #0F1F38; color: #FFFFFF; border-radius: 8px; padding: 14px 16px; font-size: 15px; line-height: 1.45; box-shadow: 0 1px 2px rgba(15, 31, 56, 0.06), 0 12px 32px rgba(15, 31, 56, 0.14);">
+          <span style="position: absolute; left: -6px; top: 18px; width: 12px; height: 12px; background: #0F1F38; transform: rotate(45deg);"></span>
+          My native name is Konstantin Z. It’s the name on these records.
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2F3D56;">Подсказка — по наведению и по тапу. Почему «Alex Key» — объясняем один раз, в About. Родное имя не выносим в hero, меню и заголовки.</p>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Form controls</h2><span style="font-size: 14px; color: #55627A;">Бронь звонка: крупные варианты вместо выпадающих списков</span></div>
+      <form lang="en" style="border-radius: 12px; box-shadow: inset 0 0 0 1px #DCE1E8; padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+        <fieldset style="border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px;">
+          <legend style="padding: 0; margin: 0 0 10px; font-size: 17px; font-weight: 700;">What do you need help with?</legend>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <label style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 6px; background: #0F1F38; color: #FFFFFF; font-size: 16px; font-weight: 600;"><input type="radio" name="help" checked="checked" style="margin: 0; width: 16px; height: 16px; accent-color: #F5A524;">Programs</label>
+            <label style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 16px; font-weight: 600;"><input type="radio" name="help" style="margin: 0; width: 16px; height: 16px;">Sales &amp; retention</label>
+            <label style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 16px; font-weight: 600;"><input type="radio" name="help" style="margin: 0; width: 16px; height: 16px;">Automation</label>
+            <label style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 16px; font-weight: 600;"><input type="radio" name="help" style="margin: 0; width: 16px; height: 16px;">Marketing</label>
+            <label style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 16px; font-weight: 600;"><input type="radio" name="help" style="margin: 0; width: 16px; height: 16px;">Not sure</label>
+          </div>
+        </fieldset>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+          <label for="ak-center" style="display: flex; flex-direction: column; gap: 8px; font-size: 16px; font-weight: 600;">Center name<input id="ak-center" type="text" placeholder="Your center’s name" style="height: 52px; box-sizing: border-box; padding: 0 14px; border-radius: 6px; border: 1.5px solid #0F1F38; outline: 3px solid #0F1F38; outline-offset: 2px; font-family: inherit; font-size: 17px; color: #0F1F38; background: #FFFFFF;"></label>
+          <label for="ak-email" style="display: flex; flex-direction: column; gap: 8px; font-size: 16px; font-weight: 600;">Email<input id="ak-email" type="email" placeholder="you@center.com" style="height: 52px; box-sizing: border-box; padding: 0 14px; border-radius: 6px; border: 1.5px solid #B42318; font-family: inherit; font-size: 17px; color: #0F1F38; background: #FFFFFF;"><span style="font-size: 14px; font-weight: 500; color: #B42318;">Add an email so we can send the call link.</span></label>
+        </div>
+        <fieldset style="border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px;">
+          <legend style="padding: 0; margin: 0 0 10px; font-size: 17px; font-weight: 700;">Number of students</legend>
+          <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; overflow: hidden;">
+            <label style="display: flex; align-items: center; justify-content: center; height: 44px; font-size: 16px; font-weight: 600;"><input type="radio" name="size" style="position: absolute; opacity: 0; width: 1px; height: 1px;">Under 40</label>
+            <label style="display: flex; align-items: center; justify-content: center; height: 44px; font-size: 16px; font-weight: 600; background: #0F1F38; color: #FFFFFF;"><input type="radio" name="size" checked="checked" style="position: absolute; opacity: 0; width: 1px; height: 1px;">40–100</label>
+            <label style="display: flex; align-items: center; justify-content: center; height: 44px; font-size: 16px; font-weight: 600; box-shadow: inset 1px 0 0 #7D889C;"><input type="radio" name="size" style="position: absolute; opacity: 0; width: 1px; height: 1px;">100–300</label>
+            <label style="display: flex; align-items: center; justify-content: center; height: 44px; font-size: 16px; font-weight: 600; box-shadow: inset 1px 0 0 #7D889C;"><input type="radio" name="size" style="position: absolute; opacity: 0; width: 1px; height: 1px;">300+</label>
+          </div>
+        </fieldset>
+      </form>
+      <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2F3D56;">Рамка поля — #7D889C (3.6:1), фокус — кольцо Ink, ошибка — Error и текст под полем. Метка всегда над полем.</p>
+    </section>
+  </div>
+
+  <section style="display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Footer</h2><span style="font-size: 14px; color: #55627A;">Строка оператора — после ответа юриста</span></div>
+    <footer lang="en" style="border-radius: 12px; background: #0F1F38; color: #FFFFFF; padding: 40px 48px; display: flex; flex-direction: column; gap: 28px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;">
+        <span style="display: inline-flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 600; letter-spacing: -0.01em;"><span style="width: 14px; height: 14px; background: #F5A524;"></span>Alex Key</span>
+        <nav style="display: flex; gap: 32px; flex-wrap: wrap;">
+          <a href="#services" style="font-size: 17px; font-weight: 600; color: #FFFFFF; text-decoration: none;">Services</a>
+          <a href="#about" style="font-size: 17px; font-weight: 600; color: #FFFFFF; text-decoration: none;">About</a>
+          <a href="#playbook" style="font-size: 17px; font-weight: 600; color: #FFFFFF; text-decoration: none;">Playbook</a>
+          <a href="#call" style="font-size: 17px; font-weight: 600; color: #FFFFFF; text-decoration: none;">Book a call</a>
+        </nav>
+      </div>
+      <div style="display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; border-top: 1px solid #2C3F5F; padding-top: 20px; font-size: 14px; line-height: 1.5; color: #AAB6CB;">
+        <span>© 2026 · [Operator line — pending legal review]</span>
+        <span style="display: flex; gap: 20px; flex-wrap: wrap;"><a href="#fb" style="color: #FFFFFF;">Facebook</a><a href="#in" style="color: #FFFFFF;">LinkedIn</a><a href="#mail" style="color: #FFFFFF;">Email</a><a href="#privacy" style="color: #AAB6CB;">Privacy</a><a href="#terms" style="color: #AAB6CB;">Terms</a></span>
+      </div>
+    </footer>
+  </section>
+</div>
+</div>
+
+</body>
+</html>

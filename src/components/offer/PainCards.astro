@@ -1,0 +1,24 @@
+---
+/** Block 3 · Problem — pain cards on Mist, owner's words, no explanations (board 06). */
+interface Props {
+  items: string[];
+}
+const { items } = Astro.props;
+const basis =
+  items.length === 4 || items.length === 2
+    ? 'md:basis-[calc(50%-8px)] lg:basis-[calc(50%-12px)]'
+    : 'md:basis-[calc(50%-8px)] lg:basis-[calc(33.333%-16px)]';
+---
+
+<ul class="flex flex-wrap gap-3 lg:gap-4">
+  {
+    items.map((text) => (
+      <li class:list={['flex grow basis-full flex-col gap-2 rounded-card bg-paper px-5.5 pt-5.5 pb-6 lg:px-7.5 lg:pt-7 lg:pb-8', basis]}>
+        <span aria-hidden="true" class="h-[18px] text-[44px] leading-[0.6] font-extrabold text-line lg:h-5">
+          “
+        </span>
+        <p class="text-[18px] leading-[1.4] font-semibold text-ink lg:text-[20px]">{text}</p>
+      </li>
+    ))
+  }
+</ul>

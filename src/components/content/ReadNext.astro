@@ -1,0 +1,18 @@
+---
+import Icon from '../ui/Icon.astro';
+
+/** "Read next" — one next article (board 07). */
+interface Props {
+  href: string;
+  title: string;
+}
+const { href, title } = Astro.props;
+---
+
+<a href={href} class="group flex items-center justify-between gap-6 border-t border-line py-6 text-ink no-underline">
+  <span class="flex flex-col gap-1">
+    <span class="text-caption text-slate">Read next</span>
+    <span class="text-[20px] leading-snug font-extrabold tracking-[-0.015em] group-hover:underline lg:text-[22px]">{title}</span>
+  </span>
+  <Icon name="arrow" size={26} />
+</a>

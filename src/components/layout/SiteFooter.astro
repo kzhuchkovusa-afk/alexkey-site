@@ -1,0 +1,66 @@
+---
+import Signature from '../brand/Signature.astro';
+import Ph from '../ui/Ph.astro';
+import { decisions } from '../../site.config';
+import { navigation } from '../../copy/shared';
+import { showPending, val } from '../../lib/env';
+
+/** Footer (board 05): ink; no big name; © year · operator line [ждёт: юрист]. */
+const year = new Date().getFullYear();
+const email = val(decisions.email);
+const social = [
+  { label: 'Facebook', href: val(decisions.social.facebook) },
+  { label: 'LinkedIn', href: val(decisions.social.linkedin) },
+  { label: 'Email', href: email ? `mailto:${email}` : null },
+];
+const linkClass = 'inline-flex min-h-11 items-center underline decoration-1 underline-offset-4 hover:text-paper';
+---
+
+<footer data-sticky-hide class="on-ink mt-auto bg-ink text-paper">
+  <div class="mx-auto max-w-[calc(var(--container-site)+2*var(--page-pad))] px-(--page-pad) pt-12 pb-8 lg:pt-14">
+    <div class="flex flex-col gap-6 border-b border-ink-line pb-6 lg:flex-row lg:items-center lg:justify-between">
+      <Signature tone="ink" href="/" />
+      <nav aria-label="Footer">
+        <ul class="flex flex-wrap gap-x-8 gap-y-1">
+          {
+            [...navigation, { href: '/call', label: 'Book a call' }].map((item) => (
+              <li>
+                <a href={item.href} class="inline-flex min-h-11 items-center text-ui font-semibold no-underline hover:underline">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+    <div class="flex flex-col-reverse gap-4 pt-5 text-small text-on-ink-muted lg:flex-row lg:items-center lg:justify-between">
+      <p>
+        © {year} · <Ph value={decisions.operator.footerLine} label="Operator line — pending legal review" />
+      </p>
+      <ul class="flex flex-wrap gap-x-5">
+        {
+          social.map((s) =>
+            s.href ? (
+              <li>
+                <a href={s.href} class={linkClass} rel={s.label === 'Email' ? undefined : 'me noopener'}>
+                  {s.label}
+                </a>
+              </li>
+            ) : (
+              showPending && (
+                <li>
+                  <span class="inline-flex min-h-11 items-center">
+                    <mark class="ph">[{s.label}]</mark>
+                  </span>
+                </li>
+              )
+            ),
+          )
+        }
+        <li><a href="/privacy" class={linkClass}>Privacy</a></li>
+        <li><a href="/terms" class={linkClass}>Terms</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

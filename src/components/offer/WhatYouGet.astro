@@ -1,0 +1,42 @@
+---
+import Icon from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+
+/** Block 8 · "What you get" — checklists by direction (board 06). One group → two-column list. */
+interface Group {
+  title?: string;
+  href?: string;
+  items: string[];
+  /** Extra line under the list (e.g. equipment). */
+  note?: string;
+}
+interface Props {
+  groups: Group[];
+}
+const { groups } = Astro.props;
+const single = groups.length === 1;
+---
+
+<div class:list={['grid gap-3 lg:gap-4', !single && 'md:grid-cols-2 lg:grid-cols-4']}>
+  {
+    groups.map((g) => (
+      <div class="flex flex-col gap-3.5 rounded-card p-6 shadow-[inset_0_0_0_1px_var(--color-line)] lg:p-6.5">
+        {g.title && <h3 class="text-[20px] font-extrabold tracking-[-0.01em]">{g.title}</h3>}
+        <ul class:list={['flex flex-col gap-3', single && 'md:grid md:grid-cols-2 md:gap-x-10']}>
+          {g.items.map((it) => (
+            <li class="flex gap-2.5 text-[16px] leading-[1.45] text-ink lg:text-[17px]">
+              <Icon name="check" size={20} class="mt-0.5" />
+              <span>{it}</span>
+            </li>
+          ))}
+        </ul>
+        {g.note && <p class="border-t border-line pt-3.5 text-small text-slate">{g.note}</p>}
+        {g.href && (
+          <Button href={g.href} variant="text" icon="arrow" class="mt-auto">
+            How it works<span class="sr-only">: {g.title}</span>
+          </Button>
+        )}
+      </div>
+    ))
+  }
+</div>

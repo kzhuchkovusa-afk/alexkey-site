@@ -1,0 +1,174 @@
+/*
+  Alex Key — design tokens for Astro + Tailwind CSS v4
+  Source of truth: Claude Design canvas "Alex Key — Design System" (v1.1, Oct 24, 2026).
+  Rules and components: design/DESIGN.md. Visual targets: design/reference/png/.
+
+  Usage (src/styles/global.css):
+    @import "tailwindcss";
+    @import "../../design/theme.css";
+
+  Font (base layout frontmatter):
+    npm i @fontsource-variable/schibsted-grotesk
+    import "@fontsource-variable/schibsted-grotesk/wght.css";
+    Preload the latin woff2 in <head>. Fallback alternative: design/fonts/.
+
+  Do not add colors, sizes, radii or shadows outside this file without asking.
+*/
+
+@theme {
+  /* ---------- Color ---------- */
+  --color-paper: #FFFFFF;         /* 60% — page and card background */
+  --color-mist: #F1F3F6;          /* 20% — alternating sections, pain cards panel, FAQ, plates */
+  --color-ink: #0F1F38;           /* 15% — headings, proof band, CTA ribbon, footer (16.5:1 on paper) */
+  --color-ink-2: #1B2E4F;         /* raised dark surfaces, photo placeholders on ink */
+  --color-body: #2F3D56;          /* body text on light (10.9:1) */
+  --color-slate: #55627A;         /* captions, meta, labels (6.2:1 on paper, 5.5:1 on mist) */
+  --color-line: #DCE1E8;          /* card borders and dividers (decorative only) */
+  --color-field-line: #7D889C;    /* input, chip and toggle borders (3.6:1, WCAG 1.4.11) */
+  --color-on-ink-muted: #AAB6CB;  /* secondary text on ink (8.1:1) */
+  --color-ink-line: #2C3F5F;      /* dividers on ink */
+  --color-key: #F5A524;           /* KEY (amber): primary button, key number, highlight. Coral alternative: #F0705A */
+  --color-key-press: #E0901A;     /* hover / pressed key (ink text 6.4:1). Coral alternative needs recalculation */
+  --color-key-tint: #FDF1D8;      /* guarantee plate */
+  --color-success: #1E7A52;       /* forms only */
+  --color-error: #B42318;         /* forms only */
+  --color-disabled-bg: #E6E9EE;
+  --color-disabled-fg: #6B768B;
+  --color-placeholder: #E8EDF4;   /* image placeholders until real photos arrive */
+
+  /* ---------- Type ---------- */
+  --font-sans: "Schibsted Grotesk Variable", "Schibsted Grotesk", Arial, sans-serif;
+
+  --text-display: clamp(4.5rem, 2.457rem + 8.381vw, 10rem);        /* 72 → 160 · big numbers */
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.04em;
+  --text-display--font-weight: 800;
+
+  --text-h1: clamp(2.375rem, 1.586rem + 3.238vw, 4.5rem);          /* 38 → 72 */
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h1--font-weight: 800;
+
+  --text-h2: clamp(1.875rem, 1.457rem + 1.714vw, 3rem);            /* 30 → 48 */
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h2--font-weight: 800;
+
+  --text-h3: clamp(1.375rem, 1.236rem + 0.571vw, 1.75rem);         /* 22 → 28 */
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.015em;
+  --text-h3--font-weight: 700;
+
+  --text-lead: clamp(1.25rem, 1.157rem + 0.381vw, 1.5rem);         /* 20 → 24 */
+  --text-lead--line-height: 1.5;
+  --text-lead--letter-spacing: -0.005em;
+
+  --text-body: clamp(1.125rem, 1.079rem + 0.19vw, 1.25rem);        /* 18 → 20 */
+  --text-body--line-height: 1.6;
+
+  --text-ui: clamp(1.0625rem, 1.039rem + 0.095vw, 1.125rem);       /* 17 → 18 · buttons, nav */
+  --text-ui--line-height: 1;
+  --text-ui--letter-spacing: -0.005em;
+  --text-ui--font-weight: 700;
+
+  --text-small: clamp(0.9375rem, 0.914rem + 0.095vw, 1rem);        /* 15 → 16 · microcopy */
+  --text-small--line-height: 1.5;
+
+  --text-caption: clamp(0.8125rem, 0.789rem + 0.095vw, 0.875rem);  /* 13 → 14 · proof notes */
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0.005em;
+  --text-caption--font-weight: 500;
+
+  /* ---------- Spacing: 4px base (p-1 = 4px … p-32 = 128px) ---------- */
+  --spacing: 4px;
+
+  /* ---------- Layout ---------- */
+  --container-site: 75rem;      /* 1200px content width */
+  --container-measure: 40rem;   /* 640px reading measure (≈64 characters) */
+
+  --breakpoint-md: 48rem;       /* 768 */
+  --breakpoint-lg: 64rem;       /* 1024 */
+  --breakpoint-xl: 90rem;       /* 1440 */
+
+  /* ---------- Shape ---------- */
+  --radius-control: 6px;        /* buttons, inputs, chips */
+  --radius-card: 12px;          /* cards, photos, panels */
+  --radius-tip: 8px;            /* tooltips, caption plates */
+
+  /* ---------- Elevation: floating things only ---------- */
+  --shadow-float: 0 1px 2px rgb(15 31 56 / 0.06), 0 12px 32px rgb(15 31 56 / 0.14);
+
+  /* ---------- Motion ---------- */
+  --ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:root {
+  --page-pad: clamp(1.25rem, 0.971rem + 1.143vw, 2rem);    /* side padding 20 → 32 */
+  --section-y: clamp(4rem, 2.514rem + 6.095vw, 8rem);      /* section padding 64 → 128 */
+  --gutter: clamp(1rem, 0.814rem + 0.762vw, 1.5rem);       /* 16 → 24 */
+  --btn-h-lg: 56px;   /* phone, hero, full width */
+  --btn-h-md: 52px;   /* desktop */
+  --btn-h-sm: 44px;   /* header */
+  --dur-fast: 150ms;  /* hover, press */
+  --dur-base: 240ms;  /* accordion, menu */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur-base: 0ms; }
+}
+
+/* ---------- Brand primitives ---------- */
+
+/* Key highlight: ONE phrase per page, inside H1 only, on light backgrounds.
+   On ink backgrounds use text-key instead of the highlight. */
+@utility key-highlight {
+  background: linear-gradient(180deg, transparent 60%, var(--color-key) 60%, var(--color-key) 94%, transparent 94%);
+  padding-inline: 0.04em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Key square: the brand mark and the "next step" marker. Always square, never rounded. */
+@utility key-square {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+  background: var(--color-key);
+}
+
+/* Ink square: list bullets and secondary markers */
+@utility ink-square {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--color-ink);
+}
+
+/* Proof note: "as Konstantin Z." */
+@utility proof-note {
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--color-slate);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-paper);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--color-body);
+  }
+  h1, h2, h3 { color: var(--color-ink); text-wrap: pretty; }
+  :focus-visible { outline: 3px solid var(--color-ink); outline-offset: 3px; }
+  .on-ink :focus-visible { outline-color: var(--color-key); }
+  .tabular { font-variant-numeric: tabular-nums lining-nums; }
+}

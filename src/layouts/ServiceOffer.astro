@@ -1,0 +1,237 @@
+---
+import Base from './Base.astro';
+import Section from '../components/layout/Section.astro';
+import SectionHeading from '../components/layout/SectionHeading.astro';
+import Button from '../components/ui/Button.astro';
+import Eyebrow from '../components/ui/Eyebrow.astro';
+import Highlight from '../components/ui/Highlight.astro';
+import Ph from '../components/ui/Ph.astro';
+import PainCards from '../components/offer/PainCards.astro';
+import PathSteps from '../components/offer/PathSteps.astro';
+import OperatorReasons from '../components/offer/OperatorReasons.astro';
+import BenefitCards from '../components/offer/BenefitCards.astro';
+import WhatYouGet from '../components/offer/WhatYouGet.astro';
+import GuaranteePlate from '../components/offer/GuaranteePlate.astro';
+import PriceBlock from '../components/offer/PriceBlock.astro';
+import BonusCards from '../components/offer/BonusCards.astro';
+import UrgencyLine from '../components/offer/UrgencyLine.astro';
+import CtaRibbon from '../components/offer/CtaRibbon.astro';
+import PairedWith from '../components/offer/PairedWith.astro';
+import ProofFacts from '../components/proof/ProofFacts.astro';
+import ArticleCard from '../components/content/ArticleCard.astro';
+import Testimonial from '../components/content/Testimonial.astro';
+import { serviceHeadings as H, type ServiceOfferData } from '../copy/services';
+import { demoNote, operatorReasons, pairedWith, services } from '../copy/shared';
+import { testimonials } from '../copy/testimonials';
+import { callUrl, companyUrl, demoUrl } from '../lib/links';
+import { isOn, isPending, isTodo, showPending } from '../lib/env';
+import { serviceLd } from '../lib/schema';
+import { readingMinutes, rubricLabel, visibleArticles } from '../lib/articles';
+
+/**
+ * Service page template — the same 13 blocks in the same order as the home page (TZ «Страницы услуг»).
+ * Main button at the top and at the bottom; "Often paired with" at the end.
+ */
+interface Props {
+  offer: ServiceOfferData;
+}
+const { offer: o } = Astro.props;
+const meta = services[o.id];
+const paired = services[pairedWith[o.id]];
+
+const primaryHref = (place: string) => (o.primary.kind === 'demo' ? demoUrl(o.page, place) : callUrl(o.page, place, o.id));
+const secondary = o.secondary ? { label: o.secondary.label, href: companyUrl(o.secondary.path, o.page, 'see-programs') } : null;
+
+const articles = o.proofArticles ? (await visibleArticles()).filter((a) => a.data.service === o.id && !a.data.placeholder) : [];
+const sources = o.testimonials ?? [];
+const testimonialList = [
+  ...(sources.includes('partners') && isOn('firstFiveCenters') ? testimonials.partners : []),
+  ...(sources.includes('coddy') && isOn('testimonialsCoddy') ? testimonials.coddy : []),
+].filter((t) => t.quote && t.name);
+
+const shown = (v: string) => !isTodo(v) || showPending;
+const showGuarantee = shown(o.guarantee.value);
+const showPrice = (o.price.price ? shown(o.price.price) : false) || shown(o.price.text);
+const urgencyValues = o.urgency.filter((p): p is { value: string; label: string } => typeof p !== 'string');
+const showUrgency = urgencyValues.every((p) => !isTodo(p.value)) || showPending;
+const bonuses = o.bonuses
+  .filter((b) => !b.flag || isOn(b.flag))
+  .map((b) => (b.flag && isPending(b.flag) ? { ...b, type: `${b.type} · [ждёт] ${b.flag}` } : b));
+
+const site = Astro.site ?? new URL('http://localhost:4321');
+const ld = serviceLd(site, {
+  name: meta.name,
+  description: meta.promise,
+  path: meta.href,
+  price: o.id === 'programs' ? { amount: o.price.price ?? '', unit: 'MONTH' } : undefined,
+});
+---
+
+<Base title={o.seo.title} description={o.seo.description} page={o.page} og={o.page} jsonld={[ld]} service={o.id}>
+  <!-- 1–2 · Headline, subtitle, main button -->
+  <section data-hero aria-labelledby="hero-title" class="bg-paper">
+    <div class="mx-auto flex max-w-[calc(var(--container-site)+2*var(--page-pad))] flex-col gap-5 px-(--page-pad) pt-8 pb-12 lg:gap-7 lg:pt-20 lg:pb-24">
+      <Eyebrow>{o.eyebrow}</Eyebrow>
+      <h1 id="hero-title" class="max-w-[56rem] text-h1">
+        {o.h1.before}<Highlight>{o.h1.key}</Highlight>{o.h1.after}
+      </h1>
+      <p class="max-w-[42rem] text-[18px] leading-[1.55] text-body lg:text-lead">{o.subtitle}</p>
+      <div class="flex flex-col gap-3 pt-1 lg:flex-row lg:items-center lg:gap-4">
+        <Button href={primaryHref('hero')} size="lg" icon="arrow" cta={`${o.page}-hero`} class="w-full lg:w-auto">
+          {o.primary.label}
+        </Button>
+        {
+          secondary && (
+            <Button href={secondary.href} variant="secondary" size="lg" icon="external" newTab cta={`${o.page}-hero`} class="w-full lg:w-auto">
+              {secondary.label}
+            </Button>
+          )
+        }
+      </div>
+      {o.primary.kind === 'demo' && <p class="text-center text-small text-slate lg:-mt-2 lg:text-left">{demoNote}</p>}
+    </div>
+  </section>
+
+  <!-- 3 · Problem -->
+  <Section tone="mist" labelledby="pains-title">
+    <SectionHeading id="pains-title">{H.pains}</SectionHeading>
+    <PainCards items={o.pains} />
+  </Section>
+
+  <!-- 4 · Solution -->
+  <Section labelledby="solution-title">
+    <SectionHeading id="solution-title" lead={o.solution.text}>{H.solution}</SectionHeading>
+    {
+      o.solution.steps && (
+        <>
+          {o.solution.stepsLabel && <h3 class="mb-4 text-[18px] font-bold text-slate">{o.solution.stepsLabel}</h3>}
+          {o.solution.steps.length === 3 ? (
+            <PathSteps steps={o.solution.steps.map((title) => ({ title }))} />
+          ) : (
+            <ol class="grid gap-3 md:grid-cols-2 lg:gap-4">
+              {o.solution.steps.map((s, i) => (
+                <li class="flex gap-4 rounded-card bg-mist p-5 lg:p-6">
+                  <span aria-hidden="true" class:list={['tabular flex size-9 shrink-0 items-center justify-center text-[17px] font-extrabold', i === 0 ? 'bg-key text-ink' : 'bg-ink text-paper']}>
+                    {i + 1}
+                  </span>
+                  <span class="text-[18px] leading-snug font-semibold text-ink">{s}</span>
+                </li>
+              ))}
+            </ol>
+          )}
+        </>
+      )
+    }
+  </Section>
+
+  <!-- 5 · Uniqueness -->
+  <Section tone="mist" labelledby="unique-title">
+    <SectionHeading id="unique-title" lead={o.unique}>{H.unique}</SectionHeading>
+    <OperatorReasons items={operatorReasons} />
+  </Section>
+
+  <!-- 6 · Proof -->
+  <Section labelledby="proof-title">
+    <SectionHeading id="proof-title">{H.proof}</SectionHeading>
+    <ProofFacts facts={o.proof} />
+    {
+      articles.length > 0 && (
+        <>
+          <h3 class="mt-10 mb-4 text-[18px] font-bold text-slate">{H.proofArticles}</h3>
+          <ul class="grid gap-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-4">
+            {articles.map((a) => (
+              <li>
+                <ArticleCard href={`/playbook/${a.id}`} rubric={rubricLabel(a.data.rubric)} title={a.data.title} gist={a.data.gist} minutes={readingMinutes(a)} />
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+    {
+      sources.length > 0 && (testimonialList.length >= 2 || showPending) && (
+        <div class="mt-10" data-pending={testimonialList.length < 2 ? 'testimonials' : undefined}>
+          <Testimonial items={testimonialList} />
+        </div>
+      )
+    }
+  </Section>
+
+  <!-- 7 · Benefits -->
+  <Section tone="mist" labelledby="benefits-title">
+    <SectionHeading id="benefits-title">{H.benefits}</SectionHeading>
+    <BenefitCards items={o.benefits} card="paper" />
+  </Section>
+
+  <!-- 8 · What you get -->
+  <Section labelledby="get-title">
+    <SectionHeading id="get-title">{H.get}</SectionHeading>
+    <WhatYouGet groups={[{ items: o.get.items, note: o.get.note }]} />
+  </Section>
+
+  <!-- 9–11 · Guarantee, price, bonuses -->
+  <Section tone="mist" labelledby="terms-title">
+    <h2 id="terms-title" class="sr-only">{H.terms}</h2>
+    <div class="grid gap-4 lg:grid-cols-3">
+      {
+        showGuarantee && (
+          <GuaranteePlate text="" caption={o.guarantee.caption}>
+            <Ph slot="text" value={o.guarantee.value} />
+          </GuaranteePlate>
+        )
+      }
+      {
+        showPrice && (
+          <PriceBlock
+            label={meta.short}
+            price={o.price.price && !isTodo(o.price.price) ? o.price.price : null}
+            unit={o.price.unit}
+            link={o.price.link ? { href: companyUrl('/pricing', o.page, 'price'), label: 'Catalog and prices on the company site', cta: `${o.page}-price` } : undefined}
+            class="bg-paper"
+          >
+            {o.price.price && isTodo(o.price.price) && (
+              <p class="mb-2">
+                <Ph value={o.price.price} />
+              </p>
+            )}
+            <p>
+              <Ph value={o.price.text} />
+            </p>
+          </PriceBlock>
+        )
+      }
+      {
+        bonuses.length > 0 && (
+          <div class="rounded-card bg-paper p-6 lg:p-6.5">
+            <BonusCards heading={H.bonuses} items={bonuses} />
+          </div>
+        )
+      }
+    </div>
+  </Section>
+
+  <!-- 12 · Urgency -->
+  {
+    showUrgency && (
+      <div class="mx-auto max-w-[calc(var(--container-site)+2*var(--page-pad))] px-(--page-pad) pt-12 lg:pt-16">
+        <UrgencyLine>
+          {o.urgency.map((p) => (typeof p === 'string' ? p : <Ph value={p.value} label={p.label} />))}
+        </UrgencyLine>
+      </div>
+    )
+  }
+
+  <!-- 13 · Call to action -->
+  <CtaRibbon
+    before={o.cta.before}
+    keyPhrase={o.cta.key}
+    after={o.cta.after}
+    primary={{ href: primaryHref('cta'), label: o.primary.label, cta: `${o.page}-cta` }}
+    secondary={secondary
+      ? { href: secondary.href, label: secondary.label, cta: `${o.page}-cta`, newTab: true, icon: 'external' }
+      : { href: demoUrl(o.page, 'cta'), label: 'Get a free demo lesson', cta: `${o.page}-cta` }}
+    note={o.primary.kind === 'demo' ? demoNote : undefined}
+  />
+
+  <PairedWith href={paired.href} name={paired.name} />
+</Base>

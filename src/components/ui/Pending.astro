@@ -1,0 +1,36 @@
+---
+import { isOn, isPending } from '../../lib/env';
+import type { LiveFlag } from '../../site.config';
+
+/**
+ * [ждёт] block behind a flag from site.config.ts → live.
+ * Hidden in public builds until the flag is true; locally shown with a dashed frame and the flag name.
+ */
+interface Props {
+  flag: LiveFlag;
+  /** inline — for a phrase inside a sentence or list. */
+  inline?: boolean;
+  class?: string;
+}
+const { flag, inline = false, class: className } = Astro.props;
+const on = isOn(flag);
+const pending = isPending(flag);
+const Tag = inline ? 'span' : 'div';
+---
+
+{
+  on &&
+    (pending ? (
+      <Tag
+        data-pending={flag}
+        class:list={['relative outline-1 outline-offset-4 outline-dashed outline-key-press', !inline && 'mt-2', className]}
+      >
+        <span class="pointer-events-none absolute -top-3 right-0 z-10 rounded-tip bg-key-tint px-1.5 text-[11px] font-bold text-ink not-italic">
+          [ждёт] {flag}
+        </span>
+        <slot />
+      </Tag>
+    ) : (
+      <slot />
+    ))
+}

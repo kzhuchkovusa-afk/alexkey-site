@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/ui/Button.astro';
+import { callUrl } from '../lib/links';
+
+/** 404 — one line and links to Services and /call (TZ). */
+---
+
+<Base title="Page not found" description="This page doesn't exist." page="404" noindex sticky={false}>
+  <section class="mx-auto max-w-[calc(var(--container-site)+2*var(--page-pad))] px-(--page-pad) py-20 lg:py-32">
+    <h1 class="mb-8 max-w-[40rem] text-h1">This page doesn't exist.</h1>
+    <div class="flex flex-col gap-3 sm:flex-row">
+      <Button href="/services" variant="secondary" size="lg">Services</Button>
+      <Button href={callUrl('404', 'link')} size="lg" icon="arrow">Book a 15-min call</Button>
+    </div>
+  </section>
+</Base>

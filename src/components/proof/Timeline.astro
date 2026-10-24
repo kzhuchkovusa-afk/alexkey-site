@@ -1,0 +1,51 @@
+---
+import ProofNote from './ProofNote.astro';
+import Button from '../ui/Button.astro';
+import Txt from '../ui/Txt.astro';
+import { val } from '../../lib/env';
+
+/** About timeline (board 07): year · role · where · ProofNote; the current role gets the Key node. */
+interface Item {
+  year: string;
+  role: string;
+  where: string;
+  proof?: boolean;
+  link?: string;
+  current?: boolean;
+}
+interface Props {
+  items: Item[];
+}
+const { items } = Astro.props;
+---
+
+<ol class="flex flex-col">
+  {
+    items.map((it, i) => {
+      const href = it.link ? val(it.link) : null;
+      return (
+        <li class="grid grid-cols-[4.5rem_1fr] gap-x-3 lg:grid-cols-[7rem_1fr]">
+          <span class="tabular pt-0.5 text-[17px] font-bold text-ink">{it.year}</span>
+          <div class:list={['relative pb-7 pl-7', i < items.length - 1 && 'before:absolute before:top-5 before:bottom-1 before:left-[5px] before:w-px before:bg-line']}>
+            <span aria-hidden="true" class:list={['absolute top-1.5 left-0 size-3', it.current ? 'bg-key' : 'bg-ink']} />
+            <p class="text-[19px] leading-snug font-bold text-ink lg:text-[20px]">{it.role}</p>
+            <p class="mt-1 flex flex-wrap items-center gap-x-2 text-small text-slate">
+              <span><Txt text={it.where} /></span>
+              {it.proof && (
+                <>
+                  <span aria-hidden="true">·</span>
+                  <ProofNote />
+                </>
+              )}
+              {href && (
+                <Button href={href} variant="text" icon="external" newTab class="text-[15px]">
+                  See the record
+                </Button>
+              )}
+            </p>
+          </div>
+        </li>
+      );
+    })
+  }
+</ol>

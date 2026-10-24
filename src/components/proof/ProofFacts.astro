@@ -1,0 +1,59 @@
+---
+import ProofNote from './ProofNote.astro';
+import Pending from '../ui/Pending.astro';
+import Button from '../ui/Button.astro';
+import FromTo from '../ui/FromTo.astro';
+import { isOn, val } from '../../lib/env';
+import type { LiveFlag } from '../../site.config';
+
+/**
+ * Block 6 · facts by topic: value + label, "as Konstantin Z." where the record is under the native name,
+ * link to the proof when it is set in site.config.ts. Facts with `flag` are [ждёт].
+ */
+export interface Fact {
+  value: string;
+  label: string;
+  /** Render the value as FromTo — the font has no → glyph. */
+  fromTo?: [string | number, string | number, string];
+  proof?: boolean;
+  link?: string;
+  linkLabel?: string;
+  flag?: LiveFlag;
+}
+interface Props {
+  facts: Fact[];
+}
+const { facts } = Astro.props;
+const shown = facts.filter((f) => !f.flag || isOn(f.flag));
+---
+
+<ul class:list={['grid gap-3 md:grid-cols-2 lg:gap-4', shown.length >= 3 && 'lg:grid-cols-3', shown.length === 4 && 'lg:grid-cols-4']}>
+  {
+    shown.map((f) => {
+      const href = f.link ? val(f.link) : null;
+      const body = (
+        <div class="flex h-full flex-col gap-2 rounded-card p-6 shadow-[inset_0_0_0_1px_var(--color-line)]">
+          {f.fromTo ? (
+            <p class="text-[28px] lg:text-[32px]">
+              <FromTo from={f.fromTo[0]} to={f.fromTo[1]} unit={f.fromTo[2]} size="md" class="text-[28px]! lg:text-[32px]!" />
+            </p>
+          ) : (
+            <p class="text-[28px] leading-tight font-extrabold tracking-[-0.02em] text-ink lg:text-[32px]">{f.value}</p>
+          )}
+          <p class="grow text-[17px] leading-snug text-body">{f.label}</p>
+          {(f.proof || href) && (
+            <p class="flex flex-wrap items-center gap-x-4 gap-y-1 pt-1">
+              {f.proof && <ProofNote />}
+              {href && (
+                <Button href={href} variant="text" icon="external" newTab class="text-[15px]">
+                  {f.linkLabel ?? 'See the record'}
+                </Button>
+              )}
+            </p>
+          )}
+        </div>
+      );
+      return <li>{f.flag ? <Pending flag={f.flag} class="h-full">{body}</Pending> : body}</li>;
+    })
+  }
+</ul>

@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { portrait } from '../../lib/photos';
+import { person, services } from '../../copy/shared';
+import { callUrl, type ServiceId } from '../../lib/links';
+import { showPending } from '../../lib/env';
+
+/** "About the author" (board 07) — the only name on an article page; small, with the service button. */
+interface Props {
+  service: ServiceId;
+  page: string;
+}
+const { service, page } = Astro.props;
+const s = services[service];
+---
+
+<section aria-label="About the author" class="flex flex-col gap-5 rounded-card bg-mist p-6 lg:flex-row lg:items-center lg:justify-between lg:p-6">
+  <div class="flex items-center gap-4">
+    {
+      portrait.src ? (
+        <Image src={portrait.src} alt="" width={128} height={128} class="size-16 shrink-0 rounded-full object-cover" />
+      ) : (
+        showPending && (
+          <span class="flex size-16 shrink-0 items-center justify-center rounded-full bg-placeholder text-slate">
+            <Icon name="user" size={26} />
+          </span>
+        )
+      )
+    }
+    <div class="flex flex-col">
+      <p class="text-caption text-slate">About the author</p>
+      <p class="text-[18px] font-bold text-ink">{person.name}</p>
+      <p class="text-[15px] leading-snug text-slate">{person.byline}</p>
+    </div>
+  </div>
+  <div class="flex flex-col gap-1 lg:items-end">
+    <Button href={callUrl(page, 'author', service)} size="sm" class="h-13! px-5!" cta={`${page}-author`}>Book a 15-min call</Button>
+    <Button href={s.href} variant="text" icon="arrow" class="text-[16px]">See {s.name}</Button>
+  </div>
+</section>

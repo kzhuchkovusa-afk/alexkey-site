@@ -1,0 +1,46 @@
+---
+/** Tag / chip (boards 05, 07). `static` — small rubric label on cards. */
+interface Props {
+  selected?: boolean;
+  href?: string;
+  static?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+const { selected = false, href, static: isStatic = false, class: className, ...rest } = Astro.props;
+---
+
+{
+  isStatic ? (
+    <span class:list={['inline-flex w-fit items-center rounded-control bg-mist px-2.5 py-1 text-caption font-semibold text-ink', className]}>
+      <slot />
+    </span>
+  ) : href ? (
+    <a
+      href={href}
+      aria-current={selected ? 'true' : undefined}
+      class:list={[
+        'inline-flex min-h-11 items-center rounded-control px-3.5 text-[16px] font-semibold no-underline transition-colors duration-(--dur-fast)',
+        selected ? 'bg-ink text-paper' : 'text-ink shadow-[inset_0_0_0_1px_var(--color-field-line)] hover:bg-mist',
+        className,
+      ]}
+      {...rest}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button
+      type="button"
+      aria-pressed={selected ? 'true' : 'false'}
+      class:list={[
+        'inline-flex min-h-11 items-center rounded-control px-3.5 text-[16px] font-semibold transition-colors duration-(--dur-fast)',
+        'aria-pressed:bg-ink aria-pressed:text-paper aria-pressed:shadow-none',
+        'text-ink shadow-[inset_0_0_0_1px_var(--color-field-line)] hover:bg-mist aria-pressed:hover:bg-ink',
+        className,
+      ]}
+      {...rest}
+    >
+      <slot />
+    </button>
+  )
+}

@@ -1,0 +1,66 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import TryThisToday from '../../components/content/TryThisToday.astro';
+import AuthorBox from '../../components/content/AuthorBox.astro';
+import ReadNext from '../../components/content/ReadNext.astro';
+import { nextArticle, readingMinutes, rubricLabel, visibleArticles, type Article } from '../../lib/articles';
+import { articleLd } from '../../lib/schema';
+
+/** Article template (TZ + board 07): header → body (640) → Try this today → author → Read next. */
+export async function getStaticPaths() {
+  const list = await visibleArticles();
+  return list.map((article) => ({ params: { slug: article.id }, props: { article, list } }));
+}
+
+interface Props {
+  article: Article;
+  list: Article[];
+}
+const { article, list } = Astro.props;
+const { Content } = await render(article);
+const d = article.data;
+const minutes = readingMinutes(article);
+const next = nextArticle(
+  list.filter((a) => !a.data.placeholder),
+  article,
+);
+const page = `article-${article.id}`;
+const site = Astro.site ?? new URL('http://localhost:4321');
+const path = `/playbook/${article.id}`;
+const ld = articleLd(site, {
+  title: d.title,
+  description: d.gist,
+  path,
+  image: new URL(`/og/playbook-${article.id}.png`, site).toString(),
+  datePublished: d.pubDate,
+  dateModified: d.updatedDate,
+});
+const dateLabel = d.pubDate?.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+---
+
+<Base title={d.title} description={d.gist} page={page} og={`playbook-${article.id}`} ogType="article" jsonld={[ld]}>
+  <article class="mx-auto max-w-[calc(var(--container-measure)+2*var(--page-pad))] px-(--page-pad) pt-8 pb-16 lg:pt-20 lg:pb-24">
+    {!d.live && <p class="mb-6"><mark class="ph">[ждёт «ок» Константина: {d.fact}] · {d.source}</mark></p>}
+    <header data-hero class="flex flex-col gap-5 border-b border-line pb-8">
+      <p class="text-small font-semibold text-slate">
+        <a href="/playbook" class="hover:underline">Playbook</a> · {rubricLabel(d.rubric)}
+      </p>
+      <h1 class="text-h1">{d.title}</h1>
+      <p class="text-lead text-body">{d.gist}</p>
+      <p class="text-[15px] text-slate">
+        {minutes} min read{dateLabel && <> · <time datetime={d.pubDate?.toISOString().slice(0, 10)}>{dateLabel}</time></>}
+      </p>
+    </header>
+
+    <div class="prose-ak mt-8" data-article-body={article.id}>
+      <Content />
+    </div>
+
+    <div class="mt-12 flex flex-col gap-8">
+      <TryThisToday steps={d.tryThisToday} />
+      <AuthorBox service={d.service} page={page} />
+      {next && <ReadNext href={`/playbook/${next.id}`} title={next.data.title} />}
+    </div>
+  </article>
+</Base>

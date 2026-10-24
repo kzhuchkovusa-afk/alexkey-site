@@ -1,0 +1,22 @@
+---
+import Icon from '../ui/Icon.astro';
+
+/** "Often paired with" → service (board 06). */
+interface Props {
+  href: string;
+  name: string;
+}
+const { href, name } = Astro.props;
+---
+
+<div class="mx-auto max-w-[calc(var(--container-site)+2*var(--page-pad))] px-(--page-pad) pb-12 lg:pb-16">
+  <a
+    href={href}
+    class="group flex min-h-16 flex-wrap items-center justify-between gap-x-6 gap-y-1 border-y border-line py-5 text-ink no-underline"
+  >
+    <span class="text-[17px] text-slate">Often paired with</span>
+    <span class="inline-flex items-center gap-2 text-[22px] font-extrabold tracking-[-0.015em] group-hover:underline">
+      {name}<Icon name="arrow" size={22} />
+    </span>
+  </a>
+</div>

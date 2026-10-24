@@ -1,0 +1,71 @@
+---
+import Legal from '../layouts/Legal.astro';
+import Ph from '../components/ui/Ph.astro';
+import { decisions } from '../site.config';
+import { val } from '../lib/env';
+
+/**
+ * Privacy Policy — DRAFT for the lawyer (TZ: operator ArgoPrep Center LLC (GoCoding) [ждёт: юрист];
+ * what we collect: requests, bookings, analytics; where it goes: calendar, CRM). Whole text — [review].
+ */
+const email = val(decisions.email);
+const calendar = val(decisions.calendar.provider);
+const calendarName = calendar ? { calendly: 'Calendly', calcom: 'Cal.com', google: 'Google Calendar' }[calendar] ?? calendar : null;
+---
+
+<Legal title="Privacy Policy" description="What this website collects, why, and where it goes." page="privacy">
+  <p>
+    This website is operated by <Ph value={decisions.operator.legalName} label="operator" /> (“we”, “us”). This policy explains what we
+    collect when you use the site, why, and who we share it with.
+  </p>
+
+  <h2>What we collect</h2>
+  <ul>
+    <li>
+      <strong>Call bookings.</strong> When you book a 15-minute call, the booking is handled by our calendar service{calendarName && <> ({calendarName})</>}.
+      It collects your name, email and your answers to the booking questions: what you need help with, center name, city and
+      state, type of program and number of students.
+    </li>
+    <li>
+      <strong>Demo lesson requests.</strong> The “Get a free demo lesson” buttons take you to the GoCoding for Business form on
+      profitforafterschool.com. Information you enter there is handled under that site’s privacy policy.
+    </li>
+    <li>
+      <strong>Analytics.</strong> We use Google Analytics to understand how the site is used: pages viewed, buttons clicked, device
+      and browser type, approximate location. Google Analytics uses cookies.
+    </li>
+    <li>
+      <strong>Campaign labels.</strong> If you arrive through a link with a campaign label (for example, from Facebook), your browser
+      keeps that label for up to 30 days, so we can see which link led to a booking or a demo request.
+    </li>
+    <li><strong>Email.</strong> If you write to us, we keep the correspondence.</li>
+  </ul>
+
+  <h2>How we use it</h2>
+  <p>To schedule and prepare for your call, to reply to you, and to understand which pages and links are useful.</p>
+
+  <h2>Who we share it with</h2>
+  <p>
+    Booking details are stored in the calendar service and copied to the CRM we use to follow up on bookings. Analytics data is
+    processed by Google. We do not sell personal information.
+  </p>
+
+  <h2>Children</h2>
+  <p>This site is for owners and directors of learning centers. It is not directed to children, and we do not knowingly collect information from children.</p>
+
+  <h2>Your choices</h2>
+  <p>
+    You can block cookies in your browser or use Google’s opt-out tool for Google Analytics. To ask what we hold about you, or to
+    have it deleted, email {email ? <a href={`mailto:${email}`}>{email}</a> : <Ph value={decisions.email} label="email" />}.
+  </p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, we will update the date at the top of this page.</p>
+
+  <h2>Contact</h2>
+  <p>
+    <Ph value={decisions.operator.legalName} label="operator" />{val(decisions.operator.address) ? <>, {decisions.operator.address}</> : null}
+    {' · '}
+    {email ? <a href={`mailto:${email}`}>{email}</a> : <Ph value={decisions.email} label="email" />}
+  </p>
+</Legal>

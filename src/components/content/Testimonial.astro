@@ -1,0 +1,56 @@
+---
+import ProofNote from '../proof/ProofNote.astro';
+import { showPending } from '../../lib/env';
+
+/**
+ * Testimonials (board 07). Real only, verbatim, with the author's permission.
+ * The block renders only when there are ≥ 2 real ones; locally — one empty template card.
+ */
+export interface TestimonialData {
+  quote: string;
+  name: string;
+  role: string;
+  city: string;
+  /** The author writes "Konstantin" → "about Konstantin Z." */
+  aboutNative?: boolean;
+}
+interface Props {
+  items: TestimonialData[];
+}
+const { items } = Astro.props;
+const real = items.filter((t) => t.quote && t.name);
+const list: TestimonialData[] =
+  real.length >= 2
+    ? real
+    : showPending
+      ? [{ quote: '[Verbatim quote — with written permission. No edits.]', name: '[Name]', role: '[Role, school', city: 'city]', aboutNative: true }]
+      : [];
+---
+
+{
+  list.length > 0 && (
+    <ul class="grid gap-3 md:grid-cols-2 lg:gap-4">
+      {list.map((t) => (
+        <li>
+          <figure class="flex h-full flex-col gap-6 rounded-card bg-mist p-6 lg:p-7">
+            <blockquote class="grow text-[20px] leading-snug font-semibold text-ink">
+              <p>“{t.quote}”</p>
+            </blockquote>
+            <figcaption class="flex flex-col text-small">
+              <span class="font-bold text-ink">{t.name}</span>
+              <span class="text-slate">
+                {t.role}, {t.city}
+                {t.aboutNative && (
+                  <>
+                    {' · '}
+                    <ProofNote prefix="about" />
+                  </>
+                )}
+              </span>
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  )
+}

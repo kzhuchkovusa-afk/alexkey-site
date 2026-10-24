@@ -1,0 +1,25 @@
+---
+/** Signature (6.2): key square + "Alex Key", weight 600, never larger than 18 px. */
+interface Props {
+  tone?: 'light' | 'ink';
+  size?: 'sm' | 'md';
+  href?: string;
+  class?: string;
+}
+const { tone = 'light', size = 'md', href, class: className } = Astro.props;
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag
+  href={href}
+  class:list={[
+    'inline-flex items-center font-semibold tracking-[-0.01em] no-underline',
+    size === 'md' ? 'gap-2.5 text-[17px] lg:text-[18px]' : 'gap-2 text-[17px]',
+    tone === 'ink' ? 'text-paper' : 'text-ink',
+    href && 'min-h-11',
+    className,
+  ]}
+>
+  <span aria-hidden="true" class:list={['key-square', size === 'md' ? 'size-[13px] lg:size-[14px]' : 'size-[13px]']}></span>
+  Alex Key
+</Tag>

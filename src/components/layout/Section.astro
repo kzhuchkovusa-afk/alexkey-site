@@ -1,0 +1,49 @@
+---
+/**
+ * Page section. Backgrounds alternate paper / mist (never two mist sections in a row);
+ * ink — only the proof band, CTA ribbon and footer.
+ */
+interface Props {
+  tone?: 'paper' | 'mist' | 'ink';
+  id?: string;
+  /** Heading id for aria-labelledby. */
+  labelledby?: string;
+  label?: string;
+  /** Vertical padding: full (64 → 128) or compact (48 → 64). */
+  pad?: 'full' | 'compact' | 'none';
+  width?: 'site' | 'measure';
+  class?: string;
+  innerClass?: string;
+  [key: string]: unknown;
+}
+const {
+  tone = 'paper',
+  id,
+  labelledby,
+  label,
+  pad = 'full',
+  width = 'site',
+  class: className,
+  innerClass,
+  ...rest
+} = Astro.props;
+---
+
+<section
+  id={id}
+  aria-labelledby={labelledby}
+  aria-label={label}
+  class:list={[
+    tone === 'mist' && 'bg-mist',
+    tone === 'paper' && 'bg-paper',
+    tone === 'ink' && 'on-ink bg-ink text-paper',
+    pad === 'full' && 'py-(--section-y)',
+    pad === 'compact' && 'py-12 lg:py-16',
+    className,
+  ]}
+  {...rest}
+>
+  <div class:list={['mx-auto px-(--page-pad)', width === 'site' ? 'max-w-[calc(var(--container-site)+2*var(--page-pad))]' : 'max-w-[calc(var(--container-measure)+2*var(--page-pad))]', innerClass]}>
+    <slot />
+  </div>
+</section>

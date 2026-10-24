@@ -1,0 +1,71 @@
+---
+import Signature from '../brand/Signature.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { navigation } from '../../copy/shared';
+import { demoUrl } from '../../lib/links';
+
+/** Header (boards 05, 08, 09): quiet signature · Services · About · Playbook · "Free demo lesson". */
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/(index)?$/, '') || '/';
+const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+
+<header class="relative z-40 border-b border-line bg-paper">
+  <div class="mx-auto flex h-16 max-w-[calc(var(--container-site)+2*var(--page-pad))] items-center justify-between pr-2 pl-(--page-pad) lg:h-21 lg:pr-(--page-pad)">
+    <Signature href="/" />
+    <nav aria-label="Main" class="hidden items-center gap-9 lg:flex">
+      <ul class="flex items-center gap-9">
+        {
+          navigation.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+                class="inline-flex min-h-11 items-center text-ui font-medium text-ink no-underline decoration-[1.5px] underline-offset-[6px] hover:underline aria-[current=page]:underline"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <Button href={demoUrl('header', 'demo')} size="sm" cta="header">Free demo lesson</Button>
+    </nav>
+    <div class="flex items-center gap-0.5 lg:hidden">
+      <Button href={demoUrl('header', 'demo')} size="sm" cta="header">Free demo lesson</Button>
+      <button
+        type="button"
+        class="flex size-11 items-center justify-center text-ink"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-toggle
+      >
+        <span class="sr-only" data-menu-label>Open menu</span>
+        <Icon name="menu" size={24} class="[[aria-expanded=true]_&]:hidden" />
+        <Icon name="close" size={24} class="hidden [[aria-expanded=true]_&]:block" />
+      </button>
+    </div>
+  </div>
+  <nav
+    id="mobile-menu"
+    aria-label="Main"
+    hidden
+    class="absolute inset-x-0 top-full border-b border-line bg-paper shadow-float lg:hidden"
+  >
+    <ul class="flex flex-col px-(--page-pad) py-2">
+      {
+        navigation.map((item) => (
+          <li class="border-b border-line last:border-0">
+            <a
+              href={item.href}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+              class="flex min-h-14 items-center text-lead font-semibold text-ink no-underline aria-[current=page]:underline"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>

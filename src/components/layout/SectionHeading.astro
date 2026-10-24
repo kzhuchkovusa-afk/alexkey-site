@@ -1,0 +1,17 @@
+---
+/** H2 + optional lead. Heading → content: 32 → 48. */
+interface Props {
+  id?: string;
+  lead?: string;
+  class?: string;
+  tone?: 'light' | 'ink';
+}
+const { id, lead, class: className, tone = 'light' } = Astro.props;
+---
+
+<div class:list={['mb-8 flex max-w-[56rem] flex-col gap-4 lg:mb-12', className]}>
+  <h2 id={id} class:list={['text-h2', tone === 'ink' && 'text-paper']}>
+    <slot />
+  </h2>
+  {lead && <p class:list={['max-w-measure text-lead', tone === 'ink' ? 'text-on-ink-muted' : 'text-body']}>{lead}</p>}
+</div>

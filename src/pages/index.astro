@@ -1,0 +1,271 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/layout/Section.astro';
+import SectionHeading from '../components/layout/SectionHeading.astro';
+import HomeHero from '../components/hero/HomeHero.astro';
+import ProofBand from '../components/proof/ProofBand.astro';
+import ProofFacts from '../components/proof/ProofFacts.astro';
+import ProofNote from '../components/proof/ProofNote.astro';
+import PainCards from '../components/offer/PainCards.astro';
+import ServiceCard from '../components/offer/ServiceCard.astro';
+import PathSteps from '../components/offer/PathSteps.astro';
+import OperatorReasons from '../components/offer/OperatorReasons.astro';
+import CompareTable from '../components/offer/CompareTable.astro';
+import BenefitCards from '../components/offer/BenefitCards.astro';
+import WhatYouGet from '../components/offer/WhatYouGet.astro';
+import GuaranteePlate from '../components/offer/GuaranteePlate.astro';
+import PriceBlock from '../components/offer/PriceBlock.astro';
+import BonusCards from '../components/offer/BonusCards.astro';
+import UrgencyLine from '../components/offer/UrgencyLine.astro';
+import CtaRibbon from '../components/offer/CtaRibbon.astro';
+import ArticleCard from '../components/content/ArticleCard.astro';
+import Testimonial from '../components/content/Testimonial.astro';
+import Faq from '../components/content/Faq.astro';
+import Button from '../components/ui/Button.astro';
+import FromTo from '../components/ui/FromTo.astro';
+import Ph from '../components/ui/Ph.astro';
+import Pending from '../components/ui/Pending.astro';
+import { home } from '../copy/home';
+import { compareRows, demoNote, operatorReasons, services } from '../copy/shared';
+import { testimonials } from '../copy/testimonials';
+import { decisions } from '../site.config';
+import { callUrl, companyUrl, demoUrl } from '../lib/links';
+import { isOn, isTodo, showPending } from '../lib/env';
+import { readingMinutes, rubricLabel, visibleArticles } from '../lib/articles';
+
+const articles = (await visibleArticles()).filter((a) => home.playbookSlugs.includes(a.id));
+const usFacts = [
+  { value: '~2,000', label: 'students at GoCoding in Brooklyn, where I lead STEM programs' }, // [review]
+  { value: '500+', label: 'students learning on licensed GoCoding programs' }, // [review]
+  {
+    value: 'AMA South Florida',
+    label: 'Board of Directors — Director of AI & Learning Systems',
+    proof: true,
+    link: decisions.proofLinks.ama,
+  },
+  { value: 'IEEE', label: 'Senior Member', proof: true, link: decisions.proofLinks.ieee, linkLabel: 'See the certificate' },
+];
+const faq = home.faq.filter((f) => !f.flag || isOn(f.flag));
+const g = decisions.guarantees.homeServices;
+const u = decisions.urgency.home;
+const showServicesGuarantee = !isTodo(g) || showPending;
+const showUrgency = (!isTodo(u.date) && !isTodo(u.month)) || showPending;
+// Testimonials: real only, verbatim, with permission; shown when there are at least two.
+const testimonialList = [
+  ...(isOn('firstFiveCenters') ? testimonials.partners : []),
+  ...(isOn('testimonialsCoddy') ? testimonials.coddy : []),
+].filter((t) => t.quote && t.name);
+---
+
+<Base title={home.seo.title} description={home.seo.description} page="home" og="home">
+  <!-- 1–2 · Headline, subtitle, author intro -->
+  <HomeHero />
+  <ProofBand />
+
+  <!-- 3 · Problem -->
+  <Section tone="mist" labelledby="pains-title">
+    <SectionHeading id="pains-title">{home.painsTitle}</SectionHeading>
+    <PainCards items={home.pains} />
+  </Section>
+
+  <!-- 4 · Solution -->
+  <Section labelledby="solution-title">
+    <SectionHeading id="solution-title">{home.solutionTitle}</SectionHeading>
+    <article class="grid gap-6 rounded-card p-6 shadow-[inset_0_0_0_2px_var(--color-ink)] lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12 lg:p-10">
+      <div class="flex flex-col gap-3">
+        <p class="flex items-center gap-2.5 text-small font-bold text-ink">
+          <span aria-hidden="true" class="size-[9px] bg-ink"></span>{home.startHere}
+        </p>
+        <h3 class="text-h3">{services.programs.name}</h3>
+        <p class="max-w-measure text-body">{services.programs.promise}</p>
+      </div>
+      <div class="flex flex-col gap-2 lg:items-end">
+        <Button href={demoUrl('home', 'solution')} icon="arrow" cta="home-solution">Get a free demo lesson</Button>
+        <Button href={services.programs.href} variant="text" icon="arrow">How it works</Button>
+      </div>
+    </article>
+
+    <h3 class="mt-10 mb-5 text-h3 lg:mt-14 lg:mb-6">{home.fillTitle}</h3>
+    <div class="grid gap-3 md:grid-cols-3 lg:gap-4">
+      {
+        (['sales', 'automation', 'marketing'] as const).map((id, i) => (
+          <ServiceCard href={services[id].href} name={services[id].name} promise={services[id].promise} num={`0${i + 2}`} headingLevel="h3" />
+        ))
+      }
+    </div>
+    <div class="mt-6 flex flex-col gap-3 lg:mt-8">
+      <PathSteps steps={home.path} />
+      <p class="text-small text-slate">{home.pathNote}</p>
+    </div>
+  </Section>
+
+  <!-- 5 · Uniqueness -->
+  <Section tone="mist" labelledby="unique-title">
+    <SectionHeading id="unique-title">{home.uniqueTitle}</SectionHeading>
+    <OperatorReasons items={operatorReasons} />
+    <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[17px] font-bold text-ink lg:mt-10">
+      {
+        home.notFranchise.map((t) => (
+          <li class="flex items-center gap-2.5">
+            <span aria-hidden="true" class="ink-square size-[9px]" />
+            {t}
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-10 rounded-card bg-paper p-4 lg:mt-12 lg:p-8">
+      <CompareTable rows={compareRows(decisions.compare)} />
+    </div>
+  </Section>
+
+  <!-- 6 · Proof: U.S. first, then international -->
+  <Section labelledby="proof-title">
+    <SectionHeading id="proof-title">{home.proofTitle}</SectionHeading>
+    <h3 class="mb-4 text-[18px] font-bold text-slate">{home.proofUsLabel}</h3>
+    <ProofFacts facts={usFacts} />
+
+    <h3 class="mt-10 mb-4 text-[18px] font-bold text-slate">{home.proofIntlLabel}</h3>
+    <div class="flex flex-col gap-4 rounded-card bg-mist p-6 lg:flex-row lg:items-center lg:gap-10 lg:p-8">
+      <FromTo from={48} to={158} size="lg" />
+      <div class="flex flex-col gap-2">
+        <p class="text-[18px] leading-snug text-ink">{home.proofIntl}</p>
+        <p class="flex flex-wrap items-center gap-x-4">
+          <ProofNote />
+          {
+            !isTodo(decisions.proofLinks.coddy) && (
+              <Button href={decisions.proofLinks.coddy} variant="text" icon="external" newTab class="text-[15px]">
+                See the record
+              </Button>
+            )
+          }
+        </p>
+      </div>
+    </div>
+
+    {
+      articles.length > 0 && (
+        <>
+          <h3 class="mt-10 mb-4 text-[18px] font-bold text-slate">{home.playbookLabel}</h3>
+          <ul class="grid gap-3 md:grid-cols-3 lg:gap-4">
+            {articles.map((a) => (
+              <li>
+                <ArticleCard href={`/playbook/${a.id}`} rubric={rubricLabel(a.data.rubric)} title={a.data.title} gist={a.data.gist} minutes={readingMinutes(a)} />
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+
+    {
+      (testimonialList.length >= 2 || showPending) && (
+        <div data-pending={showPending && testimonialList.length < 2 ? 'testimonialsCoddy / firstFiveCenters' : undefined}>
+          <h3 class="mt-10 mb-4 text-[18px] font-bold text-slate">{home.testimonialsLabel}</h3>
+          <Testimonial items={testimonialList} />
+        </div>
+      )
+    }
+
+    <Pending flag="firstFiveCenters">
+      <p class="mt-6 text-body"><mark class="ph">[First 5 centers program — terms: решаешь ты]</mark></p>
+    </Pending>
+
+    <Pending flag="asSeenIn">
+      <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-2 border-t border-line pt-6">
+        <h3 class="text-[18px] font-bold text-slate">{home.asSeenInLabel}</h3>
+        <ul class="flex flex-wrap gap-x-8 text-[20px] font-extrabold text-ink">
+          {home.asSeenIn.map((p) => <li>{p}</li>)}
+        </ul>
+        <ProofNote />
+      </div>
+    </Pending>
+  </Section>
+
+  <!-- 7 · Benefits -->
+  <Section tone="mist" labelledby="benefits-title">
+    <SectionHeading id="benefits-title">{home.benefitsTitle}</SectionHeading>
+    <BenefitCards items={home.benefits} card="paper" />
+  </Section>
+
+  <!-- 8 · What you get -->
+  <Section labelledby="get-title">
+    <SectionHeading id="get-title">{home.getTitle}</SectionHeading>
+    <WhatYouGet
+      groups={[
+        { title: services.programs.short, href: services.programs.href, items: home.get.programs },
+        { title: services.sales.short, href: services.sales.href, items: home.get.sales },
+        { title: services.automation.short, href: services.automation.href, items: home.get.automation },
+        { title: services.marketing.short, href: services.marketing.href, items: home.get.marketing },
+      ]}
+    />
+  </Section>
+
+  <!-- 9–11 · Guarantee, price, bonuses -->
+  <Section tone="mist" labelledby="terms-title">
+    <h2 id="terms-title" class="sr-only">Guarantee, price and bonuses</h2>
+    <div class="grid gap-4 lg:grid-cols-3 lg:gap-4">
+      <div class="flex flex-col gap-3">
+        <GuaranteePlate text={home.guaranteePrograms} caption={home.guaranteeProgramsCaption} />
+        {
+          showServicesGuarantee && (
+            <div class="rounded-card bg-paper">
+              <GuaranteePlate text="" caption={home.guaranteeServicesCaption} quiet>
+                <Ph slot="text" value={g} />
+              </GuaranteePlate>
+            </div>
+          )
+        }
+      </div>
+      <PriceBlock
+        label={services.programs.short}
+        price={decisions.prices.programs}
+        unit={decisions.prices.programsUnit}
+        link={{ href: companyUrl('/pricing', 'home', 'price'), label: home.priceLink, cta: 'home-price' }}
+        class="bg-paper"
+      >
+        <p>{home.priceText}</p>
+        {
+          (!isTodo(decisions.priceRationale.homeServices) || showPending) && (
+            <p class="mt-3 border-t border-line pt-3 text-small text-slate">
+              {home.priceServicesLabel}: <Ph value={decisions.priceRationale.homeServices} />
+            </p>
+          )
+        }
+      </PriceBlock>
+      <div class="rounded-card bg-paper p-6 lg:p-6.5">
+        <BonusCards heading={home.bonusesTitle} items={[...home.bonuses]}>
+          <Pending flag="bookBonus">
+            <BonusCards items={[home.bonusBook]} />
+          </Pending>
+        </BonusCards>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 12 · Urgency -->
+  {
+    showUrgency && (
+      <div class="mx-auto max-w-[calc(var(--container-site)+2*var(--page-pad))] px-(--page-pad) pt-12 lg:pt-16">
+        <UrgencyLine>
+          Plan your spring term now: run the demo lesson by <Ph value={u.date} label="date" /> to open a group in{' '}
+          <Ph value={u.month} label="month" />.
+        </UrgencyLine>
+      </div>
+    )
+  }
+
+  <!-- 13 · Call to action -->
+  <CtaRibbon
+    before={home.cta.before}
+    keyPhrase={home.cta.key}
+    primary={{ href: demoUrl('home', 'cta'), label: 'Get a free demo lesson', cta: 'home-cta' }}
+    secondary={{ href: callUrl('home', 'cta'), label: 'Book a 15-min call', cta: 'home-cta' }}
+    note={demoNote}
+  />
+
+  <!-- FAQ right after the CTA -->
+  <Section labelledby="faq-title" pad="none" class="pb-(--section-y)" width="measure">
+    <SectionHeading id="faq-title">{home.faqTitle}</SectionHeading>
+    <Faq items={faq} />
+  </Section>
+</Base>

@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../ui/Icon.astro';
+import { portrait } from '../../lib/photos';
+import { person } from '../../copy/shared';
+import { showPending } from '../../lib/env';
+
+/** Intro byline (boards 05, 08): avatar 48 + name + role. The only name on the home page on phones. */
+interface Props {
+  class?: string;
+  /** Role line override. */
+  role?: string;
+}
+const { class: className, role = `${person.role} · ${person.org}, ${person.city}` } = Astro.props;
+---
+
+<div class:list={['flex items-center gap-3', className]}>
+  {
+    portrait.src ? (
+      <Image src={portrait.src} alt="" width={96} height={96} class="size-12 shrink-0 rounded-full object-cover" />
+    ) : (
+      showPending && (
+        <span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-placeholder text-slate">
+          <Icon name="user" size={22} />
+        </span>
+      )
+    )
+  }
+  <span class="flex flex-col gap-0.5">
+    <span class="text-[16px] font-bold text-ink">{person.name}</span>
+    <span class="text-[14px] leading-[1.35] text-slate">{role}</span>
+  </span>
+</div>

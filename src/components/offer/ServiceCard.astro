@@ -1,0 +1,31 @@
+---
+import Icon from '../ui/Icon.astro';
+
+/** Service card (boards 06, 08, 09): number, name, promise, link. Whole card is one link target. */
+interface Props {
+  href: string;
+  name: string;
+  promise: string;
+  num?: string;
+  /** Extra line, e.g. "For whom" on /services. */
+  note?: string;
+  linkLabel?: string;
+  headingLevel?: 'h3' | 'h2';
+}
+const { href, name, promise, num, note, linkLabel = 'How it works', headingLevel: H = 'h3' } = Astro.props;
+---
+
+<article class="group relative flex flex-col gap-3.5 rounded-card p-6 shadow-[inset_0_0_0_1px_var(--color-line)] transition-shadow duration-(--dur-fast) hover:shadow-[inset_0_0_0_1.5px_var(--color-ink)] lg:p-6.5">
+  <div class="flex items-start justify-between gap-4 lg:flex-col-reverse lg:gap-3.5">
+    <H class="text-[22px] leading-tight font-extrabold tracking-[-0.015em] text-ink lg:text-[24px]">{name}</H>
+    {num && <span class="tabular pt-1.5 text-[15px] font-bold text-slate lg:pt-0">{num}</span>}
+  </div>
+  <p class="grow text-[17px] leading-normal text-body">{promise}</p>
+  {note && <p class="text-small text-slate">{note}</p>}
+  <a href={href} class="inline-flex min-h-11 w-fit items-center gap-1.5 font-bold text-ink after:absolute after:inset-0 after:rounded-card">
+    <span class="underline decoration-[1.5px] underline-offset-4">{linkLabel}</span>
+    <Icon name="arrow" size={18} />
+    <span class="sr-only">: {name}</span>
+  </a>
+  <slot />
+</article>

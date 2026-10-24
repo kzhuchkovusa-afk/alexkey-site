@@ -1,0 +1,22 @@
+---
+import ProofNote from '../proof/ProofNote.astro';
+import Txt from '../ui/Txt.astro';
+
+/** Block 5 · three reasons, ink rule on top (board 06). */
+interface Props {
+  items: { title: string; text: string; proof?: boolean }[];
+}
+const { items } = Astro.props;
+---
+
+<ul class="grid gap-8 md:grid-cols-3 lg:gap-10">
+  {
+    items.map((r) => (
+      <li class="flex flex-col gap-2.5 border-t-2 border-ink pt-4.5">
+        <h3 class="text-[20px] leading-snug font-extrabold tracking-[-0.01em]">{r.title}</h3>
+        <p class="text-[17px] leading-[1.55] text-body"><Txt text={r.text} /></p>
+        {r.proof && <ProofNote class="self-start" />}
+      </li>
+    ))
+  }
+</ul>

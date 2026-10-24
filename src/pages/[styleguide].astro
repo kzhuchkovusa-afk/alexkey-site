@@ -1,0 +1,195 @@
+---
+/**
+ * /styleguide — service page: all components in the order of boards 05–07 (DESIGN §15).
+ * Built only for local / protected-stand builds; never in public deploys, never in the sitemap.
+ */
+import Base from '../layouts/Base.astro';
+import Section from '../components/layout/Section.astro';
+import KeyMark from '../components/brand/KeyMark.astro';
+import Signature from '../components/brand/Signature.astro';
+import Button from '../components/ui/Button.astro';
+import Eyebrow from '../components/ui/Eyebrow.astro';
+import FromTo from '../components/ui/FromTo.astro';
+import Highlight from '../components/ui/Highlight.astro';
+import Icon from '../components/ui/Icon.astro';
+import Tag from '../components/ui/Tag.astro';
+import Photo from '../components/ui/Photo.astro';
+import IntroByline from '../components/hero/IntroByline.astro';
+import ProofBand from '../components/proof/ProofBand.astro';
+import ProofNote from '../components/proof/ProofNote.astro';
+import Timeline from '../components/proof/Timeline.astro';
+import PainCards from '../components/offer/PainCards.astro';
+import ServiceCard from '../components/offer/ServiceCard.astro';
+import PathSteps from '../components/offer/PathSteps.astro';
+import OperatorReasons from '../components/offer/OperatorReasons.astro';
+import CompareTable from '../components/offer/CompareTable.astro';
+import BenefitCards from '../components/offer/BenefitCards.astro';
+import WhatYouGet from '../components/offer/WhatYouGet.astro';
+import GuaranteePlate from '../components/offer/GuaranteePlate.astro';
+import PriceBlock from '../components/offer/PriceBlock.astro';
+import BonusCards from '../components/offer/BonusCards.astro';
+import UrgencyLine from '../components/offer/UrgencyLine.astro';
+import CtaRibbon from '../components/offer/CtaRibbon.astro';
+import PairedWith from '../components/offer/PairedWith.astro';
+import ArticleCard from '../components/content/ArticleCard.astro';
+import TryThisToday from '../components/content/TryThisToday.astro';
+import AuthorBox from '../components/content/AuthorBox.astro';
+import ReadNext from '../components/content/ReadNext.astro';
+import Faq from '../components/content/Faq.astro';
+import Testimonial from '../components/content/Testimonial.astro';
+import CalendarFrame from '../components/content/CalendarFrame.astro';
+import { home } from '../copy/home';
+import { about } from '../copy/about';
+import { compareRows, operatorReasons, services } from '../copy/shared';
+import { decisions } from '../site.config';
+import { showPending } from '../lib/env';
+
+export function getStaticPaths() {
+  return showPending ? [{ params: { styleguide: 'styleguide' } }] : [];
+}
+
+const icons = ['arrow', 'external', 'check', 'calendar', 'clock', 'video', 'demo', 'chevron', 'plus', 'minus', 'info', 'guarantee', 'bonus', 'guide', 'sheet', 'message', 'email', 'menu', 'close'] as const;
+const h = 'mb-6 flex items-baseline justify-between gap-4 border-b border-line pb-3 text-[22px] font-extrabold tracking-[-0.015em]';
+---
+
+<Base title="Styleguide" description="Components" page="styleguide" noindex>
+  <Section pad="compact">
+    <p class="text-small font-semibold text-slate">05 · Components</p>
+    <h1 class="text-h1">Core</h1>
+  </Section>
+
+  <Section pad="compact">
+    <h2 class={h}>Key mark & signature</h2>
+    <div class="flex flex-wrap items-end gap-8">
+      <div class="rounded-card p-8 shadow-[inset_0_0_0_1px_var(--color-line)]"><Signature /></div>
+      <div class="rounded-card bg-ink p-8"><Signature tone="ink" /></div>
+      <KeyMark tile size={64} /><KeyMark tile size={32} /><KeyMark tile size={16} /><KeyMark size={14} />
+    </div>
+  </Section>
+
+  <Section pad="compact">
+    <h2 class={h}>Eyebrow, intro, tags</h2>
+    <div class="flex flex-col gap-5">
+      <Eyebrow>{home.eyebrow}</Eyebrow>
+      <IntroByline />
+      <div class="flex flex-wrap gap-2"><Tag selected>All</Tag><Tag>Scaling without chaos</Tag><Tag>Staffing & curriculum</Tag><Tag>Processes</Tag><Tag>Sales</Tag><Tag>Student flow</Tag></div>
+    </div>
+  </Section>
+
+  <Section pad="compact">
+    <h2 class={h}>Buttons</h2>
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-wrap gap-3"><Button href="#" size="lg" icon="arrow">Get a free demo lesson</Button><Button href="#">Get a free demo</Button><Button href="#" size="sm">Free demo lesson</Button></div>
+      <div class="flex flex-wrap gap-3"><Button href="#" variant="secondary" size="lg">Book a 15-min call</Button><Button href="#" variant="secondary">Book a call</Button></div>
+      <div class="flex flex-wrap gap-6"><Button href="#" variant="text" icon="arrow">How it works</Button><Button href="#" variant="text" icon="external">See the certificate</Button></div>
+      <div class="on-ink flex flex-wrap gap-3 rounded-card bg-ink p-6"><Button href="#" icon="arrow">Get a free demo lesson</Button><Button href="#" variant="secondary" tone="ink">Book a 15-min call</Button></div>
+    </div>
+  </Section>
+
+  <Section pad="compact">
+    <h2 class={h}>Key marks</h2>
+    <div class="flex flex-col gap-6">
+      <p class="text-h1">Trials that end with <Highlight>a date on the calendar.</Highlight></p>
+      <PathSteps steps={[{ title: '15-min call' }, { title: 'Plan' }, { title: 'Launch' }]} />
+      <div class="flex flex-wrap gap-4">
+        <div class="rounded-card p-6 shadow-[inset_0_0_0_1px_var(--color-line)]"><FromTo from={48} to={158} size="lg" /></div>
+        <div class="rounded-card bg-ink p-6"><FromTo from={48} to={158} size="lg" tone="ink" /></div>
+      </div>
+    </div>
+  </Section>
+
+  <ProofBand />
+
+  <Section pad="compact">
+    <h2 class={h}>Name bridge · form controls</h2>
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div class="rounded-card bg-mist p-6">
+        <div class="w-fit rounded-card bg-paper p-5">
+          <p class="text-[20px] font-extrabold">IEEE Senior Member</p>
+          <ProofNote />
+        </div>
+      </div>
+      <form class="flex flex-col gap-5" onsubmit="return false">
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="flex flex-col gap-2 font-bold text-ink">Center name
+            <input class="h-13 rounded-control px-4 font-normal shadow-[inset_0_0_0_1.5px_var(--color-field-line)] outline-none focus:shadow-[inset_0_0_0_2px_var(--color-ink),0_0_0_2px_var(--color-ink)]" placeholder="Your center's name" />
+          </label>
+          <label class="flex flex-col gap-2 font-bold text-ink">Email
+            <input type="email" aria-invalid="true" aria-describedby="sg-err" class="h-13 rounded-control px-4 font-normal shadow-[inset_0_0_0_1.5px_var(--color-error)] outline-none" placeholder="you@center.com" />
+            <span id="sg-err" class="text-small font-normal text-error">Add an email so we can send the call link.</span>
+          </label>
+        </div>
+        <fieldset>
+          <legend class="mb-2 font-bold text-ink">Number of students</legend>
+          <div class="grid grid-cols-4 overflow-hidden rounded-control shadow-[inset_0_0_0_1.5px_var(--color-field-line)]">
+            {['Under 40', '40–100', '100–300', '300+'].map((o, i) => (
+              <label class="flex h-13 cursor-pointer items-center justify-center text-[16px] font-semibold text-ink has-checked:bg-ink has-checked:text-paper">
+                <input type="radio" name="sg-students" class="sr-only" checked={i === 1} />{o}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </Section>
+
+  <Section pad="compact">
+    <h2 class={h}>Icons</h2>
+    <ul class="grid grid-cols-4 gap-3 md:grid-cols-7">
+      {icons.map((n) => <li class="flex flex-col items-center gap-2 rounded-card p-4 text-caption text-slate shadow-[inset_0_0_0_1px_var(--color-line)]"><Icon name={n} size={28} class="text-ink" />{n}</li>)}
+    </ul>
+    <div class="mt-6 grid gap-4 md:grid-cols-2"><Photo src={null} alt="" ratio="4/5" label="Portrait 4:5 · real photo" /><Photo src={null} alt="" ratio="3/2" label="Work 3:2 · real photo" /></div>
+  </Section>
+
+  <Section pad="compact">
+    <p class="text-small font-semibold text-slate">06 · Components</p>
+    <h1 class="text-h1">Offer blocks</h1>
+  </Section>
+  <Section tone="mist" pad="compact"><PainCards items={home.pains.slice(0, 5)} /></Section>
+  <Section pad="compact">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {Object.values(services).map((s, i) => <ServiceCard href={s.href} name={s.name} promise={s.promise} num={`0${i + 1}`} />)}
+    </div>
+    <div class="mt-6"><PathSteps steps={home.path} /></div>
+  </Section>
+  <Section pad="compact"><OperatorReasons items={operatorReasons} /><div class="mt-10"><CompareTable rows={compareRows(decisions.compare)} /></div></Section>
+  <Section pad="compact"><BenefitCards items={home.benefits} /></Section>
+  <Section pad="compact"><WhatYouGet groups={[{ title: 'Programs', items: home.get.programs, href: '/programs' }, { title: 'Sales & Retention', items: home.get.sales, href: '/sales-system' }, { title: 'Automation & AI', items: home.get.automation, href: '/automation' }, { title: 'Marketing', items: home.get.marketing, href: '/marketing' }]} /></Section>
+  <Section pad="compact">
+    <div class="grid gap-4 lg:grid-cols-3">
+      <GuaranteePlate text={home.guaranteePrograms} caption={home.guaranteeProgramsCaption} />
+      <PriceBlock label="Programs" price="$40" unit="/ month per program" link={{ href: '#', label: home.priceLink }}><p>{home.priceText}</p></PriceBlock>
+      <BonusCards heading={home.bonusesTitle} items={[...home.bonuses]} />
+    </div>
+    <UrgencyLine class="mt-6">Plan your spring term now: run the demo lesson by [date] to open a group in [month].</UrgencyLine>
+  </Section>
+  <CtaRibbon before={home.cta.before} keyPhrase={home.cta.key} primary={{ href: '#', label: 'Get a free demo lesson' }} secondary={{ href: '#', label: 'Book a 15-min call' }} note="No card, no call, no contract." id="sg-cta" />
+  <PairedWith href="/sales-system" name="Sales & Retention" />
+
+  <Section pad="compact">
+    <p class="text-small font-semibold text-slate">07 · Components</p>
+    <h1 class="text-h1">Content</h1>
+  </Section>
+  <Section pad="compact">
+    <div class="grid gap-4 md:grid-cols-3">
+      <ArticleCard href="#" rubric="Processes" title="3 numbers every Monday" gist="Monday morning: three numbers, fifteen minutes, a clear plan." minutes={3} />
+      <ArticleCard href="#" rubric="Sales" title="“We’ll think about it” — the last 60 seconds of a trial" gist="Trials that end with a date on the calendar." minutes={3} />
+      <ArticleCard href="#" rubric="Processes" title="Two missed classes in a row" gist="You know which family is about to leave — before they leave." minutes={3} />
+    </div>
+  </Section>
+  <Section pad="compact">
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div class="flex flex-col gap-6">
+        <TryThisToday steps={['[One action an owner can do in under 15 minutes]', '[Second action]', '[What to check on Monday]']} />
+        <AuthorBox service="sales" page="styleguide" />
+        <ReadNext href="#" title="Two missed classes in a row" />
+      </div>
+      <div class="flex flex-col gap-10">
+        <Faq items={home.faq.slice(0, 3)} />
+        <Testimonial items={[]} />
+        <Timeline items={about.timeline} />
+      </div>
+    </div>
+  </Section>
+  <Section pad="compact"><CalendarFrame /></Section>
+</Base>

@@ -1,0 +1,26 @@
+---
+import Base from './Base.astro';
+import Ph from '../components/ui/Ph.astro';
+import { decisions } from '../site.config';
+import { isTodo, showPending } from '../lib/env';
+
+/** Privacy / Terms: text in the 640 column; operator line and the date — after the lawyer (site.config.ts). */
+interface Props {
+  title: string;
+  description: string;
+  page: string;
+}
+const { title, description, page } = Astro.props;
+const approved = !isTodo(decisions.legalApprovedOn);
+---
+
+<Base title={title} description={description} page={page} og={page} sticky={false}>
+  <article class="mx-auto max-w-[calc(var(--container-measure)+2*var(--page-pad))] px-(--page-pad) pt-10 pb-20 lg:pt-20 lg:pb-28">
+    {!approved && showPending && <p class="mb-6"><mark class="ph">[Draft — pending legal review. Final wording by the lawyer]</mark></p>}
+    <h1 class="mb-3 text-h1">{title}</h1>
+    <p class="mb-10 text-small text-slate">Last updated: <Ph value={decisions.legalApprovedOn} label="date of legal approval" /></p>
+    <div class="prose-legal text-body">
+      <slot />
+    </div>
+  </article>
+</Base>

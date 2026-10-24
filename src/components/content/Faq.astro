@@ -1,0 +1,24 @@
+---
+import Icon from '../ui/Icon.astro';
+
+/** FAQ accordion on <details>/<summary>, first open (board 07). */
+interface Props {
+  items: { q: string; a: string; flag?: string }[];
+}
+const { items } = Astro.props;
+---
+
+<div class="border-t border-ink">
+  {
+    items.map((it, i) => (
+      <details open={i === 0} class="group border-b border-line" data-pending={it.flag}>
+        <summary class="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 py-4 text-[19px] leading-snug font-bold text-ink lg:text-[20px] [&::-webkit-details-marker]:hidden">
+          {it.q}
+          <Icon name="plus" size={22} class="group-open:hidden" />
+          <Icon name="minus" size={22} class="hidden group-open:block" />
+        </summary>
+        <div class="max-w-measure pb-6 text-body" set:html={it.a} />
+      </details>
+    ))
+  }
+</div>

@@ -1,0 +1,14 @@
+---
+import Icon from '../ui/Icon.astro';
+
+/** Block 12 · urgency from the enrollment season. No timers, no "3 spots left". */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<p class:list={['flex items-start gap-3.5 rounded-card bg-mist px-5 py-4.5 text-[17px] leading-snug font-semibold text-ink lg:items-center lg:px-7 lg:py-5 lg:text-[19px]', className]}>
+  <Icon name="calendar" size={24} class="mt-0.5 lg:mt-0" />
+  <span><slot /></span>
+</p>

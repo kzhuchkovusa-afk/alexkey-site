@@ -1,0 +1,43 @@
+---
+/** FromTo (6.4): "48 → 158". Arrow is SVG (the font has no →). On ink the arrow is Key. */
+interface Props {
+  from: string | number;
+  to: string | number;
+  /** What is counted — for the screen reader label. */
+  unit?: string;
+  size?: 'display' | 'lg' | 'md' | 'sm';
+  tone?: 'light' | 'ink';
+  class?: string;
+}
+const { from, to, unit = 'locations', size = 'display', tone = 'light', class: className } = Astro.props;
+
+const sizes = {
+  display: 'text-[clamp(4.25rem,2.6rem+5.4vw,8rem)] leading-[0.82] tracking-[-0.045em] gap-[0.14em]',
+  lg: 'text-[44px] leading-none tracking-[-0.035em] gap-3 lg:text-[56px]',
+  md: 'text-[26px] leading-none tracking-[-0.02em] gap-2',
+  sm: 'text-[17px] leading-none tracking-[-0.01em] gap-1.5',
+};
+const arrow = {
+  display: 'w-[0.62em]',
+  lg: 'w-10 lg:w-12',
+  md: 'w-7',
+  sm: 'w-5',
+};
+---
+
+<span
+  role="img"
+  aria-label={`from ${from} to ${to} ${unit}`}
+  class:list={['tabular inline-flex items-center font-extrabold', sizes[size], tone === 'ink' ? 'text-paper' : 'text-ink', className]}
+>
+  <span aria-hidden="true">{from}</span>
+  <svg viewBox="0 0 88 36" fill="none" aria-hidden="true" class:list={['h-auto shrink-0', arrow[size]]}>
+    <path
+      d="M3 18h78M67 5l14 13-14 13"
+      stroke={tone === 'ink' ? 'var(--color-key)' : 'var(--color-ink)'}
+      stroke-width={size === 'display' ? 6.5 : 7}
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+  </svg>
+  <span aria-hidden="true">{to}</span>
+</span>

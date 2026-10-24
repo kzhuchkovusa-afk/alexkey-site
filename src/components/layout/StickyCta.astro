@@ -1,0 +1,24 @@
+---
+import Button from '../ui/Button.astro';
+import { callUrl, demoUrl } from '../../lib/links';
+
+/**
+ * Sticky action bar (board 05): phones and tablets only (< lg).
+ * Appears when [data-hero] leaves the screen; hides over [data-sticky-hide] (forms, CTA ribbon, footer).
+ */
+interface Props {
+  page: string;
+}
+const { page } = Astro.props;
+---
+
+<div
+  data-sticky-cta
+  aria-hidden="true"
+  class="fixed inset-x-0 bottom-0 z-30 translate-y-[calc(100%+16px)] bg-paper px-3 pt-3 pb-[max(12px,env(safe-area-inset-bottom))] shadow-float transition-transform duration-(--dur-base) ease-(--ease-soft) data-[visible=true]:translate-y-0 lg:hidden"
+>
+  <div class="mx-auto flex max-w-xl gap-3">
+    <Button href={demoUrl(page, 'sticky')} size="sm" class="h-13! flex-[1.4]" cta={`${page}-sticky`}>Free demo lesson</Button>
+    <Button href={callUrl(page, 'sticky')} variant="secondary" size="sm" class="h-13! flex-1" cta={`${page}-sticky`}>15-min call</Button>
+  </div>
+</div>

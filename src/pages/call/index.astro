@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import CalendarFrame from '../../components/content/CalendarFrame.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { visibleArticles } from '../../lib/articles';
+
+/** /call — 15 minutes: what happens, who it's for, the calendar (TZ «Остальные страницы», board 07). */
+const trialGuide = (await visibleArticles()).find((a) => a.id === 'trial-lesson-step-by-step' && a.data.live);
+---
+
+<Base
+  title="Book a 15-min call — let's see what will work in your center"
+  description="15 minutes about your center, your schedule and your free rooms. No pressure."
+  page="call"
+  og="call"
+  sticky={false}
+>
+  <section aria-labelledby="hero-title" class="bg-paper">
+    <div class="mx-auto grid max-w-[calc(var(--container-site)+2*var(--page-pad))] gap-10 px-(--page-pad) pt-8 pb-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-16 lg:pt-20 lg:pb-24">
+      <div class="flex flex-col gap-5 lg:gap-6">
+        <h1 id="hero-title" class="text-h1">Let's see what will work in your center</h1>
+        <p class="max-w-[36rem] text-lead text-body">15 minutes about your center, your schedule and your free rooms. No pressure.</p>
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[17px] font-semibold text-ink">
+          <li class="flex items-center gap-2"><Icon name="clock" size={22} />15 min</li>
+          <li class="flex items-center gap-2"><Icon name="calendar" size={22} />Eastern Time</li>
+        </ul>
+        <p class="max-w-[36rem] text-body">
+          For owners and directors of independent learning centers, afterschool and enrichment programs in the U.S.
+        </p>
+        <p class="text-small text-slate">
+          After you book: an email with the agenda{trialGuide && <> and “{trialGuide.data.title}”</>}.
+        </p>
+      </div>
+      <CalendarFrame />
+    </div>
+  </section>
+</Base>

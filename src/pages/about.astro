@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/layout/Section.astro';
+import SectionHeading from '../components/layout/SectionHeading.astro';
+import Photo from '../components/ui/Photo.astro';
+import Button from '../components/ui/Button.astro';
+import Pending from '../components/ui/Pending.astro';
+import Txt from '../components/ui/Txt.astro';
+import IntroByline from '../components/hero/IntroByline.astro';
+import ProofNote from '../components/proof/ProofNote.astro';
+import Timeline from '../components/proof/Timeline.astro';
+import { about } from '../copy/about';
+import { nameBridge } from '../copy/shared';
+import { portrait } from '../lib/photos';
+import { callUrl } from '../lib/links';
+import { isOn, val } from '../lib/env';
+
+const credentials = about.credentials.filter((c) => !c.flag || isOn(c.flag));
+---
+
+<Base title={about.seo.title} description={about.seo.description} page="about" og="about">
+  <section data-hero aria-labelledby="hero-title" class="bg-paper">
+    <div class="mx-auto grid max-w-[calc(var(--container-site)+2*var(--page-pad))] gap-10 px-(--page-pad) pt-8 pb-12 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-center lg:gap-20 lg:pt-20 lg:pb-24">
+      <div class="flex flex-col gap-5 lg:gap-7">
+        <h1 id="hero-title" class="text-h1">{about.h1}</h1>
+        <IntroByline />
+        <p class="max-w-[40rem] text-lead text-body">
+          {about.lead} <ProofNote />
+        </p>
+        <p class="max-w-[40rem] text-body">{about.operator}</p>
+        <div>
+          <Button href={callUrl('about', 'hero')} size="lg" icon="arrow" cta="about-hero" class="w-full lg:w-auto">Book a 15-min call</Button>
+        </div>
+      </div>
+      <Photo src={portrait.src} alt={portrait.alt} ratio="4/5" caption={portrait.caption} label="Portrait 4:5 · real photo" priority />
+    </div>
+  </section>
+
+  <Section tone="mist" labelledby="story-title">
+    <SectionHeading id="story-title"><Txt text={about.storyTitle} /></SectionHeading>
+    <ol class="grid gap-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-8">
+      {
+        about.story.map((s, i) => (
+          <li class="flex flex-col gap-2.5 border-t-2 border-ink pt-4.5">
+            <p class="text-caption text-slate">0{i + 1}</p>
+            <h3 class="text-[20px] font-extrabold tracking-[-0.01em]">{s.title}</h3>
+            <p class="text-[17px] leading-[1.55] text-body">{s.text}</p>
+            {s.proof && <ProofNote class="self-start" />}
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <Section labelledby="timeline-title">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-20">
+      <div>
+        <SectionHeading id="timeline-title">{about.timelineTitle}</SectionHeading>
+        <Timeline items={about.timeline} />
+      </div>
+      <div>
+        <SectionHeading id="credentials-title">{about.credentialsTitle}</SectionHeading>
+        <ul class="flex flex-col">
+          {
+            credentials.map((c) => {
+              const href = c.link ? val(c.link) : null;
+              const row = (
+                <div class="flex flex-col gap-1 border-b border-line py-4 first:pt-0">
+                  <p class="text-[18px] leading-snug font-bold text-ink">{c.title}</p>
+                  {c.text && <p class="text-small text-slate">{c.text}</p>}
+                  {(c.proof || href) && (
+                    <p class="flex flex-wrap items-center gap-x-4">
+                      {c.proof && <ProofNote />}
+                      {href && (
+                        <Button href={href} variant="text" icon="external" newTab class="text-[15px]">
+                          {c.linkLabel ?? 'See the record'}
+                        </Button>
+                      )}
+                    </p>
+                  )}
+                </div>
+              );
+              return <li>{c.flag ? <Pending flag={c.flag}>{row}</Pending> : row}</li>;
+            })
+          }
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="mist" labelledby="name-title" width="measure">
+    <h2 id="name-title" class="mb-5 text-h2">{nameBridge.aboutTitle}</h2>
+    <p class="text-lead text-body">{nameBridge.aboutText}</p>
+  </Section>
+
+  <Section labelledby="how-title" width="measure">
+    <h2 id="how-title" class="mb-5 text-h2">{about.howTitle}</h2>
+    <p class="mb-8 text-lead text-body">{about.how}</p>
+    <Button href={callUrl('about', 'bottom')} size="lg" icon="arrow" cta="about-bottom" class="w-full lg:w-auto">Book a 15-min call</Button>
+  </Section>
+</Base>

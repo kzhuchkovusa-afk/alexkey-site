@@ -1,0 +1,31 @@
+---
+import Icon, { type IconName } from '../ui/Icon.astro';
+
+/** Block 11 · bonuses: icon + title + type (board 06). */
+interface Props {
+  items: { icon: IconName; title: string; type: string }[];
+  heading?: string;
+  class?: string;
+}
+const { items, heading, class: className } = Astro.props;
+---
+
+<div class:list={['flex flex-col gap-3', className]}>
+  {heading && <h3 class="text-[22px] font-extrabold tracking-[-0.015em]">{heading}</h3>}
+  <ul class="flex flex-col gap-3">
+    {
+      items.map((b) => (
+        <li class="flex items-center gap-4 rounded-card px-5 py-4 shadow-[inset_0_0_0_1px_var(--color-line)]">
+          <span class="flex size-12 shrink-0 items-center justify-center rounded-control bg-mist text-ink">
+            <Icon name={b.icon} size={22} />
+          </span>
+          <span class="flex flex-col">
+            <span class="text-[18px] leading-snug font-bold text-ink">{b.title}</span>
+            <span class="text-[15px] text-slate">{b.type}</span>
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+  <slot />
+</div>

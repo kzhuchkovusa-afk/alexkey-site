@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Alex Key — content components</title>
+
+</head>
+<body>
+<div data-board>
+<div hidden-helmet style="display:contents">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0F1F38}a:hover{color:#1B2E4F}
+</style>
+</div>
+<div style="width: 1440px; height: 2100px; box-sizing: border-box; padding: 64px 80px; display: flex; flex-direction: column; gap: 64px; font-family: 'Schibsted Grotesk', 'Onest', Arial, sans-serif; color: #0F1F38; background: #FFFFFF; overflow: hidden;">
+  <header style="display: flex; justify-content: space-between; align-items: flex-end; gap: 48px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <span style="font-size: 15px; font-weight: 600; color: #55627A;">07 · Components</span>
+      <h1 lang="en" style="margin: 0; font-size: 56px; font-weight: 800; letter-spacing: -0.03em; line-height: 1;">Content</h1>
+    </div>
+    <p style="margin: 0; max-width: 640px; font-size: 18px; line-height: 1.55; color: #2F3D56;">Playbook, статья, FAQ, календарь на /call и таймлайн About. Экспертность до просьбы: каждая статья заканчивается действием на сегодня и кнопкой услуги по теме.</p>
+  </header>
+
+  <section style="display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Playbook card</h2><span style="font-size: 14px; color: #55627A;">Рубрика · заголовок · одна строка сути · время чтения. Без картинок — быстрее и честнее</span></div>
+    <div lang="en" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+      <a href="#monday" style="border-radius: 12px; box-shadow: inset 0 0 0 1px #DCE1E8; padding: 28px; display: flex; flex-direction: column; gap: 14px; color: #0F1F38; text-decoration: none;">
+        <span style="align-self: flex-start; font-size: 14px; font-weight: 600; padding: 5px 10px; border-radius: 6px; background: #F1F3F6;">Processes</span>
+        <span style="font-size: 26px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15;">3 numbers every Monday</span>
+        <span style="flex: 1; font-size: 17px; line-height: 1.5; color: #2F3D56;">Monday morning: three numbers, fifteen minutes, a clear plan.</span>
+        <span style="display: flex; justify-content: space-between; align-items: center; font-size: 15px; color: #55627A;"><span>[N] min read</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      </a>
+      <a href="#trial" style="border-radius: 12px; box-shadow: inset 0 0 0 1px #DCE1E8; padding: 28px; display: flex; flex-direction: column; gap: 14px; color: #0F1F38; text-decoration: none;">
+        <span style="align-self: flex-start; font-size: 14px; font-weight: 600; padding: 5px 10px; border-radius: 6px; background: #F1F3F6;">Sales</span>
+        <span style="font-size: 26px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15;">“We’ll think about it” — the last 60 seconds of a trial</span>
+        <span style="flex: 1; font-size: 17px; line-height: 1.5; color: #2F3D56;">Trials that end with a date on the calendar.</span>
+        <span style="display: flex; justify-content: space-between; align-items: center; font-size: 15px; color: #55627A;"><span>[N] min read</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      </a>
+      <a href="#missed" style="border-radius: 12px; box-shadow: inset 0 0 0 1px #DCE1E8; padding: 28px; display: flex; flex-direction: column; gap: 14px; color: #0F1F38; text-decoration: none;">
+        <span style="align-self: flex-start; font-size: 14px; font-weight: 600; padding: 5px 10px; border-radius: 6px; background: #F1F3F6;">Student flow</span>
+        <span style="font-size: 26px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15;">Two missed classes in a row</span>
+        <span style="flex: 1; font-size: 17px; line-height: 1.5; color: #2F3D56;">You know which family is about to leave — before they leave.</span>
+        <span style="display: flex; justify-content: space-between; align-items: center; font-size: 15px; color: #55627A;"><span>[N] min read</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      </a>
+    </div>
+  </section>
+
+  <div style="display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 56px; align-items: start;">
+    <section style="display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Article template</h2><span style="font-size: 14px; color: #55627A;">Колонка текста 640 px</span></div>
+      <article lang="en" style="border-radius: 12px; box-shadow: inset 0 0 0 1px #DCE1E8; padding: 48px 56px; display: flex; flex-direction: column; gap: 22px;">
+        <span style="font-size: 15px; font-weight: 600; color: #55627A;">Playbook · Sales</span>
+        <h3 style="margin: 0; font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.06;">“We’ll think about it” — the last 60 seconds of a trial</h3>
+        <p style="margin: 0; font-size: 22px; line-height: 1.45; color: #2F3D56;">Trials that end with a date on the calendar.</p>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 4px 0 6px; border-bottom: 1px solid #DCE1E8; padding-bottom: 22px;">
+          <span style="font-size: 15px; line-height: 1.4; color: #55627A;">[N] min read · [Date]</span>
+        </div>
+        <p style="margin: 0; max-width: 640px; font-size: 19px; line-height: 1.65; color: #55627A;">[Article body — the Facebook post, expanded 2–3×. 19–20 px, lines up to 64 characters, a subhead every 3–4 paragraphs.]</p>
+        <div style="border-radius: 12px; box-shadow: inset 0 0 0 2px #0F1F38; padding: 26px 28px; display: flex; flex-direction: column; gap: 16px;">
+          <span style="display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 800; letter-spacing: -0.015em;"><span style="width: 14px; height: 14px; background: #F5A524;"></span>Try this today</span>
+          <span style="display: flex; gap: 14px; align-items: baseline; font-size: 18px; line-height: 1.45;"><span style="width: 26px; height: 26px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; background: #0F1F38; color: #FFFFFF; font-size: 14px; font-weight: 800;">1</span><span style="color: #55627A;">[One action an owner can do in under 15 minutes]</span></span>
+          <span style="display: flex; gap: 14px; align-items: baseline; font-size: 18px; line-height: 1.45;"><span style="width: 26px; height: 26px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; background: #0F1F38; color: #FFFFFF; font-size: 14px; font-weight: 800;">2</span><span style="color: #55627A;">[Second action]</span></span>
+          <span style="display: flex; gap: 14px; align-items: baseline; font-size: 18px; line-height: 1.45;"><span style="width: 26px; height: 26px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; background: #0F1F38; color: #FFFFFF; font-size: 14px; font-weight: 800;">3</span><span style="color: #55627A;">[What to check on Monday]</span></span>
+        </div>
+        <div style="border-radius: 12px; background: #F1F3F6; padding: 24px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap;">
+          <span style="width: 64px; height: 64px; flex-shrink: 0; border-radius: 50%; background: #DCE1E8;"></span>
+          <span style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 14px; font-weight: 600; color: #55627A;">About the author</span><span style="font-size: 17px; font-weight: 700;">Alex Key</span><span style="font-size: 15px; line-height: 1.4; color: #55627A;">Managing Director, STEM Education Programs at GoCoding</span></span>
+          <span style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start;">
+            <a href="#call" style="display: inline-flex; height: 52px; padding: 0 22px; align-items: center; border-radius: 6px; background: #F5A524; color: #0F1F38; font-size: 16px; font-weight: 700; text-decoration: none;">Book a 15-min call</a>
+            <a href="#sales" style="display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; color: #0F1F38; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px;">See Sales &amp; Retention<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+          </span>
+        </div>
+        <a href="#missed" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; border-top: 1px solid #DCE1E8; padding-top: 20px; color: #0F1F38; text-decoration: none;"><span style="display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 14px; font-weight: 600; color: #55627A;">Read next</span><span style="font-size: 20px; font-weight: 800; letter-spacing: -0.01em;">Two missed classes in a row</span></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+      </article>
+    </section>
+
+    <div style="display: flex; flex-direction: column; gap: 56px;">
+      <section style="display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">FAQ accordion</h2><span style="font-size: 14px; color: #55627A;">Открыт первый вопрос</span></div>
+        <div lang="en" style="display: flex; flex-direction: column; border-top: 1px solid #0F1F38;">
+          <div style="border-bottom: 1px solid #DCE1E8; padding: 20px 0; display: flex; flex-direction: column; gap: 12px;">
+            <button type="button" aria-expanded="true" style="all: unset; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 19px; font-weight: 700; line-height: 1.35; cursor: pointer;">Do I need a tech teacher?<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M5 12h14"></path></svg></button>
+            <p style="margin: 0; font-size: 17px; line-height: 1.55; color: #2F3D56;">No. A ready-made STEM program your current teacher can run — after 10 minutes of prep.</p>
+          </div>
+          <div style="border-bottom: 1px solid #DCE1E8; padding: 20px 0;">
+            <button type="button" aria-expanded="false" style="all: unset; display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 16px; font-size: 19px; font-weight: 700; line-height: 1.35; cursor: pointer;">What happens on the 15-minute call?<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 5v14M5 12h14"></path></svg></button>
+          </div>
+          <div style="border-bottom: 1px solid #DCE1E8; padding: 20px 0;">
+            <button type="button" aria-expanded="false" style="all: unset; display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 16px; font-size: 19px; font-weight: 700; line-height: 1.35; cursor: pointer;">How much does a program cost?<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 5v14M5 12h14"></path></svg></button>
+          </div>
+        </div>
+      </section>
+
+      <section style="display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Testimonial</h2><span style="font-size: 14px; color: #55627A;">Скрыт, пока реальных отзывов меньше двух</span></div>
+        <figure lang="en" style="margin: 0; border-radius: 12px; background: #F1F3F6; padding: 28px; display: flex; flex-direction: column; gap: 18px;">
+          <blockquote style="margin: 0; font-size: 22px; font-weight: 600; line-height: 1.4; letter-spacing: -0.01em; color: #55627A;">“[Verbatim quote from a CODDY school owner — with written permission. No edits.]”</blockquote>
+          <figcaption style="display: flex; align-items: center; gap: 12px;"><span style="width: 44px; height: 44px; border-radius: 50%; background: #DCE1E8;"></span><span style="display: flex; flex-direction: column; gap: 2px; font-size: 15px; color: #55627A;"><span style="font-weight: 700; color: #0F1F38;">[Name]</span>[Role, school, city] · about Konstantin Z.</span></figcaption>
+        </figure>
+      </section>
+
+      <section style="display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">About timeline</h2><span style="font-size: 14px; color: #55627A;">У каждого факта — подпись и ссылка</span></div>
+        <ol lang="en" style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column;">
+          <li style="display: grid; grid-template-columns: 72px 18px minmax(0, 1fr); gap: 14px; padding-bottom: 22px;"><span style="font-size: 16px; font-weight: 800; padding-top: 1px;">2018</span><span style="display: flex; flex-direction: column; align-items: center;"><span style="width: 12px; height: 12px; margin-top: 5px; background: #0F1F38;"></span><span style="flex: 1; width: 2px; background: #DCE1E8; margin-top: 6px;"></span></span><span style="display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 18px; font-weight: 700;">Senior Instructor</span><span style="font-size: 14px; color: #55627A;">CODDY · <span style="text-decoration: underline dotted; text-underline-offset: 3px;">as Konstantin Z.</span></span></span></li>
+          <li style="display: grid; grid-template-columns: 72px 18px minmax(0, 1fr); gap: 14px; padding-bottom: 22px;"><span style="font-size: 16px; font-weight: 800; padding-top: 1px; color: #55627A;">[Year]</span><span style="display: flex; flex-direction: column; align-items: center;"><span style="width: 12px; height: 12px; margin-top: 5px; background: #0F1F38;"></span><span style="flex: 1; width: 2px; background: #DCE1E8; margin-top: 6px;"></span></span><span style="display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 18px; font-weight: 700;">Program Director</span><span style="font-size: 14px; color: #55627A;">CODDY · <span style="text-decoration: underline dotted; text-underline-offset: 3px;">as Konstantin Z.</span></span></span></li>
+          <li style="display: grid; grid-template-columns: 72px 18px minmax(0, 1fr); gap: 14px; padding-bottom: 22px;"><span style="font-size: 16px; font-weight: 800; padding-top: 1px;">–2022</span><span style="display: flex; flex-direction: column; align-items: center;"><span style="width: 12px; height: 12px; margin-top: 5px; background: #0F1F38;"></span><span style="flex: 1; width: 2px; background: #DCE1E8; margin-top: 6px;"></span></span><span style="display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 18px; font-weight: 700;">Head of Franchise Development</span><span style="font-size: 14px; line-height: 1.45; color: #55627A;">CODDY · 48 → 158 locations in 20+ countries · <span style="text-decoration: underline dotted; text-underline-offset: 3px;">as Konstantin Z.</span></span></span></li>
+          <li style="display: grid; grid-template-columns: 72px 18px minmax(0, 1fr); gap: 14px;"><span style="font-size: 16px; font-weight: 800; padding-top: 1px;">2026</span><span style="display: flex; flex-direction: column; align-items: center;"><span style="width: 12px; height: 12px; margin-top: 5px; background: #F5A524;"></span></span><span style="display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 18px; font-weight: 700;">Managing Director, STEM Education Programs</span><span style="font-size: 14px; color: #55627A;">GoCoding, Brooklyn</span></span></li>
+        </ol>
+      </section>
+    </div>
+  </div>
+
+  <section style="display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 lang="en" style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.015em;">Calendar frame · /call</h2><span style="font-size: 14px; color: #55627A;">Встраиваемый календарь (Calendly / Cal.com / Google — ждёт решения) + запасная кнопка для браузера Facebook</span></div>
+    <div lang="en" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 48px; align-items: start;">
+      <div style="display: flex; flex-direction: column; gap: 18px; padding-top: 8px;">
+        <h3 style="margin: 0; font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.06;">Let’s see what will work in your center</h3>
+        <p style="margin: 0; font-size: 19px; line-height: 1.55; color: #2F3D56;">15 minutes about your center, your schedule and your free rooms. No pressure.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px 20px; font-size: 16px; font-weight: 600;">
+          <span style="display: inline-flex; align-items: center; gap: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>15 min</span>
+          <span style="display: inline-flex; align-items: center; gap: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6.5" width="13" height="11" rx="2"></rect><path d="M16 10.5l5-3v9l-5-3"></path></svg>Video call</span>
+          <span style="display: inline-flex; align-items: center; gap: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>Eastern Time</span>
+        </div>
+        <p style="margin: 6px 0 0; font-size: 15px; line-height: 1.5; color: #55627A;">After you book: an email with the agenda and “The trial lesson, step by step”.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="border-radius: 12px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(15, 31, 56, 0.06), 0 12px 32px rgba(15, 31, 56, 0.14); padding: 28px; display: flex; flex-direction: column; gap: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 18px; font-weight: 800;">Week of [date]</span><span style="font-size: 13px; font-weight: 700; padding: 5px 8px; border-radius: 4px; background: #F1F3F6; color: #55627A;">Calendar embed</span></div>
+          <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px;">
+            <span style="display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 0; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 14px; color: #55627A;">Mon<span style="font-size: 20px; font-weight: 800; color: #0F1F38;">2</span></span>
+            <span style="display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 0; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 14px; color: #55627A;">Tue<span style="font-size: 20px; font-weight: 800; color: #0F1F38;">3</span></span>
+            <span style="display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 0; border-radius: 6px; background: #0F1F38; font-size: 14px; color: #AAB6CB;">Wed<span style="font-size: 20px; font-weight: 800; color: #FFFFFF;">4</span></span>
+            <span style="display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 0; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 14px; color: #55627A;">Thu<span style="font-size: 20px; font-weight: 800; color: #0F1F38;">5</span></span>
+            <span style="display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 0; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 14px; color: #55627A;">Fri<span style="font-size: 20px; font-weight: 800; color: #0F1F38;">6</span></span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;">
+            <span style="display: flex; height: 48px; align-items: center; justify-content: center; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 16px; font-weight: 700;">9:30 AM</span>
+            <span style="display: flex; height: 48px; align-items: center; justify-content: center; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 16px; font-weight: 700;">11:00 AM</span>
+            <span style="display: flex; height: 48px; align-items: center; justify-content: center; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 16px; font-weight: 700;">1:30 PM</span>
+            <span style="display: flex; height: 48px; align-items: center; justify-content: center; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #7D889C; font-size: 16px; font-weight: 700;">4:00 PM</span>
+          </div>
+          <span lang="ru" style="font-size: 14px; line-height: 1.45; color: #55627A;">Условный вид: реальный виджет красим в Ink и Key через настройки сервиса.</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; border-radius: 12px; background: #F1F3F6; padding: 16px 20px;">
+          <span style="font-size: 16px; line-height: 1.4;">Calendar not loading in the Facebook app?</span>
+          <a href="#calendar" style="display: inline-flex; height: 48px; padding: 0 18px; align-items: center; gap: 8px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px #0F1F38; color: #0F1F38; font-size: 16px; font-weight: 700; text-decoration: none; background: #FFFFFF;">Open the calendar<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 16L16 8M9.5 8H16v6.5"></path></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</div>
+
+</body>
+</html>

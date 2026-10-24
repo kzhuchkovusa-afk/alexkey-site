@@ -1,0 +1,25 @@
+---
+/** Text with "→" rendered as an SVG arrow (the brand font has no → glyph, DESIGN §4). */
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+const parts = text.split(/\s*→\s*/);
+---
+
+{
+  parts.map((p, i) => (
+    <>
+      {p}
+      {i < parts.length - 1 && (
+        <>
+          {' '}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="inline-block h-[0.8em] w-[0.9em] align-[-0.05em]">
+            <path d="M4 12h15M13 6l6 6-6 6" />
+          </svg>
+          <span class="sr-only">to</span>{' '}
+        </>
+      )}
+    </>
+  ))
+}

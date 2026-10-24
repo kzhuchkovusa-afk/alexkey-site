@@ -1,0 +1,29 @@
+---
+import Txt from '../ui/Txt.astro';
+
+/** "Try this today" (board 07): ink frame 2 px, heading with the key, steps in ink squares. */
+interface Props {
+  steps: string[];
+}
+const { steps } = Astro.props;
+---
+
+<aside aria-labelledby="try-title" class="rounded-card px-6 py-6 shadow-[inset_0_0_0_2px_var(--color-ink)] lg:px-8 lg:py-7">
+  <h2 id="try-title" class="mb-5 flex items-center gap-3 text-[24px] font-extrabold tracking-[-0.015em] text-ink lg:text-[28px]">
+    <span aria-hidden="true" class="key-square size-4"></span>Try this today
+  </h2>
+  <ol class="flex flex-col gap-4">
+    {
+      steps.map((s, i) => (
+        <li class="flex gap-3.5">
+          <span aria-hidden="true" class="tabular mt-0.5 flex size-7 shrink-0 items-center justify-center bg-ink text-[15px] font-extrabold text-paper">
+            {i + 1}
+          </span>
+          <span class="text-[18px] leading-normal text-ink">
+            <Txt text={s} />
+          </span>
+        </li>
+      ))
+    }
+  </ol>
+</aside>

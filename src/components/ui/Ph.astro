@@ -1,0 +1,20 @@
+---
+import { isTodo, showPending } from '../../lib/env';
+
+/**
+ * Value from site.config.ts. While it is TODO:
+ *  - local build / protected stand — visible [placeholder];
+ *  - public build — renders nothing (prod build fails earlier in scripts/check-config.mjs).
+ */
+interface Props {
+  value: string;
+  /** Text shown inside brackets while the value is TODO; defaults to the TODO note. */
+  label?: string;
+}
+const { value, label } = Astro.props;
+const todo = isTodo(value);
+const note = label ?? value.replace(/^TODO:\s*/, '');
+---
+
+{!todo && value}
+{todo && showPending && <mark class="ph" title={value}>[{note}]</mark>}

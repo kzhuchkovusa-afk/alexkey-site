@@ -1,0 +1,33 @@
+---
+import FromTo from '../ui/FromTo.astro';
+import Icon from '../ui/Icon.astro';
+import ProofNote from './ProofNote.astro';
+import { nameBridge, proofBand } from '../../copy/shared';
+
+/** Proof band right under the hero (boards 05, 08, 09): big FromTo + facts + one footnote. */
+---
+
+<section aria-label="Proof" class="on-ink bg-ink text-paper">
+  <div class="mx-auto max-w-[calc(var(--container-site)+2*var(--page-pad))] px-(--page-pad) pt-11 pb-9 lg:pt-18 lg:pb-13">
+    <div class="flex flex-wrap items-end gap-x-14 gap-y-7 lg:gap-y-10">
+      <div class="flex min-w-0 flex-[1_1_440px] flex-col gap-3 lg:gap-4">
+        <FromTo from={proofBand.from} to={proofBand.to} tone="ink" />
+        <p class="text-[16px] leading-[1.45] text-on-ink-muted lg:text-[18px]">{proofBand.caption}</p>
+      </div>
+      <ul class="grid min-w-0 flex-[1.4_1_520px] grid-cols-2 gap-x-4 gap-y-5.5 border-t border-ink-line pt-6 lg:grid-cols-[repeat(auto-fit,minmax(min(150px,100%),1fr))] lg:gap-x-0 lg:gap-y-6 lg:border-t-0 lg:pt-0">
+        {
+          proofBand.facts.map((f) => (
+            <li class="flex flex-col gap-1 lg:gap-1.5 lg:border-l lg:border-ink-line lg:px-5.5 lg:py-1">
+              <span class="text-[26px] leading-tight font-extrabold tracking-[-0.02em] lg:text-[34px]">{f.value}</span>
+              <span class="text-[15px] leading-[1.35] text-on-ink-muted lg:text-[16px]">{f.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <p class="mt-7 flex items-start gap-2.5 border-t border-ink-line pt-4.5 text-[14px] leading-[1.45] text-on-ink-muted lg:mt-10 lg:pt-5 lg:text-[15px]">
+      <Icon name="info" size={16} class="mt-0.5" />
+      <span><ProofNote tone="ink" /> {nameBridge.bandNote}</span>
+    </p>
+  </div>
+</section>

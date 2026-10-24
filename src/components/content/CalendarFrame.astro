@@ -1,0 +1,172 @@
+---
+import Icon from '../ui/Icon.astro';
+import { decisions } from '../../site.config';
+import { callTopics } from '../../lib/links';
+import { isTodo, showPending, val } from '../../lib/env';
+
+/**
+ * Booking (board 07, TZ «Функционал»): embedded calendar (service — [ждёт]), the first question
+ * "What do you need help with?" preselected from ?service=, fallback "Open the calendar" in a new tab
+ * for the Facebook in-app browser. The iframe loads only when it's near the screen.
+ * Incoming UTM (Facebook entry) is passed to the calendar, so the booking keeps its source.
+ */
+const provider = val(decisions.calendar.provider);
+const url = val(decisions.calendar.url);
+const field = val(decisions.calendar.serviceField);
+const ready = Boolean(provider && url);
+---
+
+<div data-calendar data-provider={provider ?? ''} data-url={url ?? ''} data-field={field ?? ''} class="flex flex-col gap-4">
+  <fieldset class="flex flex-col gap-3">
+    <legend class="mb-3 text-[17px] font-bold text-ink">What do you need help with?</legend>
+    <div class="flex flex-wrap gap-2">
+      {
+        callTopics.map((t, i) => (
+          <label class="relative inline-flex min-h-11 cursor-pointer items-center gap-2.5 rounded-control px-3.5 text-[16px] font-semibold text-ink shadow-[inset_0_0_0_1px_var(--color-field-line)] transition-colors duration-(--dur-fast) has-checked:bg-ink has-checked:text-paper has-checked:shadow-none has-focus-visible:outline-3 has-focus-visible:outline-offset-3 has-focus-visible:outline-ink hover:bg-mist has-checked:hover:bg-ink">
+            <input type="radio" name="topic" value={t.id} checked={i === callTopics.length - 1} class="peer size-4 accent-key" />
+            {t.label}
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  {
+    ready ? (
+      <div data-sticky-hide class="relative min-h-[700px] overflow-hidden rounded-card bg-paper shadow-float">
+        <p data-cal-status class="absolute inset-0 flex items-center justify-center text-small text-slate">
+          Loading the calendar…
+        </p>
+        <iframe data-cal-frame title="Book a 15-min call" class="relative block h-[700px] w-full border-0" hidden />
+      </div>
+    ) : (
+      showPending && (
+        <div class="flex min-h-[320px] flex-col items-center justify-center gap-2 rounded-card bg-paper p-8 text-center shadow-float">
+          <Icon name="calendar" size={32} />
+          <p class="font-bold text-ink">Calendar embed</p>
+          <mark class="ph">[{isTodo(decisions.calendar.provider) ? 'сервис календаря и ссылка — TODO в site.config.ts' : 'ссылка на календарь — TODO'}]</mark>
+        </div>
+      )
+    )
+  }
+
+  {
+    (ready || showPending) && (
+      <div class="flex flex-col gap-3 rounded-card bg-mist p-5 lg:flex-row lg:items-center lg:justify-between">
+        <p class="text-[17px] text-ink">Calendar not loading in the Facebook app?</p>
+        <a
+          data-cal-open
+          href={url ?? '#'}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex h-13 shrink-0 items-center justify-center gap-2 rounded-control px-5 text-ui font-bold whitespace-nowrap text-ink no-underline shadow-[inset_0_0_0_1.5px_var(--color-ink)] hover:bg-paper"
+        >
+          Open the calendar <Icon name="external" size={18} />
+          <span class="sr-only">(opens in a new tab)</span>
+        </a>
+      </div>
+    )
+  }
+</div>
+
+<script>
+  import { incomingUtm, track } from '../../scripts/analytics';
+  import { callTopics } from '../../lib/topics';
+
+  const root = document.querySelector<HTMLElement>('[data-calendar]');
+  if (root) {
+    const params = new URLSearchParams(location.search);
+    const provider = root.dataset.provider ?? '';
+    const base = root.dataset.url ?? '';
+    const field = root.dataset.field ?? '';
+    const from = params.get('from') ?? 'call-page';
+    const utm = incomingUtm();
+    const radios = root.querySelectorAll<HTMLInputElement>('input[name="topic"]');
+    const frame = root.querySelector<HTMLIFrameElement>('[data-cal-frame]');
+    const status = root.querySelector<HTMLElement>('[data-cal-status]');
+    const open = root.querySelector<HTMLAnchorElement>('[data-cal-open]');
+
+    const wanted = params.get('service');
+    radios.forEach((r) => {
+      if (r.value === wanted) r.checked = true;
+    });
+    const topic = () => Array.from(radios).find((r) => r.checked)?.value ?? 'not-sure';
+    const label = () => callTopics.find((t) => t.id === topic())?.label ?? 'Not sure';
+
+    /** Calendar URL with the service and the source label. embed=true — for the iframe. */
+    const build = (embed: boolean): string => {
+      if (!base) return '#';
+      const u = new URL(base);
+      if (field && provider !== 'google') u.searchParams.set(field, label());
+      // Source: the incoming Facebook label if any, otherwise "this site".
+      u.searchParams.set('utm_source', utm?.utm_source ?? 'alexkey');
+      u.searchParams.set('utm_medium', utm?.utm_medium ?? 'site');
+      u.searchParams.set('utm_campaign', utm?.utm_campaign ?? from);
+      u.searchParams.set('utm_content', `${from}.${topic()}`);
+      if (embed) {
+        if (provider === 'calendly') {
+          u.searchParams.set('embed_domain', location.hostname);
+          u.searchParams.set('embed_type', 'Inline');
+          u.searchParams.set('hide_gdpr_banner', '1');
+        } else if (provider === 'calcom') {
+          u.searchParams.set('embed', 'true');
+          u.searchParams.set('layout', 'month_view');
+        } else if (provider === 'google') {
+          u.searchParams.set('gv', 'true');
+        }
+      }
+      return u.toString();
+    };
+
+    let loaded = false;
+    const load = () => {
+      if (!frame) return;
+      frame.src = build(true);
+      frame.hidden = false;
+      loaded = true;
+      frame.addEventListener('load', () => status?.remove(), { once: true });
+    };
+    const sync = () => {
+      if (open) open.href = build(false);
+      if (loaded) load();
+    };
+    radios.forEach((r) => r.addEventListener('change', sync));
+    sync();
+
+    if (frame) {
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((e) => e.isIntersecting)) {
+              io.disconnect();
+              load();
+            }
+          },
+          { rootMargin: '400px' },
+        );
+        io.observe(frame.parentElement ?? frame);
+      } else {
+        load();
+      }
+    }
+
+    // booking_completed: Calendly / Cal.com post a message from the iframe.
+    // Verify with the chosen service; the /call/booked redirect page is the backup.
+    window.addEventListener('message', (e) => {
+      const d = e.data as { event?: string; originator?: string; type?: string; fullType?: string } | null;
+      if (!d || typeof d !== 'object') return;
+      const calendly = e.origin.endsWith('calendly.com') && d.event === 'calendly.event_scheduled';
+      const calcom = d.originator === 'CAL' && /bookingSuccessful/.test(`${d.type ?? ''}${d.fullType ?? ''}`);
+      if (calendly || calcom) {
+        try {
+          sessionStorage.setItem('ak_booked', '1');
+        } catch {
+          /* private mode */
+        }
+        track('booking_completed', { service: topic(), source: utm?.utm_source ?? 'direct' });
+      }
+    });
+
+    open?.addEventListener('click', () => track('calendar_open_new_tab', { service: topic() }));
+  }
+</script>

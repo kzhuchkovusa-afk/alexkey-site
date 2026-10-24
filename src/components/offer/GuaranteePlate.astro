@@ -1,0 +1,26 @@
+---
+import Icon from '../ui/Icon.astro';
+
+/** Block 9 · guarantee plate on key-tint (board 06). Only true conditions. `quiet` — secondary variant. */
+interface Props {
+  text: string;
+  caption?: string;
+  quiet?: boolean;
+  class?: string;
+}
+const { text, caption, quiet = false, class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    'flex flex-col gap-3 rounded-card',
+    quiet ? 'p-5.5 shadow-[inset_0_0_0_1px_var(--color-line)]' : 'bg-key-tint p-6 lg:p-6.5',
+    className,
+  ]}
+>
+  {!quiet && <Icon name="guarantee" size={28} class="text-ink" />}
+  <p class:list={['font-extrabold tracking-[-0.015em] text-ink', quiet ? 'text-[17px] leading-snug font-bold' : 'text-[22px] leading-tight']}>
+    <slot name="text">{text}</slot>
+  </p>
+  {caption && <p class="text-[15px] text-slate">{caption}</p>}
+</div>

@@ -1,0 +1,43 @@
+# Netlify — static Astro build.
+# The production context stops the build while src/site.config.ts has TODO values (scripts/check-config.mjs).
+# Every Netlify deploy is "public": [ждёт] items and placeholders are hidden, previews are noindex.
+# A password-protected review stand shows them: AK_PROTECTED_STAND = "1" in the project's environment
+# (Netlify UI → Environment variables). On the stand the production context is not treated as production:
+# no TODO check, noindex. Before the real launch: remove AK_PROTECTED_STAND and the password, add the domain.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  ASTRO_TELEMETRY_DISABLED = "1"
+
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/og/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    X-Frame-Options = "SAMEORIGIN"
+
+# Old / trailing-slash variants
+[[redirects]]
+  from = "/call/"
+  to = "/call"
+  status = 301
+
+[[redirects]]
+  from = "/playbook/"
+  to = "/playbook"
+  status = 301

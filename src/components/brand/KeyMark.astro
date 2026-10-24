@@ -1,0 +1,27 @@
+---
+/** Key mark (6.1): amber square, never rounded. `tile` — ink tile with the key in the corner (favicon, avatar). */
+interface Props {
+  size?: number;
+  tile?: boolean;
+  class?: string;
+}
+const { size = 14, tile = false, class: className } = Astro.props;
+const keySize = Math.round(size * 0.28);
+---
+
+{
+  tile ? (
+    <span
+      aria-hidden="true"
+      class:list={['relative inline-block shrink-0 bg-ink', className]}
+      style={`width:${size}px;height:${size}px;border-radius:${Math.round(size * 0.19)}px`}
+    >
+      <span
+        class="absolute bg-key"
+        style={`width:${keySize}px;height:${keySize}px;right:${Math.round(size * 0.22)}px;bottom:${Math.round(size * 0.22)}px`}
+      />
+    </span>
+  ) : (
+    <span aria-hidden="true" class:list={['inline-block shrink-0 bg-key', className]} style={`width:${size}px;height:${size}px`} />
+  )
+}

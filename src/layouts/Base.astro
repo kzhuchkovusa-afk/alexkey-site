@@ -1,0 +1,112 @@
+---
+import '../styles/global.css';
+import { Font } from 'astro:assets';
+import SiteHeader from '../components/layout/SiteHeader.astro';
+import SiteFooter from '../components/layout/SiteFooter.astro';
+import StickyCta from '../components/layout/StickyCta.astro';
+import { decisions } from '../site.config';
+import { isProduction, isPublicBuild, val } from '../lib/env';
+import { personLd } from '../lib/schema';
+import { portrait } from '../lib/photos';
+import { getImage } from 'astro:assets';
+
+interface Props {
+  /** <title>. "Alex Key" only on Home and About (TZ, SEO). */
+  title: string;
+  description: string;
+  /** Page id for analytics ("home", "programs", "article-june-test"…). */
+  page: string;
+  /** OG image path under /og/, without extension. */
+  og?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  /** Extra JSON-LD objects (Service, Article). */
+  jsonld?: object[];
+  /** Service page id → service_view event. */
+  service?: string;
+  sticky?: boolean;
+}
+
+const { title, description, page, og = 'default', ogType = 'website', noindex = false, jsonld = [], service, sticky = true } =
+  Astro.props;
+
+const site = Astro.site ?? new URL('http://localhost:4321');
+const cleanPath = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/') || '/';
+const canonical = new URL(cleanPath, site).toString();
+const ogImage = new URL(`/og/${og}.png`, site).toString();
+const robots = noindex || !isProduction ? 'noindex, nofollow' : 'index, follow';
+
+const portraitUrl = portrait.src
+  ? new URL((await getImage({ src: portrait.src, width: 800, format: 'jpg' })).src, site).toString()
+  : null;
+const ld = [personLd(site, portraitUrl), ...jsonld];
+
+const ga = val(decisions.ga4Id);
+const analytics = { ga, debug: !isPublicBuild };
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={robots} />
+    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <Font cssVariable="--font-brand" preload={[{ style: 'normal' }]} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {ld.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+
+    <script is:inline define:vars={{ analytics }}>
+      window.__AK = analytics;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () {
+        window.dataLayer.push(arguments);
+      };
+      if (analytics.ga) {
+        window.gtag('js', new Date());
+        window.gtag('config', analytics.ga);
+      }
+    </script>
+    <slot name="head" />
+  </head>
+  <body data-page={page} data-service={service}>
+    <a
+      href="#main"
+      class="sr-only z-50 rounded-control bg-ink px-4 py-3 font-bold text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+    >
+      Skip to content
+    </a>
+    <SiteHeader />
+    <main id="main" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <SiteFooter />
+    {sticky && <StickyCta page={page} />}
+    <script>
+      import '../scripts/site';
+    </script>
+  </body>
+</html>

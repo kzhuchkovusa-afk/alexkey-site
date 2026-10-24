@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import Button from '../../components/ui/Button.astro';
+import { visibleArticles } from '../../lib/articles';
+
+/**
+ * Confirmation page — set it as the redirect after booking in the calendar service.
+ * Fires booking_completed unless the embedded calendar already reported it. Not indexed.
+ */
+const trialGuide = (await visibleArticles()).find((a) => a.id === 'trial-lesson-step-by-step' && a.data.live);
+---
+
+<Base title="You're booked" description="Your 15-min call is booked." page="call-booked" noindex sticky={false}>
+  <section class="mx-auto max-w-[calc(var(--container-measure)+2*var(--page-pad))] px-(--page-pad) py-16 lg:py-28">
+    <h1 class="mb-5 text-h1">You're booked.</h1>
+    <p class="mb-4 text-lead text-body">Check your email for the confirmation and the agenda.</p>
+    <p class="mb-8 text-body">Before the call, have your schedule and your free rooms in front of you — that's what we'll talk about.</p>
+    {
+      trialGuide ? (
+        <Button href={`/playbook/${trialGuide.id}`} size="lg" icon="arrow">
+          Read “{trialGuide.data.title}”
+        </Button>
+      ) : (
+        <Button href="/playbook" variant="secondary" size="lg" icon="arrow">
+          Read the Playbook
+        </Button>
+      )
+    }
+  </section>
+</Base>
+
+<script>
+  import { incomingUtm, track } from '../../scripts/analytics';
+
+  let already = false;
+  try {
+    already = sessionStorage.getItem('ak_booked') === '1';
+    sessionStorage.removeItem('ak_booked');
+  } catch {
+    /* private mode */
+  }
+  if (!already) {
+    const p = new URLSearchParams(location.search);
+    track('booking_completed', { service: p.get('service') ?? undefined, source: incomingUtm()?.utm_source ?? 'direct' });
+  }
+</script>

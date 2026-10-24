@@ -1,0 +1,39 @@
+---
+import Button from '../ui/Button.astro';
+
+/**
+ * Block 13 · CTA ribbon on Ink (board 06): H2 with the key phrase in text-key, 2 buttons, microcopy.
+ * Pass the heading as `before` + `key` + `after`.
+ */
+interface Props {
+  before: string;
+  keyPhrase: string;
+  after?: string;
+  primary: { href: string; label: string; cta?: string; icon?: 'arrow' | 'external' | 'none' };
+  secondary?: { href: string; label: string; cta?: string; newTab?: boolean; icon?: 'arrow' | 'external' | 'none' };
+  note?: string;
+  id?: string;
+}
+const { before, keyPhrase, after = '', primary, secondary, note, id = 'cta' } = Astro.props;
+---
+
+<section aria-labelledby={`${id}-title`} data-sticky-hide class="px-(--page-pad) py-12 lg:py-16">
+  <div class="on-ink mx-auto flex max-w-site flex-col gap-8 rounded-card bg-ink px-6 py-10 text-paper lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:px-18 lg:py-16">
+    <div class="flex max-w-[38rem] flex-col gap-5">
+      <h2 id={`${id}-title`} class="text-h2 text-paper">
+        {before}<span class="text-key">{keyPhrase}</span>{after}
+      </h2>
+      {note && <p class="text-[17px] text-on-ink-muted lg:text-[19px]">{note}</p>}
+    </div>
+    <div class="flex w-full flex-col gap-3 lg:max-w-[28rem]">
+      <Button href={primary.href} size="lg" full icon={primary.icon ?? 'arrow'} cta={primary.cta}>{primary.label}</Button>
+      {
+        secondary && (
+          <Button href={secondary.href} variant="secondary" tone="ink" size="lg" full cta={secondary.cta} newTab={secondary.newTab} icon={secondary.icon ?? 'none'}>
+            {secondary.label}
+          </Button>
+        )
+      }
+    </div>
+  </div>
+</section>

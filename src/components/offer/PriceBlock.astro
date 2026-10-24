@@ -1,0 +1,33 @@
+---
+import Button from '../ui/Button.astro';
+
+/** Block 10 · price + rationale + optional external link (board 06). */
+interface Props {
+  label: string;
+  price?: string | null;
+  unit?: string;
+  link?: { href: string; label: string; cta?: string };
+  class?: string;
+}
+const { label, price, unit, link, class: className } = Astro.props;
+---
+
+<div class:list={['flex flex-col gap-3 rounded-card p-6 shadow-[inset_0_0_0_1px_var(--color-line)] lg:p-6.5', className]}>
+  <p class="text-[15px] font-bold text-slate">{label}</p>
+  {
+    price && (
+      <p class="flex flex-wrap items-baseline gap-x-2">
+        <span class="tabular text-[56px] leading-none font-extrabold tracking-[-0.04em] text-ink lg:text-[64px]">{price}</span>
+        {unit && <span class="text-[18px] font-semibold text-ink">{unit}</span>}
+      </p>
+    )
+  }
+  <div class="text-[17px] leading-normal text-body"><slot /></div>
+  {
+    link && (
+      <Button href={link.href} variant="text" icon="external" cta={link.cta} newTab>
+        {link.label}
+      </Button>
+    )
+  }
+</div>
