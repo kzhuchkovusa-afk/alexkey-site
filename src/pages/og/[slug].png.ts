@@ -3,6 +3,8 @@ import { homeCard, pageCard } from '../../lib/og';
 import { home } from '../../copy/home';
 import { offers } from '../../copy/services';
 import { about } from '../../copy/about';
+import { book } from '../../copy/book';
+import { isOn } from '../../lib/env';
 import { rubricLabel, visibleArticles } from '../../lib/articles';
 
 /** One 1200 × 630 preview per page (TZ «Шаринг»). */
@@ -19,6 +21,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     privacy: { kind: 'page', label: 'Privacy Policy', title: 'Privacy Policy' },
     terms: { kind: 'page', label: 'Terms of Use', title: 'Terms of Use' },
   };
+  if (isOn('bookPage')) cards.book = { kind: 'page', label: book.eyebrow, title: book.subtitle, key: 'without the friction' };
   for (const o of Object.values(offers)) {
     cards[o.page] = { kind: 'page', label: o.eyebrow, title: `${o.h1.before}${o.h1.key}${o.h1.after}`, key: o.h1.key };
   }

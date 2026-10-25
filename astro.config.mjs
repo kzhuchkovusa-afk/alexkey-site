@@ -24,7 +24,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !/\/(styleguide|call\/booked|404)(\/|$)/.test(page),
+      filter: (page) => !/\/(styleguide|call\/booked|book\/thanks|404)(\/|$)/.test(page),
     }),
   ],
   fonts: [

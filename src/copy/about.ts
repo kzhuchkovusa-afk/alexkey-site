@@ -68,7 +68,7 @@ export const about = {
     { title: 'Jury member — Glonary Awards for Business Leaders 2025', link: decisions.proofLinks.glonary, flag: 'glonaryJury' },
   ] as Credential[],
 
-  // Recognition (review 24.10): four groups in the order of the home cards; the home cards link to these anchors.
+  // Recognition (review 24.10, task 03): In the press, Awards, Research & writing, Education; the home cards link to these anchors.
   recognitionTitle: 'Recognition',
   press: {
     id: 'press',
@@ -78,18 +78,18 @@ export const about = {
       {
         outlet: 'TechBullion',
         date: 'Dec 2025',
-        title: '"From Chaos to a Scalable Network in Education"',
+        title: '“From Chaos to a Scalable Network in Education”',
         href: 'https://techbullion.com/from-chaos-to-a-scalable-network-in-education/',
       },
       {
         outlet: 'CEO Today',
         date: 'Jan 2026',
-        title: 'Interview: "Small teams using the right AI tools are outperforming much larger departments that haven\'t adapted yet"',
+        title: 'Interview: “Small teams using the right AI tools are outperforming much larger departments that haven’t adapted yet”',
       },
       {
         outlet: 'TAdviser',
         date: 'Feb 2026',
-        title: 'Interview: "You can\'t create a market out of nothing"',
+        title: 'Interview: “You can’t create a market out of nothing”',
         inRussian: true,
         // Answers automated checks with an error; the link is correct (task 02).
         href: 'https://www.tadviser.ru/a/924496',
@@ -97,14 +97,14 @@ export const about = {
       {
         outlet: 'Komsomolskaya Pravda',
         date: 'Dec 2025',
-        title: '"How artificial intelligence is turning EdTech startups into large franchises"',
+        title: '“How artificial intelligence is turning EdTech startups into large franchises”',
         inRussian: true,
         href: 'https://www.kp.ru/daily/27754/5182936/',
       },
       {
         outlet: 'Pravda.ru',
         date: 'Sep 2025',
-        title: '"If you don\'t know your audience, you\'re doomed to just survive"',
+        title: '“If you don’t know your audience, you’re doomed to just survive”',
         inRussian: true,
         href: 'https://www.pravda.ru/economics/2267754-konstantin-zhuchkov-avtomatizacija/',
       },
@@ -116,7 +116,7 @@ export const about = {
     items: [
       { text: decisions.recognition.research.text, flag: 'research' },
       // The link appears with the /book page (flag bookPage).
-      { text: 'No-Marketer Marketing: The WTF System — a book, 209 pages', link: '/book', linkFlag: 'bookPage', linkLabel: 'About the book' }, // linkLabel [review]
+      { text: 'No-Marketer Marketing: The WTF System — a free book', link: '/book', linkFlag: 'bookPage', linkLabel: 'Get the free book' },
       {
         text: 'Minecraft: Introduction to AI — an AI course for kids I wrote in 2018',
         note: { text: '8,600+ kids completed the course', flag: 'coddyStudents' },

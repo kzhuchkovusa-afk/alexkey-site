@@ -1,0 +1,280 @@
+---
+/**
+ * /book — the free book No-Marketer Marketing for email + phone (PB/site/tasks/03-book-page.md).
+ * Behind live.bookPage: not built in public deploys until the PDF is in (task 04), like hidden Playbook articles;
+ * locally built with the [ждёт] frame. The form is a plain Netlify Forms POST — works without JS;
+ * the script adds field errors, the `source` label and the prompt's copy button.
+ */
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Section from '../components/layout/Section.astro';
+import SectionHeading from '../components/layout/SectionHeading.astro';
+import Button from '../components/ui/Button.astro';
+import Eyebrow from '../components/ui/Eyebrow.astro';
+import Icon from '../components/ui/Icon.astro';
+import Pending from '../components/ui/Pending.astro';
+import Faq from '../components/content/Faq.astro';
+import CtaRibbon from '../components/offer/CtaRibbon.astro';
+import cover from '../assets/book/cover-dark.png';
+import { book } from '../copy/book';
+import { portrait } from '../lib/photos';
+import { isOn } from '../lib/env';
+
+export function getStaticPaths() {
+  return isOn('bookPage') ? [{ params: { book: 'book' } }] : [];
+}
+
+const f = book.form;
+const field =
+  'h-13 w-full rounded-control bg-paper px-4 text-[17px] font-normal text-ink shadow-[inset_0_0_0_1.5px_var(--color-field-line)] outline-none focus:shadow-[inset_0_0_0_2px_var(--color-ink),0_0_0_2px_var(--color-ink)] aria-invalid:shadow-[inset_0_0_0_1.5px_var(--color-error)]';
+---
+
+<Base title={book.seo.title} description={book.seo.description} page="book" og="book" sticky={false}>
+  <Pending flag="bookPage">
+    <section data-hero aria-labelledby="hero-title" class="bg-paper">
+      <div
+        class="mx-auto grid max-w-[calc(var(--container-site)+2*var(--page-pad))] gap-8 px-(--page-pad) pt-8 pb-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-x-20 lg:gap-y-10 lg:pt-20 lg:pb-24"
+      >
+        <div class="flex flex-col gap-5 lg:gap-6">
+          <Eyebrow>{book.eyebrow}</Eyebrow>
+          <h1 id="hero-title" class="text-h1">{book.h1}</h1>
+          <p class="text-h3 text-ink">{book.subtitle}</p>
+          <p class="max-w-[40rem] text-[18px] leading-[1.55] text-body lg:text-lead">{book.lead}</p>
+        </div>
+
+        <div class="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
+          <Image
+            src={cover}
+            alt={book.coverAlt}
+            widths={[160, 320, 360, 720]}
+            sizes="(min-width: 1024px) 360px, 160px"
+            loading="eager"
+            fetchpriority="high"
+            class="w-40 rounded-tip shadow-float lg:w-full"
+          />
+        </div>
+
+        <form
+          id="book-form"
+          name="book"
+          method="POST"
+          action="/book/thanks"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          data-book-form
+          data-errors={JSON.stringify(f.errors)}
+          class="flex scroll-mt-4 flex-col gap-5 rounded-card bg-mist p-5 lg:scroll-mt-6 lg:p-7"
+        >
+          <input type="hidden" name="form-name" value="book" />
+          <input type="hidden" name="source" value="" data-source />
+          <p class="hidden">
+            <label>Don’t fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+          </p>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div class="flex flex-col gap-2">
+              <label for="book-email" class="font-bold text-ink">{f.email}</label>
+              <input id="book-email" name="email" type="email" required autocomplete="email" class={field} />
+              <p id="book-email-error" class="text-small text-error" data-error hidden></p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="book-phone" class="font-bold text-ink">{f.phone}</label>
+              <input
+                id="book-phone"
+                name="phone"
+                type="tel"
+                required
+                autocomplete="tel"
+                inputmode="tel"
+                pattern="\D*(\d\D*){10,}"
+                title={f.errors.phoneShort}
+                class={field}
+              />
+              <p id="book-phone-error" class="text-small text-error" data-error hidden></p>
+            </div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <button
+              type="submit"
+              data-cta="book-hero"
+              class="inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-control bg-key px-6 text-ui font-bold text-ink transition-[background-color] duration-(--dur-fast) ease-out hover:bg-key-press active:bg-key-press lg:w-auto lg:self-start"
+            >
+              {f.submit}
+              <Icon name="arrow" size={18} />
+            </button>
+            <p class="text-small text-slate">{f.note}</p>
+          </div>
+          <p class="text-caption text-slate">
+            {f.consent}{' '}
+            <a href="/privacy" class="underline underline-offset-2 hover:text-ink">{f.privacy}</a>.
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <Section tone="mist" labelledby="who-title" width="measure">
+      <h2 id="who-title" class="mb-5 text-h2">{book.whoTitle}</h2>
+      <p class="text-lead text-body">{book.who}</p>
+    </Section>
+
+    <Section labelledby="inside-title">
+      <SectionHeading id="inside-title">{book.insideTitle}</SectionHeading>
+      <ol class="grid gap-x-12 gap-y-6 md:grid-cols-2 lg:grid-cols-3">
+        {
+          book.inside.map((item, i) => (
+            <li class="flex gap-4 border-t border-line pt-4">
+              <span aria-hidden="true" class="tabular w-7 shrink-0 text-[17px] font-extrabold text-ink">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="text-[17px] leading-[1.55] text-body">{item}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </Section>
+
+    <Section tone="mist" labelledby="prompt-title" width="measure">
+      <h2 id="prompt-title" class="mb-5 text-h2">{book.promptTitle}</h2>
+      <p class="mb-8 text-lead text-body">{book.promptIntro}</p>
+      <figure class="flex flex-col gap-4 rounded-card bg-paper px-6 py-6 shadow-[inset_0_0_0_2px_var(--color-ink)] lg:px-8 lg:py-7">
+        <blockquote id="book-prompt" class="text-[18px] leading-[1.6] text-ink select-all">{book.prompt}</blockquote>
+        <div class="flex items-center gap-4">
+          <button
+            type="button"
+            data-copy="book-prompt"
+            hidden
+            class="inline-flex h-11 items-center gap-2 rounded-control px-4 text-[16px] font-bold text-ink shadow-[inset_0_0_0_1.5px_var(--color-ink)] transition-[background-color] duration-(--dur-fast) hover:bg-mist"
+          >
+            <span data-copied-icon hidden><Icon name="check" size={18} /></span>
+            <span data-copy-label data-copied={book.copiedLabel}>{book.copyLabel}</span>
+          </button>
+          <span role="status" aria-live="polite" class="sr-only" data-copy-status></span>
+        </div>
+      </figure>
+    </Section>
+
+    <Section labelledby="why-title" width="measure">
+      <h2 id="why-title" class="mb-5 text-h2">{book.whyTitle}</h2>
+      <p class="mb-8 text-lead text-body">{book.why}</p>
+      <div class="flex items-center gap-4">
+        {portrait.src && <Image src={portrait.src} alt="" width={128} height={128} class="size-16 shrink-0 rounded-full object-cover object-top" />}
+        <div class="flex flex-col">
+          <p class="text-[16px] leading-snug font-bold text-ink">{book.signature}</p>
+          <Button href="/about" variant="text" icon="arrow" class="text-[16px]">{book.aboutLink}</Button>
+        </div>
+      </div>
+    </Section>
+
+    <Section tone="mist" labelledby="faq-title" width="measure">
+      <h2 id="faq-title" class="mb-8 text-h2">{book.faqTitle}</h2>
+      <Faq items={book.faq} />
+    </Section>
+
+    <CtaRibbon
+      id="book-cta"
+      before={book.cta.before}
+      keyPhrase={book.cta.keyPhrase}
+      after={book.cta.after}
+      primary={{ href: '#book-form', label: book.cta.label, cta: 'book-bottom' }}
+    />
+  </Pending>
+</Base>
+
+<script>
+  import { incomingUtm, track } from '../scripts/analytics';
+
+  /* ---------- Form: field errors, `source`, submit event ---------- */
+
+  const form = document.querySelector<HTMLFormElement>('[data-book-form]');
+  if (form) {
+    // Messages come from src/copy/book.ts via data-errors (no config in the client bundle).
+    const errors = JSON.parse(form.dataset.errors ?? '{}') as Record<'emailMissing' | 'emailInvalid' | 'phoneMissing' | 'phoneShort', string>;
+    const email = form.querySelector<HTMLInputElement>('input[name="email"]')!;
+    const phone = form.querySelector<HTMLInputElement>('input[name="phone"]')!;
+
+    // source: utm_source / utm_campaign from the address (or saved from the entry), else the referrer's host.
+    const source = form.querySelector<HTMLInputElement>('[data-source]');
+    if (source) {
+      const utm = incomingUtm();
+      let ref = '';
+      try {
+        const r = document.referrer ? new URL(document.referrer) : null;
+        if (r && r.host !== location.host) ref = `referrer: ${r.host}`;
+      } catch {
+        /* bad referrer */
+      }
+      source.value = utm?.utm_source ? [utm.utm_source, utm.utm_campaign].filter(Boolean).join(' / ') : ref;
+    }
+
+    const messageFor = (input: HTMLInputElement): string => {
+      const v = input.value.trim();
+      if (input === email) {
+        if (!v) return errors.emailMissing;
+        return input.validity.typeMismatch ? errors.emailInvalid : '';
+      }
+      if (!v) return errors.phoneMissing;
+      return v.replace(/\D/g, '').length < 10 ? errors.phoneShort : '';
+    };
+    const show = (input: HTMLInputElement, msg: string) => {
+      const err = document.getElementById(`${input.id}-error`);
+      if (!err) return;
+      err.textContent = msg;
+      err.hidden = !msg;
+      if (msg) {
+        input.setAttribute('aria-invalid', 'true');
+        input.setAttribute('aria-describedby', err.id);
+      } else {
+        input.removeAttribute('aria-invalid');
+        input.removeAttribute('aria-describedby');
+      }
+    };
+
+    form.noValidate = true;
+    let tried = false;
+    for (const input of [email, phone]) {
+      input.addEventListener('input', () => tried && show(input, messageFor(input)));
+      input.addEventListener('blur', () => tried && show(input, messageFor(input)));
+    }
+    form.addEventListener('submit', (e) => {
+      tried = true;
+      const bad = [email, phone].filter((input) => {
+        const msg = messageFor(input);
+        show(input, msg);
+        return Boolean(msg);
+      });
+      if (bad.length) {
+        e.preventDefault();
+        bad[0].focus();
+        return;
+      }
+      track('book_form_submit', { cta: 'book-hero', source: source?.value || 'direct' });
+    });
+  }
+
+  /* ---------- Copy prompt (without JS the button stays hidden; the text is selectable) ---------- */
+
+  const copyBtn = document.querySelector<HTMLButtonElement>('[data-copy]');
+  const promptText = copyBtn ? document.getElementById(copyBtn.dataset.copy!) : null;
+  if (copyBtn && promptText && navigator.clipboard) {
+    const label = copyBtn.querySelector<HTMLElement>('[data-copy-label]')!;
+    const icon = copyBtn.querySelector<HTMLElement>('[data-copied-icon]');
+    const status = document.querySelector('[data-copy-status]');
+    const idle = label.textContent;
+    copyBtn.hidden = false;
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(promptText.textContent?.trim() ?? '');
+      } catch {
+        return;
+      }
+      label.textContent = label.dataset.copied ?? idle;
+      if (icon) icon.hidden = false;
+      if (status) status.textContent = 'Prompt copied to the clipboard';
+      track('book_prompt_copy', {});
+      setTimeout(() => {
+        label.textContent = idle;
+        if (icon) icon.hidden = true;
+        if (status) status.textContent = '';
+      }, 2000);
+    });
+  }
+</script>

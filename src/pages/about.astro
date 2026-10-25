@@ -28,6 +28,7 @@ const awards = about.awards.items.filter((a) => isOn(a.flag));
 const showEducation = isOn(about.education.flag);
 // html already has scroll-padding-top: 5rem (global.css); this adds air under the 64/84 px header.
 const anchor = 'scroll-mt-4 lg:scroll-mt-6';
+// Recognition order (task 03): In the press and Awards first, then Research & writing and Education — same on phones.
 const rowClass = 'flex flex-col gap-1 border-b border-line py-4 first:pt-0 last:border-b-0';
 ---
 
@@ -136,36 +137,6 @@ const rowClass = 'flex flex-col gap-1 border-b border-line py-4 first:pt-0 last:
       </div>
 
       {
-        research.length > 0 && (
-          <div id={about.research.id} class:list={['flex flex-col', anchor]}>
-            <h3 class="mb-5 text-h3">{about.research.title}</h3>
-            <ul class="flex flex-col">
-              {research.map((r) => {
-                const row = (
-                  <div class="flex flex-col gap-1">
-                    <p class="text-[17px] leading-snug text-body">{r.text}</p>
-                    {r.note && (
-                      <Pending flag={r.note.flag}>
-                        <p class="text-small text-slate">{r.note.text}</p>
-                      </Pending>
-                    )}
-                    {r.link && r.linkFlag && (
-                      <Pending flag={r.linkFlag}>
-                        <Button href={r.link} variant="text" icon="arrow" class="text-[15px]">
-                          {r.linkLabel}
-                        </Button>
-                      </Pending>
-                    )}
-                  </div>
-                );
-                return <li class={rowClass}>{r.flag ? <Pending flag={r.flag}>{row}</Pending> : row}</li>;
-              })}
-            </ul>
-          </div>
-        )
-      }
-
-      {
         awards.length > 0 && (
           <div id={about.awards.id} class:list={['flex flex-col', anchor]}>
             <h3 class="mb-5 text-h3">{about.awards.title}</h3>
@@ -192,6 +163,36 @@ const rowClass = 'flex flex-col gap-1 border-b border-line py-4 first:pt-0 last:
                   </Pending>
                 </li>
               ))}
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        research.length > 0 && (
+          <div id={about.research.id} class:list={['flex flex-col', anchor]}>
+            <h3 class="mb-5 text-h3">{about.research.title}</h3>
+            <ul class="flex flex-col">
+              {research.map((r) => {
+                const row = (
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[17px] leading-snug text-body">{r.text}</p>
+                    {r.note && (
+                      <Pending flag={r.note.flag}>
+                        <p class="text-small text-slate">{r.note.text}</p>
+                      </Pending>
+                    )}
+                    {r.link && r.linkFlag && (
+                      <Pending flag={r.linkFlag}>
+                        <Button href={r.link} variant="text" icon="arrow" class="text-[15px]">
+                          {r.linkLabel}
+                        </Button>
+                      </Pending>
+                    )}
+                  </div>
+                );
+                return <li class={rowClass}>{r.flag ? <Pending flag={r.flag}>{row}</Pending> : row}</li>;
+              })}
             </ul>
           </div>
         )

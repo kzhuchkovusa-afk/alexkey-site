@@ -1,8 +1,9 @@
 ---
 import Legal from '../layouts/Legal.astro';
 import Ph from '../components/ui/Ph.astro';
+import Pending from '../components/ui/Pending.astro';
 import { decisions } from '../site.config';
-import { val } from '../lib/env';
+import { isOn, val } from '../lib/env';
 
 /**
  * Privacy Policy — DRAFT for the lawyer (TZ: operator ArgoPrep Center LLC (GoCoding) [ждёт: юрист];
@@ -38,6 +39,20 @@ const calendarName = calendar ? { calendly: 'Calendly', calcom: 'Cal.com', googl
       <strong>Campaign labels.</strong> If you arrive through a link with a campaign label (for example, from Facebook), your browser
       keeps that label for up to 30 days, so we can see which link led to a booking or a demo request.
     </li>
+    {
+      // Book form (task 03) — appears with /book (flag bookPage). [review] — for the lawyer.
+      isOn('bookPage') && (
+        <li>
+          <Pending flag="bookPage" inline>
+            <strong>Book download.</strong> When you download our free book, we collect your email address and phone number. We use
+            them to send you the book and to follow up about the book and our services by email, phone or text. You can opt out of
+            texts by replying STOP, and ask us to delete your data at any time by writing to{' '}
+            {email ? <a href={`mailto:${email}`}>{email}</a> : <Ph value={decisions.email} label="email" />}. We don’t sell your
+            personal information.
+          </Pending>
+        </li>
+      )
+    }
     <li><strong>Email.</strong> If you write to us, we keep the correspondence.</li>
   </ul>
 

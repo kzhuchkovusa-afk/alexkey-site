@@ -32,6 +32,22 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
     X-Frame-Options = "SAMEORIGIN"
 
+# Free book (tasks 03–04): the PDF and the thank-you page stay out of search.
+[[headers]]
+  for = "/downloads/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/book/thanks"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/book/thanks.html"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
 # Old / trailing-slash variants
 [[redirects]]
   from = "/call/"

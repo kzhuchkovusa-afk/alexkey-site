@@ -37,8 +37,14 @@ document.addEventListener(
       return;
     }
 
-    if (url.origin === location.origin && url.pathname.replace(/\/$/, '') === '/call') {
+    if (url.origin !== location.origin) return;
+    const path = url.pathname.replace(/\/$/, '');
+    if (path === '/call') {
       track('book_call_click', { service: url.searchParams.get('service') ?? 'not-sure', cta });
+    } else if (path === '/book') {
+      track('free_book_click', { cta });
+    } else if (path.startsWith('/downloads/')) {
+      track('book_download', { cta });
     }
   },
   { capture: true },

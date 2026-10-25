@@ -1,9 +1,10 @@
 ---
+import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 
-/** FAQ accordion on <details>/<summary>, first open (board 07). */
+/** FAQ accordion on <details>/<summary>, first open (board 07). `link` — an internal link under the answer. */
 interface Props {
-  items: { q: string; a: string; flag?: string }[];
+  items: { q: string; a: string; flag?: string; link?: { href: string; label: string } }[];
 }
 const { items } = Astro.props;
 ---
@@ -17,7 +18,16 @@ const { items } = Astro.props;
           <Icon name="plus" size={22} class="group-open:hidden" />
           <Icon name="minus" size={22} class="hidden group-open:block" />
         </summary>
-        <div class="max-w-measure pb-6 text-body" set:html={it.a} />
+        {it.link ? (
+          <div class="max-w-measure pb-6 text-body">
+            <p set:html={it.a} />
+            <Button href={it.link.href} variant="text" icon="arrow" class="mt-1 text-[16px]">
+              {it.link.label}
+            </Button>
+          </div>
+        ) : (
+          <div class="max-w-measure pb-6 text-body" set:html={it.a} />
+        )}
       </details>
     ))
   }

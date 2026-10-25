@@ -158,6 +158,14 @@ export const decisions = {
     ],
   },
 
+  /** Книга No-Marketer Marketing: страница /book и /book/thanks (за флагом live.bookPage). PDF — в public/downloads/. */
+  book: {
+    /** Путь к PDF американской редакции, напр. '/downloads/….pdf'. */
+    pdf: TODO('PDF книги — задача 04'),
+    /** Число страниц — FAQ «How long is it?». */
+    pages: TODO('число страниц — задача 04'),
+  },
+
   /** Главная → Where this comes from → Recognition. Каждая карточка ведёт на раздел /about. Флаги — в live. */
   recognition: {
     press: { title: 'In the press', text: 'CEO Today · TechBullion', href: '/about#press' },
@@ -204,7 +212,10 @@ export const live = {
   awardOpenWorld: true,
   /** Recognition → Education: five degrees — главная и /about (решено 24.10) */
   education: true,
-  /** Полоса доказательств: «Author · No-Marketer Marketing» — ждёт страницу /book, потом ведёт на неё */
+  /**
+   * Страница /book с формой и /book/thanks — ждут PDF (задача 04). Вместе с флагом появляются ссылки на /book:
+   * полоса доказательств на главной, About → Research & writing, Marketing → карточка книги; абзац в Privacy.
+   */
   bookPage: false,
   /** Главная: блок бонусов — PDF и таблиц пока нет */
   bonuses: false,

@@ -1,0 +1,47 @@
+---
+/**
+ * /book/thanks — after the book form (Netlify Forms `action`). Not indexed: meta robots here and
+ * X-Robots-Tag in netlify.toml. Behind live.bookPage, like /book.
+ */
+import Base from '../../layouts/Base.astro';
+import Button from '../../components/ui/Button.astro';
+import Pending from '../../components/ui/Pending.astro';
+import Ph from '../../components/ui/Ph.astro';
+import { book } from '../../copy/book';
+import { decisions } from '../../site.config';
+import { callUrl } from '../../lib/links';
+import { isOn, val } from '../../lib/env';
+
+export function getStaticPaths() {
+  return isOn('bookPage') ? [{ params: { thanks: 'thanks' } }] : [];
+}
+
+const pdf = val(decisions.book.pdf);
+const t = book.thanks;
+---
+
+<Base title={t.title} description={book.seo.description} page="book-thanks" og="book" noindex sticky={false}>
+  <Pending flag="bookPage">
+    <section class="mx-auto max-w-[calc(var(--container-measure)+2*var(--page-pad))] px-(--page-pad) py-16 lg:py-28">
+      <h1 class="mb-5 text-h1">{t.title}</h1>
+      <p class="mb-8 text-lead text-body">{t.text}</p>
+      {
+        pdf ? (
+          <Button href={pdf} size="lg" newTab cta="book-download" class="w-full lg:w-auto">
+            {t.download}
+          </Button>
+        ) : (
+          <p class="text-lead">
+            <Ph value={decisions.book.pdf} label="Download the PDF — task 04" />
+          </p>
+        )
+      }
+      <p class="mt-12 flex flex-wrap items-center gap-x-2 border-t border-line pt-6 text-[18px] text-body">
+        {t.callLead}
+        <Button href={callUrl('book', 'thanks')} variant="text" icon="arrow" cta="book-thanks" class="text-[18px]">
+          {t.callLabel}
+        </Button>
+      </p>
+    </section>
+  </Pending>
+</Base>

@@ -2,6 +2,7 @@
  * GA4 events from TZ «Функционал → Аналитика»:
  * demo_lesson_click, book_call_click (service), booking_completed, service_view,
  * article_read_75, outbound_programs.
+ * Free book (task 03): free_book_click (links to /book), book_form_submit, book_prompt_copy, book_download.
  * Locally events are printed to the console instead of being sent.
  */
 
