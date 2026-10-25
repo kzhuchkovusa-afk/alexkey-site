@@ -161,9 +161,9 @@ export const decisions = {
   /** Книга No-Marketer Marketing: страница /book и /book/thanks (за флагом live.bookPage). PDF — в public/downloads/. */
   book: {
     /** Путь к PDF американской редакции, напр. '/downloads/….pdf'. */
-    pdf: TODO('PDF книги — задача 04'),
+    pdf: '/downloads/no-marketer-marketing-alex-key.pdf',
     /** Число страниц — FAQ «How long is it?». */
-    pages: TODO('число страниц — задача 04'),
+    pages: '224',
   },
 
   /** Главная → Where this comes from → Recognition. Каждая карточка ведёт на раздел /about. Флаги — в live. */
@@ -213,10 +213,10 @@ export const live = {
   /** Recognition → Education: five degrees — главная и /about (решено 24.10) */
   education: true,
   /**
-   * Страница /book с формой и /book/thanks — ждут PDF (задача 04). Вместе с флагом появляются ссылки на /book:
+   * Страница /book с формой и /book/thanks (запуск — задача 04). Вместе с флагом — ссылки на /book:
    * полоса доказательств на главной, About → Research & writing, Marketing → карточка книги; абзац в Privacy.
    */
-  bookPage: false,
+  bookPage: true,
   /** Главная: блок бонусов — PDF и таблиц пока нет */
   bonuses: false,
   /** Judge, AMA South Florida Marketing Awards — судейство подтверждено 24.10 */

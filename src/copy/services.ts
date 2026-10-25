@@ -298,8 +298,8 @@ export const offers: Record<ServiceId, ServiceOfferData> = {
     unique:
       "Written for owners, not marketers. I'm the author of No-Marketer Marketing: The WTF System and sit on the board of AMA South Florida. The method combines proven direct-response marketing with AI — and it's built for kids' education.",
     proof: [
-      // The link appears with the /book page (flag bookPage); "209 pages" changes in task 04.
-      { value: '209 pages', label: 'Author of No-Marketer Marketing: The WTF System', proof: true, link: '/book', linkLabel: 'Get the free book', linkFlag: 'bookPage' },
+      // The link appears with the /book page (flag bookPage).
+      { value: '224 pages', label: 'Author of No-Marketer Marketing: The WTF System', proof: true, link: '/book', linkLabel: 'Get the free book', linkFlag: 'bookPage' },
       { value: 'AMA South Florida', label: 'Board of Directors — VP Technology', proof: true, link: decisions.proofLinks.ama },
       { value: 'Jury member', label: 'Glonary Awards for Business Leaders 2025', proof: true, link: decisions.proofLinks.glonary, flag: 'glonaryJury' },
       { value: 'Judge', label: 'AMA South Florida Marketing Awards', proof: true, flag: 'amaJudge' },

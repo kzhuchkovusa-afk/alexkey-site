@@ -76,8 +76,8 @@ export const book = {
     },
     {
       q: 'How long is it?',
-      // N — decisions.book.pages (task 04). Until then a placeholder in local builds; the page isn't public.
-      a: `About ${pages ?? '<mark class="ph">[pages — task 04]</mark>'} pages. Each chapter stands on its own, so you can start with the one you need.`,
+      // decisions.book.pages
+      a: `${pages ?? '<mark class="ph">[pages]</mark>'} pages. Each chapter stands on its own, so you can start with the one you need.`,
     },
     {
       q: 'Who is Alex Key?',
