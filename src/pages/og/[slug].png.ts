@@ -1,5 +1,5 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
-import { homeCard, pageCard } from '../../lib/og';
+import { bookCard, homeCard, pageCard } from '../../lib/og';
 import { home } from '../../copy/home';
 import { offers } from '../../copy/services';
 import { about } from '../../copy/about';
@@ -8,7 +8,10 @@ import { isOn } from '../../lib/env';
 import { rubricLabel, visibleArticles } from '../../lib/articles';
 
 /** One 1200 × 630 preview per page (TZ «Шаринг»). */
-type Card = { kind: 'home' } | { kind: 'page'; label: string; chip?: string; title: string; key?: string; byline?: boolean };
+type Card =
+  | { kind: 'home' }
+  | { kind: 'book' }
+  | { kind: 'page'; label: string; chip?: string; title: string; key?: string; byline?: boolean };
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const cards: Record<string, Card> = {
@@ -21,7 +24,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     privacy: { kind: 'page', label: 'Privacy Policy', title: 'Privacy Policy' },
     terms: { kind: 'page', label: 'Terms of Use', title: 'Terms of Use' },
   };
-  if (isOn('bookPage')) cards.book = { kind: 'page', label: book.eyebrow, title: book.subtitle, key: 'without the friction' };
+  if (isOn('bookPage')) cards.book = { kind: 'book' };
   for (const o of Object.values(offers)) {
     cards[o.page] = { kind: 'page', label: o.eyebrow, title: `${o.h1.before}${o.h1.key}${o.h1.after}`, key: o.h1.key };
   }
@@ -36,6 +39,8 @@ export const GET: APIRoute = async ({ props }) => {
   const png =
     card.kind === 'home'
       ? await homeCard({ eyebrow: home.eyebrow, title: `${home.h1.before}${home.h1.key}${home.h1.after}`, key: home.h1.key })
-      : await pageCard(card);
+      : card.kind === 'book'
+        ? await bookCard({ eyebrow: book.eyebrow, title: book.h1, key: 'No-Marketer', subtitle: book.subtitle, cover: 'src/assets/book/cover-dark.png' })
+        : await pageCard(card);
   return new Response(new Uint8Array(png), { headers: { 'Content-Type': 'image/png' } });
 };

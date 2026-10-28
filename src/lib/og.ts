@@ -10,6 +10,7 @@ import { showPending, val } from './env';
  * Open Graph images 1200 × 630 (boards 11–12), rendered at build time with satori + sharp.
  * No name on the images (DESIGN §6.6) — only "By Alex Key" on article previews.
  * Colors are the theme.css tokens (satori cannot read CSS variables).
+ * satori sizes boxes as content-box: blocks with a fixed height and padding need boxSizing: 'border-box'.
  */
 const C = {
   paper: '#FFFFFF',
@@ -109,6 +110,19 @@ async function portraitData(): Promise<string | null> {
   }
 }
 
+/** Ink left part of templates 11 and 11b: eyebrow, title with the key phrase in Key, bottom line. */
+function inkLeft(o: { eyebrow: string; title: string; key: string }, bottom: Node, width: number) {
+  return h(
+    'div',
+    { width, height: 630, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '56px 64px 52px' },
+    [
+      h('div', { display: 'flex', alignItems: 'center', gap: 14, fontSize: 24, fontWeight: 600, color: C.onInkMuted }, [square(C.key, 16), o.eyebrow]),
+      title(o.title, o.key, { size: width < 1200 ? 60 : 68, color: C.paper, onInk: true }),
+      bottom,
+    ],
+  );
+}
+
 /** Template 11 — home: ink, eyebrow, H1 with the key phrase in Key, proof line; portrait on the right. */
 export async function homeCard(o: { eyebrow: string; title: string; key: string }) {
   const portrait = await portraitData();
@@ -119,25 +133,35 @@ export async function homeCard(o: { eyebrow: string; title: string; key: string 
           h('div', { display: 'flex', background: C.paper, color: C.ink, fontSize: 13, fontWeight: 700, padding: '4px 8px', borderRadius: 4, height: 26 }, 'Portrait · real photo'),
         ])
       : null;
-  const textW = right ? 800 : 1200;
-  const left = h(
-    'div',
-    { width: textW, height: 630, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '56px 64px 52px' },
-    [
-      h('div', { display: 'flex', alignItems: 'center', gap: 14, fontSize: 24, fontWeight: 600, color: C.onInkMuted }, [square(C.key, 16), o.eyebrow]),
-      title(o.title, o.key, { size: right ? 60 : 68, color: C.paper, onInk: true }),
-      h('div', { display: 'flex', alignItems: 'center', gap: 14, fontSize: 22, color: C.onInkMuted }, [
-        h('div', { display: 'flex', alignItems: 'center', gap: 8, color: C.paper, fontWeight: 800 }, ['48', arrowSvg(C.key), '158']),
-        'locations',
-        square(C.inkLine, 6),
-        h('div', { display: 'flex', color: C.paper, fontWeight: 800 }, '20+'),
-        'countries',
-        square(C.inkLine, 6),
-        'IEEE Senior Member',
-      ]),
-    ],
-  );
+  const proof = h('div', { display: 'flex', alignItems: 'center', gap: 14, fontSize: 22, color: C.onInkMuted }, [
+    h('div', { display: 'flex', alignItems: 'center', gap: 8, color: C.paper, fontWeight: 800 }, ['48', arrowSvg(C.key), '158']),
+    'locations',
+    square(C.inkLine, 6),
+    h('div', { display: 'flex', color: C.paper, fontWeight: 800 }, '20+'),
+    'countries',
+    square(C.inkLine, 6),
+    'IEEE Senior Member',
+  ]);
+  const left = inkLeft(o, proof, right ? 800 : 1200);
   return render(h('div', { width: 1200, height: 630, display: 'flex', background: C.ink, fontFamily: 'Schibsted' }, right ? [left, right] : [left]));
+}
+
+/**
+ * Template 11b — the free book (task 05): the home template with the cover instead of the portrait.
+ * The dark cover sits on a light mist field, so it doesn't merge with the ink. "ALEX KEY" on the cover is part of it.
+ */
+export async function bookCard(o: { eyebrow: string; title: string; key: string; subtitle: string; cover: string }) {
+  const coverH = 460;
+  const coverW = Math.round((coverH * 2) / 3);
+  const buf = await sharp(path.join(process.cwd(), o.cover)).resize(coverW * 2, coverH * 2, { fit: 'cover' }).jpeg({ quality: 86 }).toBuffer();
+  const right = h('div', { width: 400, height: 630, display: 'flex', alignItems: 'center', justifyContent: 'center', background: C.mist }, [
+    h('img', { width: coverW, height: coverH, borderRadius: 6, boxShadow: '0 18px 40px rgba(15, 31, 56, 0.35)' }, undefined, {
+      src: `data:image/jpeg;base64,${buf.toString('base64')}`,
+    }),
+  ]);
+  const bottom = h('div', { display: 'flex', fontSize: 24, lineHeight: 1.35, color: C.onInkMuted }, o.subtitle);
+  const left = inkLeft(o, bottom, 800);
+  return render(h('div', { width: 1200, height: 630, display: 'flex', background: C.ink, fontFamily: 'Schibsted' }, [left, right]));
 }
 
 /** Template 12 — Playbook article and the other pages: white, label, big title, ink bar. */
@@ -153,7 +177,7 @@ export async function pageCard(o: { label: string; chip?: string; title: string;
       ? h('div', { display: 'flex', alignItems: 'center', gap: 12, fontSize: 22, fontWeight: 700, color: C.onInkMuted }, [square(C.key, 14), domain])
       : h('div', { display: 'flex' }),
   ]);
-  const top = h('div', { display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: 502, padding: '56px 64px 48px' }, [
+  const top = h('div', { display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: 502, boxSizing: 'border-box', padding: '56px 64px 48px' }, [
     h('div', { display: 'flex', alignItems: 'center', gap: 14, fontSize: 22, fontWeight: 700, color: C.ink }, [
       square(C.ink, 14),
       o.label,

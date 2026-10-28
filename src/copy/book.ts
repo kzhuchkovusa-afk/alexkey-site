@@ -1,6 +1,6 @@
 /**
  * /book and /book/thanks — PB/site/tasks/03-book-page.md (review 24.10, section 10 «Книга — /book»).
- * Texts are from the task; `// [review]` marks developer-written English (form errors, small labels).
+ * Texts approved (task 05, 28.10).
  */
 import { decisions } from '../site.config';
 import { val } from '../lib/env';
@@ -9,9 +9,9 @@ const pages = val(decisions.book.pages);
 
 export const book = {
   seo: {
-    title: 'No-Marketer Marketing — a free book by Alex Key', // [review]
+    title: 'No-Marketer Marketing — a free book by Alex Key',
     description:
-      'A step-by-step marketing system for small-business owners. Run it yourself — and let AI do most of the routine. Free PDF.', // [review]
+      'A step-by-step marketing system for small-business owners. Run it yourself — and let AI do most of the routine. Free PDF.',
   },
   eyebrow: 'Free book · PDF',
   h1: 'No-Marketer Marketing',
@@ -28,10 +28,10 @@ export const book = {
       'By clicking “Get the free book,” you agree that Alex Key and the GoCoding for Business team may contact you by email, phone or text about the book and our services. Message and data rates may apply. Reply STOP to opt out.',
     privacy: 'Privacy Policy',
     errors: {
-      emailMissing: 'Enter your email address.', // [review]
-      emailInvalid: 'Enter an email address like name@example.com.', // [review]
-      phoneMissing: 'Enter your phone number.', // [review]
-      phoneShort: 'Enter a phone number with at least 10 digits.', // [review]
+      emailMissing: 'Enter your email address.',
+      emailInvalid: 'Enter an email address like name@example.com.',
+      phoneMissing: 'Enter your phone number.',
+      phoneShort: 'Enter a phone number with at least 10 digits.',
     },
   },
 
@@ -52,11 +52,11 @@ export const book = {
   ],
 
   promptTitle: 'A prompt to try tonight',
-  promptIntro: "Most chapters come with a prompt you can paste into ChatGPT or Claude. Here's the first one.",
+  promptIntro: "Most chapters come with a prompt you can paste into ChatGPT or Claude. Here's a short version of the first one.",
   prompt:
     "Take on the role of an experienced entrepreneur who successfully sells [describe your product or service]. Describe in detail my ideal client — the one who brings the most profit, values quality, works with me easily and doesn't haggle. Break it down: who they are, what makes them buy from me, how they decide, and their pains and desires. Before you begin, ask me as many questions as you need.",
   copyLabel: 'Copy prompt',
-  copiedLabel: 'Copied', // [review]
+  copiedLabel: 'Copied',
 
   whyTitle: 'Why I wrote it',
   why: 'The most expensive mistake I see owners make is handing the most important part of their business to someone who cares less about it than they do. Marketers come and go; your clients stay with you. I wrote this book so you can lead your own marketing — whether you do the work yourself, hire help or let AI take the routine.',
