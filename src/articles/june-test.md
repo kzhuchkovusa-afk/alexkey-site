@@ -5,7 +5,8 @@ rubric: staffing
 service: programs
 highlight: June Test
 order: 1
-live: false
+live: true
+pubDate: 2026-10-28
 source: Facebook post #3 (claude/drafts-week1.md)
 fact: История про ушедшего учителя — из опыта Константина
 tryThisToday:

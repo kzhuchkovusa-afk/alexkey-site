@@ -5,7 +5,8 @@ rubric: processes
 service: sales
 highlight: Two missed classes
 order: 2
-live: false
+live: true
+pubDate: 2026-10-28
 source: Facebook post #4 (claude/drafts-week1.md)
 fact: Правило двух пропусков — из его практики; «Max» — вымышленное имя-пример
 tryThisToday:

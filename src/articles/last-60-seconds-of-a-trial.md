@@ -5,7 +5,8 @@ rubric: sales
 service: sales
 highlight: the last 60 seconds
 order: 3
-live: false
+live: true
+pubDate: 2026-10-28
 source: Facebook post #5 (claude/drafts-week1.md)
 fact: Так закрывали пробные уроки
 tryThisToday:

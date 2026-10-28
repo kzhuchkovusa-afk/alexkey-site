@@ -5,7 +5,8 @@ rubric: processes
 service: automation
 highlight: 3 numbers
 order: 4
-live: false
+live: true
+pubDate: 2026-10-28
 source: Facebook post #6 (claude/drafts-week1.md)
 fact: Понедельничная рутина с тремя числами — так и было
 tryThisToday:
@@ -20,7 +21,7 @@ Either way, they find out the month was bad when the month is over.
 
 ## Where the three numbers come from
 
-When we ran a network of coding schools across 20+ countries, we couldn't visit most locations.
+When I led franchise development for a network of coding schools in 20+ countries, we couldn't visit most locations.
 
 So every Monday, every location sent three numbers:
 

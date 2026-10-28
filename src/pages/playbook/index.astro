@@ -7,8 +7,12 @@ import { rubrics } from '../../copy/shared';
 import { readingMinutes, rubricLabel, visibleArticles } from '../../lib/articles';
 import { showPending } from '../../lib/env';
 
-/** /playbook — catalog with a rubric filter (TZ: 5 rubrics). Works without JS: all cards are shown. */
+/**
+ * /playbook — catalog with a rubric filter (TZ: 5 rubrics). Works without JS: all cards are shown.
+ * The filter lists only rubrics that have articles in this build (task 07).
+ */
 const articles = (await visibleArticles()).filter((a) => !a.data.placeholder || showPending);
+const usedRubrics = rubrics.filter((r) => articles.some((a) => a.data.rubric === r.id));
 ---
 
 <Base
@@ -21,10 +25,14 @@ const articles = (await visibleArticles()).filter((a) => !a.data.placeholder || 
     <div class="mx-auto flex max-w-[calc(var(--container-site)+2*var(--page-pad))] flex-col gap-5 px-(--page-pad) pt-8 pb-8 lg:gap-6 lg:pt-20 lg:pb-12">
       <h1 id="hero-title" class="text-h1">Playbook</h1>
       <p class="max-w-measure text-lead text-body">Short breakdowns you can apply in your center today.</p>
-      <div role="group" aria-label="Filter by rubric" class="flex flex-wrap gap-2 pt-2" data-filter>
-        <Tag selected data-rubric="all">All</Tag>
-        {rubrics.map((r) => <Tag data-rubric={r.id}>{r.label}</Tag>)}
-      </div>
+      {
+        usedRubrics.length > 0 && (
+          <div role="group" aria-label="Filter by rubric" class="flex flex-wrap gap-2 pt-2" data-filter>
+            <Tag selected data-rubric="all">All</Tag>
+            {usedRubrics.map((r) => <Tag data-rubric={r.id}>{r.label}</Tag>)}
+          </div>
+        )
+      }
     </div>
   </section>
 
