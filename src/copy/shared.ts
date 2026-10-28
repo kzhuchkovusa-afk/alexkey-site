@@ -43,6 +43,16 @@ export const opensNewTab = (href: string | null | undefined): boolean =>
 /** Microcopy under the demo button — TZ, block 13. */
 export const demoNote = 'Your teacher or director can run it this week. No card, no contract.';
 
+/** Field errors of the site's forms (/book, /call) — shown at the field. */
+export const formErrors = {
+  emailMissing: 'Enter your email address.',
+  emailInvalid: 'Enter an email address like name@example.com.',
+  phoneMissing: 'Enter your phone number.',
+  phoneShort: 'Enter a phone number with at least 10 digits.',
+  nameMissing: 'Enter your name.',
+  centerMissing: "Enter your center's name.",
+};
+
 export interface ServiceMeta {
   id: ServiceId;
   /** Page URL. */

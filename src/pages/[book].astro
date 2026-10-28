@@ -11,12 +11,14 @@ import Section from '../components/layout/Section.astro';
 import SectionHeading from '../components/layout/SectionHeading.astro';
 import Button from '../components/ui/Button.astro';
 import Eyebrow from '../components/ui/Eyebrow.astro';
+import FormField from '../components/ui/FormField.astro';
 import Icon from '../components/ui/Icon.astro';
 import Pending from '../components/ui/Pending.astro';
 import Faq from '../components/content/Faq.astro';
 import CtaRibbon from '../components/offer/CtaRibbon.astro';
 import cover from '../assets/book/cover-dark.png';
 import { book } from '../copy/book';
+import { formErrors } from '../copy/shared';
 import { portrait } from '../lib/photos';
 import { isOn } from '../lib/env';
 
@@ -25,8 +27,7 @@ export function getStaticPaths() {
 }
 
 const f = book.form;
-const field =
-  'h-13 w-full rounded-control bg-paper px-4 text-[17px] font-normal text-ink shadow-[inset_0_0_0_1.5px_var(--color-field-line)] outline-none focus:shadow-[inset_0_0_0_2px_var(--color-ink),0_0_0_2px_var(--color-ink)] aria-invalid:shadow-[inset_0_0_0_1.5px_var(--color-error)]';
+
 ---
 
 <Base title={book.seo.title} description={book.seo.description} page="book" og="book" sticky={false}>
@@ -62,35 +63,16 @@ const field =
           data-netlify="true"
           netlify-honeypot="bot-field"
           data-book-form
-          data-errors={JSON.stringify(f.errors)}
           class="flex scroll-mt-4 flex-col gap-5 rounded-card bg-mist p-5 lg:scroll-mt-6 lg:p-7"
         >
           <input type="hidden" name="form-name" value="book" />
-          <input type="hidden" name="source" value="" data-source />
+          <input type="hidden" name="source" value="" />
           <p class="hidden">
             <label>Don’t fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
           </p>
           <div class="grid gap-4 md:grid-cols-2">
-            <div class="flex flex-col gap-2">
-              <label for="book-email" class="font-bold text-ink">{f.email}</label>
-              <input id="book-email" name="email" type="email" required autocomplete="email" class={field} />
-              <p id="book-email-error" class="text-small text-error" data-error hidden></p>
-            </div>
-            <div class="flex flex-col gap-2">
-              <label for="book-phone" class="font-bold text-ink">{f.phone}</label>
-              <input
-                id="book-phone"
-                name="phone"
-                type="tel"
-                required
-                autocomplete="tel"
-                inputmode="tel"
-                pattern="\D*(\d\D*){10,}"
-                title={f.errors.phoneShort}
-                class={field}
-              />
-              <p id="book-phone-error" class="text-small text-error" data-error hidden></p>
-            </div>
+            <FormField id="book-email" name="email" type="email" label={f.email} autocomplete="email" missing={formErrors.emailMissing} invalid={formErrors.emailInvalid} />
+            <FormField id="book-phone" name="phone" type="tel" label={f.phone} autocomplete="tel" missing={formErrors.phoneMissing} invalid={formErrors.phoneShort} />
           </div>
           <div class="flex flex-col gap-2">
             <button
@@ -180,74 +162,15 @@ const field =
 </Base>
 
 <script>
-  import { incomingUtm, track } from '../scripts/analytics';
+  import { track } from '../scripts/analytics';
+  import { enhanceForm } from '../scripts/forms';
 
-  /* ---------- Form: field errors, `source`, submit event ---------- */
+  /* ---------- Form: field errors and `source` (src/scripts/forms.ts) ---------- */
 
   const form = document.querySelector<HTMLFormElement>('[data-book-form]');
   if (form) {
-    // Messages come from src/copy/book.ts via data-errors (no config in the client bundle).
-    const errors = JSON.parse(form.dataset.errors ?? '{}') as Record<'emailMissing' | 'emailInvalid' | 'phoneMissing' | 'phoneShort', string>;
-    const email = form.querySelector<HTMLInputElement>('input[name="email"]')!;
-    const phone = form.querySelector<HTMLInputElement>('input[name="phone"]')!;
-
-    // source: utm_source / utm_campaign from the address (or saved from the entry), else the referrer's host.
-    const source = form.querySelector<HTMLInputElement>('[data-source]');
-    if (source) {
-      const utm = incomingUtm();
-      let ref = '';
-      try {
-        const r = document.referrer ? new URL(document.referrer) : null;
-        if (r && r.host !== location.host) ref = `referrer: ${r.host}`;
-      } catch {
-        /* bad referrer */
-      }
-      source.value = utm?.utm_source ? [utm.utm_source, utm.utm_campaign].filter(Boolean).join(' / ') : ref;
-    }
-
-    const messageFor = (input: HTMLInputElement): string => {
-      const v = input.value.trim();
-      if (input === email) {
-        if (!v) return errors.emailMissing;
-        return input.validity.typeMismatch ? errors.emailInvalid : '';
-      }
-      if (!v) return errors.phoneMissing;
-      return v.replace(/\D/g, '').length < 10 ? errors.phoneShort : '';
-    };
-    const show = (input: HTMLInputElement, msg: string) => {
-      const err = document.getElementById(`${input.id}-error`);
-      if (!err) return;
-      err.textContent = msg;
-      err.hidden = !msg;
-      if (msg) {
-        input.setAttribute('aria-invalid', 'true');
-        input.setAttribute('aria-describedby', err.id);
-      } else {
-        input.removeAttribute('aria-invalid');
-        input.removeAttribute('aria-describedby');
-      }
-    };
-
-    form.noValidate = true;
-    let tried = false;
-    for (const input of [email, phone]) {
-      input.addEventListener('input', () => tried && show(input, messageFor(input)));
-      input.addEventListener('blur', () => tried && show(input, messageFor(input)));
-    }
-    form.addEventListener('submit', (e) => {
-      tried = true;
-      const bad = [email, phone].filter((input) => {
-        const msg = messageFor(input);
-        show(input, msg);
-        return Boolean(msg);
-      });
-      if (bad.length) {
-        e.preventDefault();
-        bad[0].focus();
-        return;
-      }
-      track('book_form_submit', { cta: 'book-hero', source: source?.value || 'direct' });
-    });
+    const source = form.querySelector<HTMLInputElement>('input[name="source"]');
+    enhanceForm(form, () => track('book_form_submit', { cta: 'book-hero', source: source?.value || 'direct' }));
   }
 
   /* ---------- Copy prompt (without JS the button stays hidden; the text is selectable) ---------- */

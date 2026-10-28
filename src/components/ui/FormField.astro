@@ -1,0 +1,42 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/**
+ * Form field (board 05 · form controls): label, input, error under it. Errors are shown by
+ * src/scripts/forms.ts from data-missing / data-invalid; without JS the browser checks the input.
+ */
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'tel';
+  autocomplete?: HTMLAttributes<'input'>['autocomplete'];
+  /** Error when empty. */
+  missing: string;
+  /** Error when the value is wrong (email format, phone under 10 digits). */
+  invalid?: string;
+  class?: string;
+}
+const { id, name, label, type = 'text', autocomplete, missing, invalid, class: className } = Astro.props;
+const tel = type === 'tel';
+const input =
+  'h-13 w-full rounded-control bg-paper px-4 text-[17px] font-normal text-ink shadow-[inset_0_0_0_1.5px_var(--color-field-line)] outline-none focus:shadow-[inset_0_0_0_2px_var(--color-ink),0_0_0_2px_var(--color-ink)] aria-invalid:shadow-[inset_0_0_0_1.5px_var(--color-error)]';
+---
+
+<div class:list={['flex flex-col gap-2', className]}>
+  <label for={id} class="font-bold text-ink">{label}</label>
+  <input
+    id={id}
+    name={name}
+    type={type}
+    required
+    autocomplete={autocomplete}
+    inputmode={tel ? 'tel' : undefined}
+    pattern={tel ? '\\D*(\\d\\D*){10,}' : undefined}
+    title={tel ? invalid : undefined}
+    data-missing={missing}
+    data-invalid={invalid}
+    class={input}
+  />
+  <p id={`${id}-error`} class="text-small text-error" hidden></p>
+</div>

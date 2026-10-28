@@ -38,19 +38,6 @@ export const decisions = {
   /** GA4 Measurement ID, вида G-XXXXXXXXXX. */
   ga4Id: TODO('GA4 Measurement ID'),
 
-  /** Бронь 15-минутного звонка. Сервис — [ждёт: чей календарь и куда падают заявки]. */
-  calendar: {
-    /** 'calendly' | 'calcom' | 'google' */
-    provider: TODO('сервис календаря: calendly | calcom | google'),
-    /** Публичная ссылка на страницу записи (15 минут, слоты по ET). */
-    url: TODO('ссылка на страницу записи'),
-    /**
-     * Как передать выбранную услугу в вопрос «What do you need help with?».
-     * Calendly: 'a1' (номер вопроса), Cal.com: идентификатор поля брони. Google — не поддерживает.
-     */
-    serviceField: TODO('ключ поля «What do you need help with?» в календаре'),
-  },
-
   /** Заявка на демо-урок — форма GoCoding for Business [предложение]. */
   demoFormUrl: 'https://profitforafterschool.com/contact/?demo=true',
   companySite: 'https://profitforafterschool.com',

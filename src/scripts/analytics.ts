@@ -38,7 +38,7 @@ export function loadGa(): void {
   else window.addEventListener('load', () => idle(inject), { once: true });
 }
 
-/* ---------- UTM: keep the incoming label so the calendar and the demo form see the entry ---------- */
+/* ---------- UTM: keep the incoming label so the site's forms and the demo form see the entry ---------- */
 
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
 const STORE_KEY = 'ak_utm';

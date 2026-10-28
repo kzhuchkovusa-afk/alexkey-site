@@ -18,7 +18,7 @@ Node ≥ 22.22 (см. `.nvmrc`). `/styleguide` — все компоненты �
 
 ## Один конфиг: `src/site.config.ts`
 
-- **`decisions`** — значения [решаешь ты]: домен, email, профили, GA4, календарь, юрлицо оператора, дата ок юриста,
+- **`decisions`** — значения [решаешь ты]: домен, email, профили, GA4, юрлицо оператора, дата ок юриста,
   портрет, ссылки-подтверждения, цены и обоснования, гарантии, даты сезона, ячейки таблицы сравнения.
   Пока значение — `TODO(...)`, прод-сборка (`CONTEXT=production` на Netlify) останавливается со списком.
   В превью Netlify TODO-места просто не выводятся.
@@ -59,21 +59,21 @@ Node ≥ 22.22 (см. `.nvmrc`). `/styleguide` — все компоненты �
 
 ## Аналитика и UTM
 
-GA4 грузится после загрузки страницы. События: `demo_lesson_click`, `book_call_click` (service), `booking_completed`,
-`service_view`, `article_read_75`, `outbound_programs`. Локально события пишутся в консоль.
+GA4 грузится после загрузки страницы. События: `demo_lesson_click`, `book_call_click` (service), `booking_completed`
+(заявка на звонок отправлена — /call/booked), `service_view`, `article_read_75`, `outbound_programs`; книга —
+`free_book_click`, `book_form_submit`, `book_prompt_copy`, `book_download`. Локально события пишутся в консоль.
 
 - Ссылки на profitforafterschool.com: `utm_source=alexkey&utm_medium=site&utm_campaign=<страница>-<кнопка>`;
   если посетитель пришёл по метке из Facebook, она добавляется в `utm_content` (`facebook.dm.post5`).
-- Календарь получает входящую метку как есть (`utm_source=facebook…`), иначе `alexkey/site/<откуда клик>`,
-  плюс выбранную услугу в поле `decisions.calendar.serviceField`.
+- Формы /call и /book пишут входящую метку (или сайт, с которого пришли) в скрытое поле `source`; /call — ещё и `from`
+  (страница и кнопка, с которой пришли).
 - Входящая метка хранится в браузере 30 дней (localStorage).
 
-## Календарь
+## Заявки (Netlify Forms)
 
-`decisions.calendar`: `provider` (`calendly` | `calcom` | `google`), `url`, `serviceField`.
-В сервисе календаря: 15 минут, слоты по ET; вопросы — What do you need help with? (первым), center name, city/state,
-type of program, number of students; редирект после брони — `https://<домен>/call/booked`.
-Calendly и Cal.com сообщают о брони через postMessage — проверить на выбранном сервисе.
+Календаря нет (решение 28.10): на /call форма `call` — Alex перезванивает или пишет в течение рабочего дня и назначает время.
+Поля: service (подпись услуги), name, center, phone, email, source, from. Книга — форма `book` на /book (email, phone, source).
+Заявки — в Netlify → Forms; после отправки — /call/booked и /book/thanks (noindex).
 
 ## Деплой (Netlify)
 

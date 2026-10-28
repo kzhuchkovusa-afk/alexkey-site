@@ -7,11 +7,10 @@ import { isOn, val } from '../lib/env';
 
 /**
  * Privacy Policy — DRAFT for the lawyer (TZ: operator ArgoPrep Center LLC (GoCoding) [ждёт: юрист];
- * what we collect: requests, bookings, analytics; where it goes: calendar, CRM). Whole text — [review].
+ * what we collect: call requests, book downloads, analytics; requests are stored by Netlify — decision 28.10).
+ * Whole text — [review].
  */
 const email = val(decisions.email);
-const calendar = val(decisions.calendar.provider);
-const calendarName = calendar ? { calendly: 'Calendly', calcom: 'Cal.com', google: 'Google Calendar' }[calendar] ?? calendar : null;
 ---
 
 <Legal title="Privacy Policy" description="What this website collects, why, and where it goes." page="privacy">
@@ -23,9 +22,9 @@ const calendarName = calendar ? { calendly: 'Calendly', calcom: 'Cal.com', googl
   <h2>What we collect</h2>
   <ul>
     <li>
-      <strong>Call bookings.</strong> When you book a 15-minute call, the booking is handled by our calendar service{calendarName && <> ({calendarName})</>}.
-      It collects your name, email and your answers to the booking questions: what you need help with, center name, city and
-      state, type of program and number of students.
+      <strong>Call requests.</strong> When you request a call, we collect your name, your center’s name, your email and phone
+      number, and what you need help with. We use them to contact you about your request and our services by email, phone or
+      text. You can opt out of texts by replying STOP.
     </li>
     <li>
       <strong>Demo lesson requests.</strong> The “Get a free demo lesson” buttons take you to the GoCoding for Business form on
@@ -61,8 +60,8 @@ const calendarName = calendar ? { calendly: 'Calendly', calcom: 'Cal.com', googl
 
   <h2>Who we share it with</h2>
   <p>
-    Booking details are stored in the calendar service and copied to the CRM we use to follow up on bookings. Analytics data is
-    processed by Google. We do not sell personal information.
+    Requests from the forms on this website are stored by Netlify, our website host. Analytics data is processed by Google.
+    We do not sell personal information.
   </p>
 
   <h2>Children</h2>

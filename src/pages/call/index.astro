@@ -1,11 +1,17 @@
 ---
 import Base from '../../layouts/Base.astro';
-import CalendarFrame from '../../components/content/CalendarFrame.astro';
+import FormField from '../../components/ui/FormField.astro';
 import Icon from '../../components/ui/Icon.astro';
-import { visibleArticles } from '../../lib/articles';
+import { call } from '../../copy/call';
+import { formErrors } from '../../copy/shared';
+import { callTopics } from '../../lib/links';
 
-/** /call — 15 minutes: what happens, who it's for, the calendar (TZ «Остальные страницы», board 07). */
-const trialGuide = (await visibleArticles()).find((a) => a.id === 'trial-lesson-step-by-step' && a.data.live);
+/**
+ * /call — 15 minutes: what happens, who it's for, and a callback request (decision 28.10, task 06):
+ * Alex calls or texts within one business day and sets the time. Netlify form `call`, built like the
+ * book form: a plain POST without JS; with JS — field errors, ?service= preselected, `source` and `from`.
+ */
+const f = call.form;
 ---
 
 <Base
@@ -27,11 +33,76 @@ const trialGuide = (await visibleArticles()).find((a) => a.id === 'trial-lesson-
         <p class="max-w-[36rem] text-body">
           For owners and directors of independent learning centers, afterschool and enrichment programs in the U.S.
         </p>
-        <p class="text-small text-slate">
-          After you book: an email with the agenda{trialGuide && <> and “{trialGuide.data.title}”</>}.
-        </p>
       </div>
-      <CalendarFrame />
+
+      <form
+        name="call"
+        method="POST"
+        action="/call/booked"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        data-call-form
+        class="flex flex-col gap-5 rounded-card bg-mist p-5 lg:p-7"
+      >
+        <input type="hidden" name="form-name" value="call" />
+        <input type="hidden" name="source" value="" />
+        <input type="hidden" name="from" value="" />
+        <p class="hidden">
+          <label>Don’t fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+        </p>
+        <fieldset class="flex flex-col gap-3">
+          <legend class="mb-3 text-[17px] font-bold text-ink">{f.topicLegend}</legend>
+          <div class="flex flex-wrap gap-2">
+            {
+              callTopics.map((t) => (
+                <label class="relative inline-flex min-h-11 cursor-pointer items-center gap-2.5 rounded-control bg-paper px-3.5 text-[16px] font-semibold text-ink shadow-[inset_0_0_0_1px_var(--color-field-line)] transition-colors duration-(--dur-fast) has-checked:bg-ink has-checked:text-paper has-checked:shadow-none has-focus-visible:outline-3 has-focus-visible:outline-offset-3 has-focus-visible:outline-ink hover:bg-mist has-checked:hover:bg-ink">
+                  <input type="radio" name="service" value={t.label} data-topic={t.id} checked={t.id === 'not-sure'} class="peer size-4 accent-key" />
+                  {t.label}
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+        <div class="grid gap-4 md:grid-cols-2">
+          <FormField id="call-name" name="name" label={f.name} autocomplete="name" missing={formErrors.nameMissing} />
+          <FormField id="call-center" name="center" label={f.center} autocomplete="organization" missing={formErrors.centerMissing} />
+          <FormField id="call-phone" name="phone" type="tel" label={f.phone} autocomplete="tel" missing={formErrors.phoneMissing} invalid={formErrors.phoneShort} />
+          <FormField id="call-email" name="email" type="email" label={f.email} autocomplete="email" missing={formErrors.emailMissing} invalid={formErrors.emailInvalid} />
+        </div>
+        <div class="flex flex-col gap-2">
+          <button
+            type="submit"
+            data-cta="call-form"
+            class="inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-control bg-key px-6 text-ui font-bold text-ink transition-[background-color] duration-(--dur-fast) ease-out hover:bg-key-press active:bg-key-press lg:w-auto lg:self-start"
+          >
+            {f.submit}
+            <Icon name="arrow" size={18} />
+          </button>
+          <p class="text-small text-slate">{f.note}</p>
+        </div>
+        <p class="text-caption text-slate">
+          {f.consent}{' '}
+          <a href="/privacy" class="underline underline-offset-2 hover:text-ink">{f.privacy}</a>.
+        </p>
+      </form>
     </div>
   </section>
 </Base>
+
+<script>
+  import { enhanceForm } from '../../scripts/forms';
+
+  const form = document.querySelector<HTMLFormElement>('[data-call-form]');
+  if (form) {
+    const params = new URLSearchParams(location.search);
+    // ?service=sales preselects "Sales & retention"; the request carries the label, not the id.
+    const wanted = params.get('service');
+    form.querySelectorAll<HTMLInputElement>('input[name="service"]').forEach((r) => {
+      if (r.dataset.topic === wanted) r.checked = true;
+    });
+    // from: the page and the button the visitor came from (callUrl sets it, e.g. "home-hero").
+    const from = form.querySelector<HTMLInputElement>('input[name="from"]');
+    if (from) from.value = (params.get('from') ?? '').slice(0, 100);
+    enhanceForm(form);
+  }
+</script>

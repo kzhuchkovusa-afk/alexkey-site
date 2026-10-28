@@ -27,12 +27,6 @@ export const book = {
     consent:
       'By clicking “Get the free book,” you agree that Alex Key and the GoCoding for Business team may contact you by email, phone or text about the book and our services. Message and data rates may apply. Reply STOP to opt out.',
     privacy: 'Privacy Policy',
-    errors: {
-      emailMissing: 'Enter your email address.',
-      emailInvalid: 'Enter an email address like name@example.com.',
-      phoneMissing: 'Enter your phone number.',
-      phoneShort: 'Enter a phone number with at least 10 digits.',
-    },
   },
 
   whoTitle: "Who it's for",
