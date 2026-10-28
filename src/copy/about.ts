@@ -46,14 +46,14 @@ export const about = {
 
   timelineTitle: 'Timeline', // [review]
   timeline: [
-    { year: '2018', role: 'Senior Instructor', where: 'CODDY', proof: true, link: decisions.proofLinks.coddy },
-    { year: '2018', role: 'Program Director', where: 'CODDY', proof: true, link: decisions.proofLinks.coddy },
+    { year: '2018', role: 'Senior Instructor', where: 'CODDY', proof: true, link: decisions.proofLinks.coddy, linkLabel: 'See on LinkedIn' },
+    { year: '2018', role: 'Program Director', where: 'CODDY', proof: true, link: decisions.proofLinks.coddy, linkLabel: 'See on LinkedIn' },
     {
       year: '2019',
       role: 'Head of Franchise Development',
       where: 'CODDY · until 2022 · 48 → 158 locations in 20+ countries',
       proof: true,
-      link: decisions.proofLinks.coddy,
+      link: decisions.proofLinks.coddy, linkLabel: 'See on LinkedIn',
     },
     { year: '2026', role: 'Managing Director, STEM Education Programs', where: 'GoCoding, Brooklyn', current: true },
   ],

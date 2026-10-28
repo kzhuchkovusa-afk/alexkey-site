@@ -31,6 +31,18 @@ const todos = [];
   }
 })(decisions, 'decisions');
 
+/* 1b. Optional values (task 08): guarantees and season dates — empty means the block is hidden, not a TODO */
+const unset = [];
+for (const group of ['guarantees', 'urgency']) {
+  (function walk(obj, prefix) {
+    for (const [k, v] of Object.entries(obj)) {
+      const p = `${prefix}.${k}`;
+      if (v === '') unset.push(p);
+      else if (v && typeof v === 'object') walk(v, p);
+    }
+  })(decisions[group], `decisions.${group}`);
+}
+
 /* 2. Articles: live needs pubDate; placeholders can never be live */
 const errors = [];
 const articlesDir = path.join(root, 'src/articles');
@@ -88,6 +100,7 @@ lines.push('');
 lines.push(`TODO values [решаешь ты] — ${todos.length}:`);
 for (const [p, note] of todos) lines.push(`  • ${p} — ${note}`);
 lines.push('');
+lines.push(`Optional, not set — block hidden — ${unset.length}: ${unset.join(', ') || '—'}`);
 lines.push(`[ждёт] items hidden in public builds — ${pending.length}: ${pending.join(', ') || '—'}`);
 lines.push(`Live flags (published) — ${published.length}: ${published.join(', ') || '—'}`);
 lines.push(`Articles: ${articleState.join(' · ')}`);

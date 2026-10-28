@@ -42,10 +42,14 @@ export interface ServiceOfferData {
   benefits: string[];
   get: { items: string[]; note?: string };
   guarantee: { value: string; caption?: string };
-  price: { price?: string; unit?: string; text: string; link?: boolean };
+  /** price — a number (Programs); headline — a line instead of a number ("Priced after a 15-min call."). */
+  price: { price?: string; unit?: string; headline?: string; text: string; link?: boolean };
   bonuses: { icon: IconName; title: string; type: string; flag?: LiveFlag }[];
   /** Urgency sentence: strings and config values (TODO-aware). */
+  /** Optional season line: hidden while any value is empty (task 08). */
   urgency: (string | { value: string; label: string })[];
+  /** Block 12 is the first-10-partners block (Programs), as on the home page. */
+  firstTen?: boolean;
   cta: { before: string; key: string; after: string };
 }
 
@@ -55,6 +59,7 @@ const net = (label: string): ProofFact => ({
   label,
   proof: true,
   link: decisions.proofLinks.coddy,
+  linkLabel: 'See on LinkedIn',
 });
 
 export const offers: Record<ServiceId, ServiceOfferData> = {
@@ -132,6 +137,7 @@ export const offers: Record<ServiceId, ServiceOfferData> = {
       { value: decisions.urgency.programs.date, label: 'date' },
       ' — launch takes about 2 weeks.',
     ],
+    firstTen: true,
     cta: { before: 'Get a free demo lesson — your teacher can run it ', key: 'this week.', after: '' },
   },
 
@@ -184,7 +190,7 @@ export const offers: Record<ServiceId, ServiceOfferData> = {
       ],
     },
     guarantee: { value: decisions.guarantees.salesSystem },
-    price: { price: decisions.prices.salesSystem, text: decisions.priceRationale.salesSystem },
+    price: { headline: decisions.prices.salesSystem, text: decisions.priceRationale.salesSystem },
     bonuses: [
       { icon: 'guide', title: 'The Trial Lesson, Step by Step', type: 'PDF guide' },
       { icon: 'message', title: 'Parent message templates', type: 'Missed class, after the trial, month 3, before summer' }, // [review]
@@ -253,7 +259,7 @@ export const offers: Record<ServiceId, ServiceOfferData> = {
       ],
     },
     guarantee: { value: decisions.guarantees.automation },
-    price: { price: decisions.prices.automation, text: decisions.priceRationale.automation },
+    price: { headline: decisions.prices.automation, text: decisions.priceRationale.automation },
     bonuses: [
       { icon: 'sheet', title: 'Monday Numbers dashboard', type: 'Template' }, // [review]
       { icon: 'message', title: 'Parent message templates', type: 'Copy and send' },
@@ -323,7 +329,7 @@ export const offers: Record<ServiceId, ServiceOfferData> = {
       ],
     },
     guarantee: { value: decisions.guarantees.marketing },
-    price: { price: decisions.prices.marketing, text: decisions.priceRationale.marketing },
+    price: { headline: decisions.prices.marketing, text: decisions.priceRationale.marketing },
     bonuses: [
       { icon: 'bonus', title: 'No-Marketer Marketing', type: 'The book, PDF', flag: 'bookBonus' }, // [review]
       { icon: 'guide', title: 'The Trial Lesson, Step by Step', type: 'PDF guide' },
@@ -349,5 +355,11 @@ export const serviceHeadings = {
   benefits: 'What changes in your center',
   get: 'What you get',
   bonuses: 'Bonuses',
-  terms: 'Guarantee, price and bonuses',
 };
+
+/** Hidden heading of blocks 9–11 from what is shown: "Price", "Guarantee and price", "Guarantee, price and bonuses"… */
+export function termsHeading(parts: { guarantee: boolean; price: boolean; bonuses: boolean }): string {
+  const names = [parts.guarantee && 'guarantee', parts.price && 'price', parts.bonuses && 'bonuses'].filter(Boolean) as string[];
+  const text = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : (names[0] ?? '');
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}

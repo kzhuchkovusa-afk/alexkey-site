@@ -72,7 +72,8 @@ export const decisions = {
    * рядом с ними выводится NameNote (правило имени, ревью 24.10). Только /about и страницы услуг, не главная.
    */
   proofLinks: {
-    coddy: TODO('подтверждение CODDY 2018–2022 (напр. LinkedIn)'),
+    /** CODDY 2018–2022 — профиль LinkedIn (под родным именем). */
+    coddy: 'https://www.linkedin.com/in/kzhuchkov/',
     /** Сертификат IEEE Senior Member — файл в public/proof/. */
     ieee: '/proof/ieee-certificate.jpg',
     /** Страница AMA South Florida: должность «VP Technology». */
@@ -85,43 +86,49 @@ export const decisions = {
   prices: {
     programs: '$40',
     programsUnit: '/ month per program',
-    /** Варианты из ТЗ: пакеты «from $…» или «after a 15-min call». */
-    salesSystem: TODO('цена Sales & Retention'),
-    automation: TODO('цена Automation & AI'),
-    marketing: TODO('цена Marketing & Student Flow'),
+    /** Услуги — без цифры, как на главной (задача 08, 28.10). Под строкой — обоснование из priceRationale. */
+    salesSystem: 'Priced after a 15-min call.',
+    automation: 'Priced after a 15-min call.',
+    marketing: 'Priced after a 15-min call.',
   },
 
-  /** Обоснование цены услуг (блок 10). Варианты из ТЗ — «только если это правда при твоей цене». */
+  /** Обоснование цены (блок 10): от чего зависит цена услуги. */
   priceRationale: {
     /** Главная, строка про услуги — выводится целиком. */
     homeServices: 'Sales, automation and marketing: priced after a 15-min call.',
-    /** Вариант: "Losing one family a month costs more than this system." */
-    salesSystem: TODO('обоснование цены Sales & Retention'),
-    /** Вариант: "Costs less than a part-time admin — and works nights and weekends." */
-    automation: TODO('обоснование цены Automation & AI'),
-    /** Вариант: "Less than one month of an agency retainer — and the system stays with you." */
-    marketing: TODO('обоснование цены Marketing'),
+    /** Вариант из ТЗ, когда появится цифра: "Losing one family a month costs more than this system." */
+    salesSystem: 'It depends on the size of your team and how many locations you run.',
+    /** Вариант из ТЗ: "Costs less than a part-time admin — and works nights and weekends." */
+    automation: 'It depends on the software you already use and how many steps we automate.',
+    /** Вариант из ТЗ: "Less than one month of an agency retainer — and the system stays with you." */
+    marketing: 'It depends on your area, your programs and the channels you already use.',
   },
 
-  /** Гарантии услуг (блок 9) на страницах услуг. Программы — условия компании, уже в текстах. На главной гарантии услуг нет. */
+  /**
+   * Гарантии услуг (блок 9) на страницах услуг — необязательные (задача 08): пустая строка — плашки нет,
+   * прод не блокирует. Программы — условия компании, уже в текстах. На главной гарантии услуг нет.
+   */
   guarantees: {
     /** Вариант: "If it doesn't fit your center after the first session, you don't pay." */
-    salesSystem: TODO('гарантия Sales & Retention'),
+    salesSystem: '',
     /** Вариант: "If it doesn't save your team time in the first 30 days, we keep adjusting it at no cost." */
-    automation: TODO('гарантия Automation & AI'),
-    marketing: TODO('гарантия Marketing'),
+    automation: '',
+    marketing: '',
   },
 
-  /** Срочность (блок 12) страниц услуг — только правдивые даты сезона набора. На главной вместо неё — firstTen. */
+  /**
+   * Срочность (блок 12) страниц услуг — только правдивые даты сезона набора. Необязательные (задача 08):
+   * пока строка пустая, строки срочности нет. На главной и на Programs вместо неё — firstTen.
+   */
   urgency: {
     /** "Want a group running this term? Run the demo lesson by [date] — launch takes about 2 weeks." */
-    programs: { date: TODO('Programs: дата демо-урока') },
+    programs: { date: '' },
     /** "Fix the trial before your next enrollment season — spring trials start in [month]." */
-    salesSystem: { month: TODO('Sales: месяц весенних пробных') },
+    salesSystem: { month: '' },
     /** "Set it up before [enrollment season] — the busiest weeks are the worst time to start." */
-    automation: { season: TODO('Automation: сезон набора') },
+    automation: { season: '' },
     /** "Spring enrollment is decided in [months]. Start the plan by [date]." */
-    marketing: { months: TODO('Marketing: месяцы решения о наборе'), date: TODO('Marketing: дата старта плана') },
+    marketing: { months: '', date: '' },
   },
 
   /** Ячейки таблицы сравнения (блок 5), помеченные на макете [confirm]. */

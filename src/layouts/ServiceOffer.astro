@@ -5,7 +5,7 @@ import SectionHeading from '../components/layout/SectionHeading.astro';
 import Button from '../components/ui/Button.astro';
 import Eyebrow from '../components/ui/Eyebrow.astro';
 import Highlight from '../components/ui/Highlight.astro';
-import Ph from '../components/ui/Ph.astro';
+import Pending from '../components/ui/Pending.astro';
 import PainCards from '../components/offer/PainCards.astro';
 import PathSteps from '../components/offer/PathSteps.astro';
 import OperatorReasons from '../components/offer/OperatorReasons.astro';
@@ -15,16 +15,18 @@ import GuaranteePlate from '../components/offer/GuaranteePlate.astro';
 import PriceBlock from '../components/offer/PriceBlock.astro';
 import BonusCards from '../components/offer/BonusCards.astro';
 import UrgencyLine from '../components/offer/UrgencyLine.astro';
+import FirstTen from '../components/offer/FirstTen.astro';
 import CtaRibbon from '../components/offer/CtaRibbon.astro';
 import PairedWith from '../components/offer/PairedWith.astro';
 import ProofFacts from '../components/proof/ProofFacts.astro';
 import ArticleCard from '../components/content/ArticleCard.astro';
 import Testimonial from '../components/content/Testimonial.astro';
-import { serviceHeadings as H, type ServiceOfferData } from '../copy/services';
+import { serviceHeadings as H, termsHeading, type ServiceOfferData } from '../copy/services';
+import { decisions } from '../site.config';
 import { demoNote, operatorReasons, pairedWith, services } from '../copy/shared';
 import { testimonials } from '../copy/testimonials';
 import { callUrl, companyUrl, demoUrl } from '../lib/links';
-import { isOn, isPending, isTodo, showPending } from '../lib/env';
+import { isOn, isPending, showPending } from '../lib/env';
 import { serviceLd } from '../lib/schema';
 import { readingMinutes, rubricLabel, visibleArticles } from '../lib/articles';
 
@@ -49,14 +51,21 @@ const testimonialList = [
   ...(sources.includes('coddy') && isOn('testimonialsCoddy') ? testimonials.coddy : []),
 ].filter((t) => t.quote && t.name);
 
-const shown = (v: string) => !isTodo(v) || showPending;
-const showGuarantee = shown(o.guarantee.value);
-const showPrice = (o.price.price ? shown(o.price.price) : false) || shown(o.price.text);
+// Guarantees and season dates are optional (task 08): an empty value hides the block, in every build.
+const showGuarantee = Boolean(o.guarantee.value);
+const showPrice = Boolean(o.price.price || o.price.headline || o.price.text);
+// Programs: the first-10-partners block takes the urgency place while spots are open.
+const firstTen = Boolean(o.firstTen) && decisions.firstTen.taken < decisions.firstTen.total;
 const urgencyValues = o.urgency.filter((p): p is { value: string; label: string } => typeof p !== 'string');
-const showUrgency = urgencyValues.every((p) => !isTodo(p.value)) || showPending;
-const bonuses = o.bonuses
-  .filter((b) => !b.flag || isOn(b.flag))
-  .map((b) => (b.flag && isPending(b.flag) ? { ...b, type: `${b.type} · [ждёт] ${b.flag}` } : b));
+const showUrgency = !firstTen && urgencyValues.every((p) => p.value !== '');
+// Bonuses wait for their files: the same live.bonuses flag as on the home page, then each bonus's own flag.
+const bonuses = isOn('bonuses')
+  ? o.bonuses
+      .filter((b) => !b.flag || isOn(b.flag))
+      .map((b) => (b.flag && isPending(b.flag) ? { ...b, type: `${b.type} · [ждёт] ${b.flag}` } : b))
+  : [];
+const termsCount = [showGuarantee, showPrice, bonuses.length > 0].filter(Boolean).length;
+const termsTitle = termsHeading({ guarantee: showGuarantee, price: showPrice, bonuses: bonuses.length > 0 });
 
 const site = Astro.site ?? new URL('http://localhost:4321');
 const ld = serviceLd(site, {
@@ -169,54 +178,47 @@ const ld = serviceLd(site, {
     <WhatYouGet groups={[{ items: o.get.items, note: o.get.note }]} />
   </Section>
 
-  <!-- 9–11 · Guarantee, price, bonuses -->
-  <Section tone="mist" labelledby="terms-title">
-    <h2 id="terms-title" class="sr-only">{H.terms}</h2>
-    <div class="grid gap-4 lg:grid-cols-3">
-      {
-        showGuarantee && (
-          <GuaranteePlate text="" caption={o.guarantee.caption}>
-            <Ph slot="text" value={o.guarantee.value} />
-          </GuaranteePlate>
-        )
-      }
-      {
-        showPrice && (
-          <PriceBlock
-            label={meta.short}
-            price={o.price.price && !isTodo(o.price.price) ? o.price.price : null}
-            unit={o.price.unit}
-            link={o.price.link ? { href: companyUrl('/pricing', o.page, 'price'), label: 'Catalog and prices on the company site', cta: `${o.page}-price` } : undefined}
-            class="bg-paper"
-          >
-            {o.price.price && isTodo(o.price.price) && (
-              <p class="mb-2">
-                <Ph value={o.price.price} />
-              </p>
-            )}
-            <p>
-              <Ph value={o.price.text} />
-            </p>
-          </PriceBlock>
-        )
-      }
-      {
-        bonuses.length > 0 && (
-          <div class="rounded-card bg-paper p-6 lg:p-6.5">
-            <BonusCards heading={H.bonuses} items={bonuses} />
-          </div>
-        )
-      }
-    </div>
-  </Section>
+  <!-- 9–11 · Guarantee, price, bonuses: the hidden heading names what is shown -->
+  {
+    termsCount > 0 && (
+      <Section tone="mist" labelledby="terms-title">
+        <h2 id="terms-title" class="sr-only">{termsTitle}</h2>
+        <div class:list={['grid gap-4', termsCount === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2']}>
+          {showGuarantee && <GuaranteePlate text={o.guarantee.value} caption={o.guarantee.caption} />}
+          {showPrice && (
+            <PriceBlock
+              label={meta.short}
+              price={o.price.price}
+              unit={o.price.unit}
+              headline={o.price.headline}
+              link={
+                o.price.link
+                  ? { href: companyUrl('/pricing', o.page, 'price'), label: 'Catalog and prices on the company site', cta: `${o.page}-price`, external: true }
+                  : { href: callUrl(o.page, 'price', o.id), label: 'Book a 15-min call', cta: `${o.page}-price` }
+              }
+              class="bg-paper"
+            >
+              <p>{o.price.text}</p>
+            </PriceBlock>
+          )}
+          {bonuses.length > 0 && (
+            <Pending flag="bonuses">
+              <div class="rounded-card bg-paper p-6 lg:p-6.5">
+                <BonusCards heading={H.bonuses} items={bonuses} />
+              </div>
+            </Pending>
+          )}
+        </div>
+      </Section>
+    )
+  }
 
-  <!-- 12 · Urgency -->
+  <!-- 12 · First 10 partners (Programs) or the season line, when its dates are set -->
+  {firstTen && <FirstTen page={o.page} />}
   {
     showUrgency && (
       <div class="mx-auto max-w-[calc(var(--container-site)+2*var(--page-pad))] px-(--page-pad) pt-12 lg:pt-16">
-        <UrgencyLine>
-          {o.urgency.map((p) => (typeof p === 'string' ? p : <Ph value={p.value} label={p.label} />))}
-        </UrgencyLine>
+        <UrgencyLine>{o.urgency.map((p) => (typeof p === 'string' ? p : p.value))}</UrgencyLine>
       </div>
     )
   }

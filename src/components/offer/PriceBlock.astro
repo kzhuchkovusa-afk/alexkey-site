@@ -1,15 +1,19 @@
 ---
 import Button from '../ui/Button.astro';
 
-/** Block 10 · price + rationale + optional external link (board 06). */
+/**
+ * Block 10 · price + rationale + optional link (board 06). Without a number — `headline` in its place
+ * ("Priced after a 15-min call.", task 08); `link.external` opens in a new tab.
+ */
 interface Props {
   label: string;
   price?: string | null;
   unit?: string;
-  link?: { href: string; label: string; cta?: string };
+  headline?: string | null;
+  link?: { href: string; label: string; cta?: string; external?: boolean };
   class?: string;
 }
-const { label, price, unit, link, class: className } = Astro.props;
+const { label, price, unit, headline, link, class: className } = Astro.props;
 ---
 
 <div class:list={['flex flex-col gap-3 rounded-card p-6 shadow-[inset_0_0_0_1px_var(--color-line)] lg:p-6.5', className]}>
@@ -22,10 +26,11 @@ const { label, price, unit, link, class: className } = Astro.props;
       </p>
     )
   }
+  {headline && <p class="text-[28px] leading-tight font-extrabold tracking-[-0.02em] text-ink lg:text-[32px]">{headline}</p>}
   <div class="text-[17px] leading-normal text-body"><slot /></div>
   {
     link && (
-      <Button href={link.href} variant="text" icon="external" cta={link.cta} newTab>
+      <Button href={link.href} variant="text" icon={link.external ? 'external' : 'arrow'} cta={link.cta} newTab={link.external}>
         {link.label}
       </Button>
     )

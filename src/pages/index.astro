@@ -25,6 +25,7 @@ import Button from '../components/ui/Button.astro';
 import Ph from '../components/ui/Ph.astro';
 import Pending from '../components/ui/Pending.astro';
 import { home } from '../copy/home';
+import { termsHeading } from '../copy/services';
 import { compareRows, operatorReasons, services } from '../copy/shared';
 import { testimonials } from '../copy/testimonials';
 import { decisions } from '../site.config';
@@ -174,14 +175,14 @@ const ctaNote = taken < total ? home.firstTen.ctaNote(taken, total) : home.ctaNo
 
   <!-- 9–11 · Guarantee (programs), price, bonuses (behind live.bonuses) -->
   <Section tone="mist" labelledby="terms-title">
-    <h2 id="terms-title" class="sr-only">Guarantee and price</h2>
+    <h2 id="terms-title" class="sr-only">{termsHeading({ guarantee: true, price: true, bonuses: showBonuses })}</h2>
     <div class:list={['grid gap-4 lg:gap-4', showBonuses ? 'lg:grid-cols-3' : 'lg:grid-cols-2']}>
       <GuaranteePlate text={home.guaranteePrograms} caption={home.guaranteeProgramsCaption} />
       <PriceBlock
         label={services.programs.short}
         price={decisions.prices.programs}
         unit={decisions.prices.programsUnit}
-        link={{ href: companyUrl('/pricing', 'home', 'price'), label: home.priceLink, cta: 'home-price' }}
+        link={{ href: companyUrl('/pricing', 'home', 'price'), label: home.priceLink, cta: 'home-price', external: true }}
         class="bg-paper"
       >
         <p>{home.priceText}</p>

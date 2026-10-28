@@ -6,9 +6,13 @@ import { decisions } from '../../site.config';
 import { demoUrl } from '../../lib/links';
 
 /**
- * Block 12 · First 10 partners (review 24.10) — instead of the urgency line.
- * Numbers from decisions.firstTen; hidden when all spots are taken.
+ * Block 12 · First 10 partners (review 24.10) — instead of the urgency line, on the home page and Programs.
+ * Numbers from decisions.firstTen; hidden when all spots are taken. `page` — for the button's UTM and cta.
  */
+interface Props {
+  page?: string;
+}
+const { page = 'home' } = Astro.props;
 const { taken, total, included } = decisions.firstTen;
 const open = taken < total;
 const spots = home.firstTen.spots(taken, total);
@@ -34,7 +38,7 @@ const spots = home.firstTen.spots(taken, total);
             <p class="tabular text-[17px] font-bold text-ink">{spots}</p>
           </div>
           <div class="hidden lg:block">
-            <Button href={demoUrl('home', 'first-ten')} icon="arrow" cta="home-first-ten">Get a free demo lesson</Button>
+            <Button href={demoUrl(page, 'first-ten')} icon="arrow" cta={`${page}-first-ten`}>Get a free demo lesson</Button>
           </div>
         </div>
         <div class="flex flex-col gap-4">
@@ -49,7 +53,7 @@ const spots = home.firstTen.spots(taken, total);
           </ul>
         </div>
         <div class="lg:hidden">
-          <Button href={demoUrl('home', 'first-ten')} size="lg" icon="arrow" full cta="home-first-ten">Get a free demo lesson</Button>
+          <Button href={demoUrl(page, 'first-ten')} size="lg" icon="arrow" full cta={`${page}-first-ten`}>Get a free demo lesson</Button>
         </div>
       </div>
     </section>

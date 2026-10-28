@@ -7,7 +7,8 @@ import { isNativeNameLink, opensNewTab } from '../../copy/shared';
 
 /**
  * About timeline (board 07): year · role · where · link; the current role gets the Key node.
- * One NameNote under the list when an item links to a record under the native name.
+ * One NameNote under the list when an item links to a record under the native name —
+ * `note={false}` when the page already explains the name next to it (About: under Credentials).
  */
 interface Item {
   year: string;
@@ -15,13 +16,15 @@ interface Item {
   where: string;
   proof?: boolean;
   link?: string;
+  linkLabel?: string;
   current?: boolean;
 }
 interface Props {
   items: Item[];
+  note?: boolean;
 }
-const { items } = Astro.props;
-const withNameLink = items.some((it) => isNativeNameLink(it.link ? val(it.link) : null, it.proof));
+const { items, note = true } = Astro.props;
+const withNameLink = note && items.some((it) => isNativeNameLink(it.link ? val(it.link) : null, it.proof));
 ---
 
 <ol class="flex flex-col">
@@ -38,7 +41,7 @@ const withNameLink = items.some((it) => isNativeNameLink(it.link ? val(it.link) 
               <span><Txt text={it.where} /></span>
               {href && (
                 <Button href={href} variant="text" icon={opensNewTab(href) ? 'external' : 'arrow'} newTab={opensNewTab(href)} class="text-[15px]">
-                  See the record
+                  {it.linkLabel ?? 'See the record'}
                 </Button>
               )}
             </p>

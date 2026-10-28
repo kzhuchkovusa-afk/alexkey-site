@@ -18,8 +18,8 @@ import { isOn, val } from '../lib/env';
 
 /**
  * About (review 24.10, task 02). Name rule: the native name appears only next to links to pages and
- * documents under it — NameNote under Credentials (with the LinkedIn link), under In the press and under
- * the mayor's citation photo.
+ * documents under it — NameNote under Credentials (with the LinkedIn link; it also covers the Timeline's
+ * CODDY links next to it, so the Timeline has none), under In the press and under the mayor's citation photo.
  */
 const credentials = about.credentials.filter((c) => !c.flag || isOn(c.flag));
 const linkedin = val(decisions.social.linkedin);
@@ -67,7 +67,7 @@ const rowClass = 'flex flex-col gap-1 border-b border-line py-4 first:pt-0 last:
     <div class="grid gap-12 lg:grid-cols-2 lg:gap-20">
       <div>
         <SectionHeading id="timeline-title">{about.timelineTitle}</SectionHeading>
-        <Timeline items={about.timeline} />
+        <Timeline items={about.timeline} note={false} />
       </div>
       <div id="credentials" class={anchor}>
         <h2 id="credentials-title" class="mb-4 text-h2">{about.credentialsTitle}</h2>
